@@ -92,7 +92,7 @@ class Context
     }
 
     /**
-     * Ask the browser for something. Known types: clear, redirect (url), exit, theme (name).
+     * Ask the browser for something. Known types: clear, redirect (url; the terminal closes, unless reopen is true), exit, theme (name).
      */
     public function addAction(string $type, array $data = []): void
     {

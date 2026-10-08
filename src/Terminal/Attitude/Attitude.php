@@ -26,6 +26,8 @@ defined('C5_EXECUTE') or die('Access Denied.');
  *   trapped       -                       leaving a mandatory terminal
  *   sudo, rm      -                       the jokes
  *   help_footer   -                       last line of "help" (empty = none)
+ *   login_failed  -                       wrong user name or password at the login prompt
+ *   login_welcome %1$s user name          signed in
  */
 abstract class Attitude
 {

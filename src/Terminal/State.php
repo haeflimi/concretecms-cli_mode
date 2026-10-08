@@ -31,6 +31,9 @@ class State
     /** @var int */
     public $lastCode = 0;
 
+    /** @var string|null handle of the attitude this session switched to, null = the site's */
+    public $attitude;
+
     /** @var int */
     public $startedAt;
 
@@ -43,7 +46,7 @@ class State
         $data = $session->get(self::KEY);
         $this->startedAt = time();
         if (is_array($data)) {
-            foreach (['cwd', 'env', 'aliases', 'history', 'lastCode', 'startedAt'] as $field) {
+            foreach (['cwd', 'env', 'aliases', 'history', 'lastCode', 'startedAt', 'attitude'] as $field) {
                 if (array_key_exists($field, $data)) {
                     $this->$field = $data[$field];
                 }
@@ -74,6 +77,7 @@ class State
             'history' => $this->history,
             'lastCode' => $this->lastCode,
             'startedAt' => $this->startedAt,
+            'attitude' => $this->attitude,
         ]);
     }
 }

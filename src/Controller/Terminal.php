@@ -5,6 +5,7 @@ namespace CliMode\Controller;
 use CliMode\Terminal\AttitudeRegistry;
 use CliMode\Terminal\CommandRegistry;
 use CliMode\Terminal\Context;
+use CliMode\Terminal\Login;
 use CliMode\Terminal\Settings;
 use CliMode\Terminal\Shell;
 use CliMode\Terminal\SiteTree;
@@ -85,6 +86,55 @@ class Terminal extends Controller
         return new JsonResponse($result);
     }
 
+    /**
+     * The login prompt of the terminal. The browser asks for the user name and the password and sends both here,
+     * not through exec: a password must not end up in the history, the command line or the saved screen. Answers like exec,
+     * plus a new token (the CSRF token is bound to the user, so it changes with the login).
+     */
+    public function login(): JsonResponse
+    {
+        $context = $this->context();
+        if (!$context) {
+            return $this->denied();
+        }
+        if (!$this->app->make('token')->validate(self::TOKEN, $this->request->request->get('token'))) {
+            return new JsonResponse(['error' => 'Your session went stale. Close and reopen the terminal.'], 403);
+        }
+        $reply = static function (Context $c, string $text, int $code, array $actions = []) {
+            return ['output' => "\e[" . ($code === 0 ? '92' : '31') . 'm' . $text . "\e[39m\n", 'code' => $code, 'actions' => $actions];
+        };
+        if ($context->isRegistered()) {
+            return new JsonResponse($reply($context, 'You are already ' . $context->username() . '.', 1) + ['prompt' => $this->prompt($context)]);
+        }
+        if ($this->tooManyLogins()) {
+            return new JsonResponse($reply($context, $context->snark->level() > 0 ? 'Slow down. Even guessing needs a break.' : 'Too many login attempts, wait a minute.', 1) + ['prompt' => $this->prompt($context)]);
+        }
+
+        $login = new Login($this->app);
+        $post = $this->request->request;
+        if (!$login->attempt(substr((string) $post->get('username', ''), 0, 255), substr((string) $post->get('password', ''), 0, 1024)) || !$login->user()) {
+            $text = $login->message() ?? $context->snark->say('login_failed');
+
+            return new JsonResponse($reply($context, $text, 1) + ['prompt' => $this->prompt($context)]);
+        }
+
+        // the container's User is the one from before the login: replace it, then everything below sees the member
+        $this->app->instance(User::class, $login->user());
+        $wasLocked = $context->forced || $context->notFound;
+        $context = $this->context();
+        if (!$context) {
+            return $this->denied();
+        }
+        $result = $reply($context, $context->snark->say('login_welcome', $context->username()), 0, [
+            // a mandatory terminal may be none any more for this user, and the page behind it knows nothing yet
+            ['type' => 'reload', 'data' => ['now' => $wasLocked]],
+        ]);
+        $result['prompt'] = $this->prompt($context);
+        $result['token'] = $this->app->make('token')->generate(self::TOKEN);
+
+        return new JsonResponse($result);
+    }
+
     public function complete(): JsonResponse
     {
         $context = $this->context();
@@ -108,11 +158,15 @@ class Terminal extends Controller
             return null;
         }
 
+        $state = new State($this->app->make('session'));
+        $attitudes = $this->app->make(AttitudeRegistry::class);
+        // the attitude this session switched to with the "attitude" command, else the site's
+        $handle = $state->attitude !== null && isset($attitudes->all()[$state->attitude]) ? $state->attitude : $settings->getAttitude();
         $context = new Context(
             $this->app,
             $user,
-            new State($this->app->make('session')),
-            new Snark($this->app->make(AttitudeRegistry::class)->get($settings->getAttitude())),
+            $state,
+            new Snark($attitudes->get($handle)),
             $settings,
             $this->app->make(CommandRegistry::class)
         );
@@ -250,6 +304,22 @@ class Terminal extends Controller
     /**
      * Commands in the last minute; a runaway script should not be able to hammer the site through the terminal.
      */
+    /**
+     * At most five tries a minute per session, on top of the failed login limit Concrete keeps per address.
+     */
+    protected function tooManyLogins(): bool
+    {
+        $session = $this->app->make('session');
+        $now = time();
+        $tries = array_filter((array) $session->get('cli_mode.logins', []), static function ($t) use ($now) {
+            return $t > $now - 60;
+        });
+        $tries[] = $now;
+        $session->set('cli_mode.logins', array_values($tries));
+
+        return count($tries) > 5;
+    }
+
     protected function tooFast(): bool
     {
         $session = $this->app->make('session');

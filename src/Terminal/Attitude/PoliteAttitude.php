@@ -47,6 +47,8 @@ class PoliteAttitude extends Attitude
             'sudo' => 'sudo: sorry, you are not allowed to use sudo',
             'rm' => "rm: it is dangerous to operate recursively on '/'",
             'help_footer' => '',
+            'login_failed' => 'Login incorrect',
+            'login_welcome' => 'Welcome, %1$s.',
         ];
     }
 }

@@ -16,7 +16,7 @@
     var THEMES = ['blackout', 'green', 'amber', 'matrix', 'paper'];
     var STORE = { theme: 'climTheme', log: 'climLog', booted: 'climBooted', reopen: 'climReopen', landed: 'climLanded' };
     var root, screen, out, promptEl, input, titleEl, launcher, keysEl;
-    var state = { open: false, booted: false, busy: false, token: '', prompt: null, history: [], index: -1, draft: '', opener: null, lastTab: 0 };
+    var state = { open: false, booted: false, busy: false, token: '', prompt: null, history: [], index: -1, draft: '', opener: null, lastTab: 0, login: null, reload: false };
 
     function el(tag, cls, text) {
         var e = document.createElement(tag);
@@ -190,11 +190,98 @@
 
     function close() {
         if (!state.open || locked) { return; }
+        if (state.login) { endLogin(); }
         state.open = false;
         root.hidden = true;
         document.documentElement.classList.remove('clim-active');
         launcher && (launcher.hidden = false);
         if (state.opener && state.opener.focus) { try { state.opener.focus(); } catch (e) { /* ignore */ } }
+        // signed in meanwhile: the page behind the terminal still shows the guest
+        if (state.reload) { window.location.reload(); }
+    }
+
+    function echoLine(text) {
+        var line = el('div', 'clim-block clim-echo');
+        line.textContent = text;
+        out.appendChild(line);
+        scroll();
+        persist();
+    }
+
+    /*
+     * The login prompt. The user name and the password are asked for here and sent to their own endpoint (cfg.login),
+     * never as a command line: they do not end up in the history, in the screen that is kept between pages or in the
+     * output. The password is a password field, so nothing of it is shown.
+     */
+    function startLogin(username) {
+        state.login = { step: 'user', username: '' };
+        if (username) {
+            state.login.username = username;
+            askPassword();
+        } else {
+            promptEl.textContent = 'login: ';
+            input.type = 'text';
+            input.value = '';
+        }
+    }
+
+    function askPassword() {
+        state.login.step = 'pass';
+        promptEl.textContent = 'Password: ';
+        input.type = 'password';
+        input.value = '';
+        input.setAttribute('autocomplete', 'current-password');
+    }
+
+    function endLogin() {
+        state.login = null;
+        input.type = 'text';
+        input.value = '';
+        input.setAttribute('autocomplete', 'off');
+        if (state.prompt) { promptEl.innerHTML = promptHtml(); }
+    }
+
+    function submitLogin(password) {
+        var username = state.login.username;
+        state.busy = true;
+        input.disabled = true;
+        request(cfg.login, { username: username, password: password }).then(function (res) {
+            print(res.output || '');
+            if (res.token) { state.token = res.token; }
+            endLogin();
+            if (res.prompt) { setPrompt(res.prompt); }
+            applyActions(res.actions);
+        }).catch(function (e) {
+            endLogin();
+            print('\x1b[31m' + e.message + '\x1b[39m');
+        }).then(function () {
+            state.busy = false;
+            input.disabled = false;
+            if (state.open) { input.focus(); }
+        });
+    }
+
+    function loginKey(e) {
+        if (e.key === 'Escape' || (e.ctrlKey && (e.key === 'c' || e.key === 'C'))) {
+            e.preventDefault();
+            echoLine(state.login.step === 'user' ? 'login: ' + input.value + '^C' : 'Password: ^C');
+            endLogin();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            var value = input.value;
+            input.value = '';
+            if (state.login.step === 'user') {
+                echoLine('login: ' + value);
+                if (value.trim() === '') { endLogin(); return; }
+                state.login.username = value.trim();
+                askPassword();
+            } else {
+                echoLine('Password: ');
+                submitLogin(value);
+            }
+        } else if (e.key === 'Tab' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault();
+        }
     }
 
     function applyActions(actions) {
@@ -202,9 +289,17 @@
             if (a.type === 'clear') { out.innerHTML = ''; persist(); }
             else if (a.type === 'theme') { setTheme(a.data.name); }
             else if (a.type === 'exit') { if (!locked) { setTimeout(close, 450); } }
+            else if (a.type === 'login') { startLogin(a.data.username || ''); }
+            else if (a.type === 'reload') {
+                if (a.data.now) { setTimeout(function () { window.location.reload(); }, 900); } else { state.reload = true; }
+            }
             else if (a.type === 'redirect') {
-                store(STORE.reopen, '1');
-                setTimeout(function () { window.location.href = a.data.url; }, 700);
+                // leaving for another page closes the terminal (data.reopen asks for it to come back there)
+                if (a.data.reopen) { store(STORE.reopen, '1'); }
+                setTimeout(function () {
+                    close();
+                    window.location.href = a.data.url;
+                }, 700);
             }
         });
     }
@@ -272,6 +367,7 @@
     }
 
     function onKey(e) {
+        if (state.login && !state.busy) { loginKey(e); return; }
         if (e.key === 'Escape') { if (!locked) { e.preventDefault(); close(); } return; }
         if (state.busy) { if (e.key !== 'Tab') { return; } e.preventDefault(); return; }
         if (e.key === 'Enter') {

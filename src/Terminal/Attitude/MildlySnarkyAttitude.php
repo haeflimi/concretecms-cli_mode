@@ -52,6 +52,8 @@ class MildlySnarkyAttitude extends Attitude
             'sudo' => 'sudo: you are not in the sudoers file. This incident will be reported.',
             'rm' => "rm: it is dangerous to operate recursively on '/'. Use --no-preserve-root if you really mean it (you do not).",
             'help_footer' => 'Tip: Tab completes, the arrow keys remember.',
+            'login_failed' => ['Login incorrect. Caps lock, perhaps?', 'Login incorrect. Take a breath and try again.'],
+            'login_welcome' => ['Welcome back, %1$s.', 'Welcome, %1$s. Good to see a face with a name.'],
         ];
     }
 }

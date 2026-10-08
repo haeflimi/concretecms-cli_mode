@@ -67,6 +67,7 @@ class Controller extends Package
         $router->get('/ccm/cli_mode/boot', 'CliMode\Controller\Terminal::boot');
         $router->post('/ccm/cli_mode/exec', 'CliMode\Controller\Terminal::exec');
         $router->post('/ccm/cli_mode/complete', 'CliMode\Controller\Terminal::complete');
+        $router->post('/ccm/cli_mode/login', 'CliMode\Controller\Terminal::login');
 
         $assets = AssetList::getInstance();
         $options = ['version' => $this->pkgVersion, 'position' => Asset::ASSET_POSITION_FOOTER, 'minify' => false, 'combine' => false];
@@ -103,6 +104,7 @@ class Controller extends Package
                 'boot' => (string) $urls->resolve(['/ccm/cli_mode/boot']),
                 'exec' => (string) $urls->resolve(['/ccm/cli_mode/exec']),
                 'complete' => (string) $urls->resolve(['/ccm/cli_mode/complete']),
+                'login' => (string) $urls->resolve(['/ccm/cli_mode/login']),
                 'launcher' => $settings->showLauncher() && !$forced && !$notFound,
                 'title' => t('Open the terminal (press `)'),
             ];

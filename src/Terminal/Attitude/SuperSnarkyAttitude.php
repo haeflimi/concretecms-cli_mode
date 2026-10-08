@@ -88,6 +88,11 @@ class SuperSnarkyAttitude extends Attitude
                 'rm: no. Just no. Think of the children. And the seat map.',
             ],
             'help_footer' => 'Tip: Tab completes, the arrow keys remember. You, on the other hand, apparently do not.',
+            'login_failed' => [
+                'Login incorrect. Either the password is wrong or you are. I am not saying which.',
+                'Login incorrect. Was that your cat on the keyboard again?',
+            ],
+            'login_welcome' => 'Welcome, %1$s. I would say I missed you, but I do not have the hardware.',
         ]);
     }
 }

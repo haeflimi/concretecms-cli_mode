@@ -39,6 +39,19 @@ refuse to work on a website).
 `show <file-id>` turns an image from the file manager into ASCII art (`--width` sets the characters per line, default 64,
 `--invert` is for light themes). It needs PHP's GD extension and respects the file's view permission.
 
+`search <words>` looks through the pages the user may see (`-n` limits the results), `stat [page]` shows the details of a page
+(the author only to administrators), `figlet <text>` prints big letters (`--width`, `--fill`) and `lolcat` colors piped
+text like a rainbow: `figlet GG | lolcat`.
+
+`login [user]` signs in right in the terminal: a `login:` and a masked `Password:` prompt (`login --web` uses the website's login
+page, which you need for a password that must be changed). The credentials go to their own endpoint, not through the command
+line, so they are neither in the history nor in the saved screen. It uses Concrete's login service, with its failed login
+limits and deny list, on top of five attempts a minute per session. A page that was open before the login is reloaded when
+the terminal closes (at once in mandatory mode).
+
+`attitude` lists the attitudes and `attitude super_snarky` switches to one for the current session only (`attitude --reset`
+goes back to the site's setting from the dashboard).
+
 ## Settings
 
 Dashboard › System › Basics › **CLI Mode**: switch it off, choose who may open it (everybody / signed-in members /
@@ -166,12 +179,13 @@ It then shows up in the dashboard. Your own commands can use messages of the att
 * Commands run with the rights of the logged-in user; nothing is executed on the server's operating system. `rm`, `sudo`
   and friends are jokes. Check permissions in your own commands (`$c->isAdmin()`, `$c->isRegistered()`, Concrete's
   permission checks): anything a command does is done by the website, with all that implies.
+* Passwords are typed into the login prompt only and posted to `/ccm/cli_mode/login`, like the form of the login page: use HTTPS.
 * The endpoints need the session token that the terminal fetches when it opens, and are rate limited (90 commands a minute).
 * The page tree only shows pages the user may view.
 
 ## Upgrading
 
-* **1.3.0** the attitude is now a class (`Attitude`, registered in the `AttitudeRegistry`): polite is the default, "Mild" and "Snarky" are now "Mildly snarky" and "Super snarky", and packages can add their own. A saved setting of an older version keeps working. `show <file-id>` turns images into ASCII art, `cat` marks the images of a page with their file ID.
+* **1.3.0** the attitude is now a class (`Attitude`, registered in the `AttitudeRegistry`): polite is the default, "Mild" and "Snarky" are now "Mildly snarky" and "Super snarky", and packages can add their own. A saved setting of an older version keeps working. `attitude` switches the attitude for a session, `search`, `stat`, `figlet` and `lolcat` are new, `show <file-id>` turns images into ASCII art, `cat` marks the images of a page with their file ID.
 * **1.2.0** optionally replaces the 404 page with the terminal (ASCII art 404 in the welcome message, suggestions, `exit` goes home).
 * **1.1.0** mandatory mode (Dashboard › CLI Mode): visitors or everybody except administrators can only use the site through the terminal; `open` and `cat` read pages inside it, `logout` signs out for real.
 * **1.0.1** settings are read from the database store, the dashboard page is created on upgrade.

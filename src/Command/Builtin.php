@@ -2,6 +2,7 @@
 
 namespace CliMode\Command;
 
+use CliMode\Command\System\AttitudeCommand;
 use CliMode\Command\System\HelpCommand;
 use CliMode\Terminal\Context;
 use CliMode\Terminal\SiteTree;
@@ -26,7 +27,7 @@ class Builtin
      */
     public static function all(): array
     {
-        return array_merge([new HelpCommand(), new Site\ShowCommand()], self::system(), self::filters(), self::site(), self::fun(), self::jokes(), self::lan());
+        return array_merge([new HelpCommand(), new Site\ShowCommand(), new Site\SearchCommand(), new Site\StatCommand(), new AttitudeCommand(), new Fun\FigletCommand(), new Fun\LolcatCommand()], self::system(), self::filters(), self::site(), self::fun(), self::jokes(), self::lan());
     }
 
     /**
@@ -335,11 +336,17 @@ class Builtin
 
                     return 0;
                 }
-                $out->writeln('Redirecting to the login page. Passwords are typed in a form, not here: this is a toy, not a keylogger.');
-                $c->addAction('redirect', ['url' => (string) $c->app->make('url/manager')->resolve(['/login'])]);
+                if ($in->getOption('web')) {
+                    $out->writeln('Redirecting to the login page.');
+                    $c->addAction('redirect', ['url' => (string) $c->app->make('url/manager')->resolve(['/login'])]);
+
+                    return 0;
+                }
+                // the browser asks for the password itself and sends it to its own endpoint: it never passes through a command line
+                $c->addAction('login', ['username' => (string) $in->getArgument('username')]);
 
                 return 0;
-            }, $cat),
+            }, $cat + ['arguments' => [['username', InputArgument::OPTIONAL, 'Who you are']], 'options' => [['web', 'w', InputOption::VALUE_NONE, 'Use the login page of the website instead']], 'help' => "Asks for the user name and the password right here. The password is not echoed and not kept in the history.\n\nExamples:\n  login\n  login pixelpaula\n  login --web      the regular login page (for a password that must be changed, say)"]),
         ];
     }
 
