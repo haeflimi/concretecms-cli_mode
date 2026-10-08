@@ -1,0 +1,11 @@
+{
+    "name": "haeflimi/cli_mode",
+    "type": "concrete5-package",
+    "require": {
+        "php": ">=8"
+    },
+    "minimum-stability": "dev",
+    "support": {
+        "source": "https://github.com/haeflimi/cli_mode"
+    }
+}
