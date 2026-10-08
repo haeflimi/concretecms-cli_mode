@@ -122,10 +122,20 @@ class Settings
         return (bool) $this->value('launcher', true);
     }
 
-    /** 0 = plain messages, 1 = mild remarks, 2 = full sass */
-    public function getSnark(): int
+    /**
+     * Handle of the chosen attitude (see AttitudeRegistry). Polite unless chosen otherwise; the 0, 1 and 2 that
+     * versions before 1.3.0 saved are understood.
+     */
+    public function getAttitude(): string
     {
-        return max(0, min(2, (int) $this->value('snark', 2)));
+        $handle = $this->value('attitude', null);
+        if ($handle === null) {
+            $legacy = $this->value('snark', null);
+
+            return [0 => 'polite', 1 => 'mildly_snarky', 2 => 'super_snarky'][$legacy === null ? 0 : (int) $legacy] ?? AttitudeRegistry::DEFAULT_HANDLE;
+        }
+
+        return (string) $handle;
     }
 
     public function getMotd(): string
@@ -150,6 +160,14 @@ class Settings
     }
 
     /**
+     * @return string[] class names of attitudes registered in application/config/cli_mode.php (key "attitudes")
+     */
+    public function getConfiguredAttitudes(): array
+    {
+        return array_values(array_filter((array) $this->config->get('cli_mode.attitudes', []), 'is_string'));
+    }
+
+    /**
      * @return string[] class names of commands registered in application/config/cli_mode.php (key "commands")
      */
     public function getConfiguredCommands(): array
@@ -157,14 +175,14 @@ class Settings
         return array_values(array_filter((array) $this->config->get('cli_mode.commands', []), 'is_string'));
     }
 
-    public function save(bool $enabled, string $access, bool $launcher, int $snark, string $motd, string $forced = self::FORCE_OFF, bool $notFound = false): void
+    public function save(bool $enabled, string $access, bool $launcher, string $attitude, string $motd, string $forced = self::FORCE_OFF, bool $notFound = false): void
     {
         $this->store->save('cli_mode.notfound', $notFound);
         $this->store->save('cli_mode.forced', in_array($forced, [self::FORCE_VISITORS, self::FORCE_EVERYONE], true) ? $forced : self::FORCE_OFF);
         $this->store->save('cli_mode.enabled', $enabled);
         $this->store->save('cli_mode.access', in_array($access, [self::ACCESS_REGISTERED, self::ACCESS_ADMINS], true) ? $access : self::ACCESS_EVERYONE);
         $this->store->save('cli_mode.launcher', $launcher);
-        $this->store->save('cli_mode.snark', max(0, min(2, $snark)));
+        $this->store->save('cli_mode.attitude', preg_match('/^[a-z0-9_]+$/', $attitude) ? $attitude : AttitudeRegistry::DEFAULT_HANDLE);
         $this->store->save('cli_mode.motd', trim($motd));
     }
 

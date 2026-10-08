@@ -2,6 +2,7 @@
 
 namespace CliMode\Controller;
 
+use CliMode\Terminal\AttitudeRegistry;
 use CliMode\Terminal\CommandRegistry;
 use CliMode\Terminal\Context;
 use CliMode\Terminal\Settings;
@@ -111,7 +112,7 @@ class Terminal extends Controller
             $this->app,
             $user,
             new State($this->app->make('session')),
-            new Snark($settings->getSnark()),
+            new Snark($this->app->make(AttitudeRegistry::class)->get($settings->getAttitude())),
             $settings,
             $this->app->make(CommandRegistry::class)
         );

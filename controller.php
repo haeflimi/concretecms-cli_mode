@@ -3,6 +3,10 @@
 namespace Concrete\Package\CliMode;
 
 use CliMode\Command\Builtin;
+use CliMode\Terminal\Attitude\MildlySnarkyAttitude;
+use CliMode\Terminal\Attitude\PoliteAttitude;
+use CliMode\Terminal\Attitude\SuperSnarkyAttitude;
+use CliMode\Terminal\AttitudeRegistry;
 use CliMode\Terminal\CommandRegistry;
 use CliMode\Terminal\Settings;
 use Concrete\Core\Asset\Asset;
@@ -25,7 +29,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'cli_mode';
     protected $appVersionRequired = '9.0.0';
-    protected $pkgVersion = '1.2.0';
+    protected $pkgVersion = '1.3.0';
     protected $pkgAutoloaderRegistries = [
         'src' => 'CliMode',
     ];
@@ -44,6 +48,13 @@ class Controller extends Package
     {
         $this->app->singleton(CommandRegistry::class);
         $this->app->singleton(Settings::class);
+        $this->app->singleton(AttitudeRegistry::class);
+
+        $this->app->make('director')->addListener('on_cli_mode_register_attitudes', function ($event) {
+            foreach ([new PoliteAttitude(), new MildlySnarkyAttitude(), new SuperSnarkyAttitude()] as $attitude) {
+                $event->getRegistry()->register($attitude);
+            }
+        });
 
         // the built-in commands are created when the terminal is used first, not on every page view
         $this->app->make('director')->addListener('on_cli_mode_register_commands', function ($event) {

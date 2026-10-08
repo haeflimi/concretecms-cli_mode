@@ -26,7 +26,7 @@ class Builtin
      */
     public static function all(): array
     {
-        return array_merge([new HelpCommand()], self::system(), self::filters(), self::site(), self::fun(), self::jokes(), self::lan());
+        return array_merge([new HelpCommand(), new Site\ShowCommand()], self::system(), self::filters(), self::site(), self::fun(), self::jokes(), self::lan());
     }
 
     /**
@@ -43,8 +43,18 @@ class Builtin
         $out->writeln('');
         $text = '';
         foreach ($page->getBlocks() as $block) {
-            if ($block->getBlockTypeHandle() === 'content') {
-                $text .= ' ' . $block->getController()->getContent();
+            $handle = $block->getBlockTypeHandle();
+            if ($handle === 'content') {
+                // the stored content has <concrete-picture fID="..."> (an ID or a UUID); the rendered one only an anonymous <img>
+                $html = (string) $block->getController()->content;
+                $text .= ' ' . preg_replace_callback('/<concrete-picture\b[^>]*?\bfID\s*=\s*[\'"]([^\'"]+)[\'"][^>]*>(?:\s*<\/concrete-picture>)?/i', static function ($m) {
+                    return "\n" . self::imageMarker($m[1]) . "\n";
+                }, $html);
+            } elseif ($handle === 'image') {
+                $fID = (string) $block->getController()->getFileID();
+                if ($fID !== '') {
+                    $text .= '</p>' . self::imageMarker($fID, (string) $block->getController()->getAltText()) . '</p>';
+                }
             }
         }
         $text = trim(preg_replace('/[ \t]+/', ' ', html_entity_decode(strip_tags(preg_replace('/<\/(p|h[1-6]|li|div)>/i', "\n", $text)), ENT_QUOTES)));
@@ -62,6 +72,29 @@ class Builtin
                 $out->writeln('<dim>cd <name> goes in, cat <name> reads, cd .. goes back.</dim>');
             }
         }
+    }
+
+    /**
+     * The text that stands for an image in a page: "[image: Title (id 12) - show 12]". It goes through strip_tags
+     * and html_entity_decode with the rest of the page text, so the title is encoded here.
+     */
+    protected static function imageMarker(string $fID, string $fallback = ''): string
+    {
+        // getByUUIDOrID() refuses numeric IDs of files that have a UUID, which is every file uploaded lately
+        $file = uuid_is_valid($fID) ? \Concrete\Core\File\File::getByUUID($fID) : (ctype_digit($fID) ? \Concrete\Core\File\File::getByID((int) $fID) : null);
+        if (!$file || $file->isError() || !(new \Concrete\Core\Permission\Checker($file))->canViewFile()) {
+            return '';
+        }
+        $version = $file->getApprovedVersion();
+        $title = $version ? trim((string) $version->getTitle()) : '';
+        if ($title === '') {
+            $title = $version ? (string) $version->getFileName() : '';
+        }
+        if ($title === '') {
+            $title = $fallback !== '' ? $fallback : 'untitled';
+        }
+
+        return htmlspecialchars('[image: ' . $title . ' (id ' . $file->getFileID() . ') - show ' . $file->getFileID() . ']', ENT_QUOTES);
     }
 
     /**

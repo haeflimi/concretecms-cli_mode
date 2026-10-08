@@ -36,10 +36,13 @@ cat, tree, find, open, ...), **text** (grep, head, tail, sort, uniq, wc), **lan*
 with the community_event_manager package) and **fun** (neofetch, cowsay, fortune, ping, sudo, and a few commands that
 refuse to work on a website).
 
+`show <file-id>` turns an image from the file manager into ASCII art (`--width` sets the characters per line, default 64,
+`--invert` is for light themes). It needs PHP's GD extension and respects the file's view permission.
+
 ## Settings
 
 Dashboard › System › Basics › **CLI Mode**: switch it off, choose who may open it (everybody / signed-in members /
-administrators), show or hide the `>_` button in the corner, pick the attitude (polite, mild, snarky) and a message of the
+administrators), show or hide the `>_` button in the corner, pick the attitude (polite, which is the default, mildly snarky, super snarky, or one a package adds) and a message of the
 day. The page also lists every registered command with its class.
 
 Individual commands have their own access rules on top of that.
@@ -130,6 +133,34 @@ $this->app->make('director')->addListener('on_cli_mode_register_commands', funct
 
 A site can also list command classes in `application/config/cli_mode.php`: `return ['commands' => [\Application\Terminal\FooCommand::class]];`.
 
+## Writing attitudes
+
+An attitude is how the shell talks when something goes wrong. Extend `CliMode\Terminal\Attitude\Attitude` (see
+`examples/PirateAttitude.php`) and list only the messages you want to change, anything left out is the polite message:
+
+```php
+class PirateAttitude extends Attitude
+{
+    public function handle(): string { return 'pirate'; }      // unique, stable, what the dashboard saves
+    public function name(): string { return t('Pirate'); }     // name in the dashboard
+    public function level(): int { return 1; }                  // 0 plain, 1 remarks, 2 roasts: for commands with remarks of their own
+
+    public function messages(): array
+    {
+        return [
+            'not_found' => ['%1$s: command not found. Never heard of it, matey.', '%1$s: command not found. Uncharted waters.'],
+            'exit' => 'logout. Fair winds!',
+        ];
+    }
+}
+```
+
+A message is a `sprintf()` format with positional arguments (`%1$s`), or a list of them of which one is picked at random.
+The keys and their arguments are listed in the `Attitude` class. Register it like a command: in `on_start()` with
+`$this->app->make(\CliMode\Terminal\AttitudeRegistry::class)->register(PirateAttitude::class)`, by listening to
+`on_cli_mode_register_attitudes`, or in `application/config/cli_mode.php`: `'attitudes' => [\Application\Terminal\PirateAttitude::class]`.
+It then shows up in the dashboard. Your own commands can use messages of the attitude too: `$c->snark->say('my_key', $arg)`.
+
 ## Security
 
 * Commands run with the rights of the logged-in user; nothing is executed on the server's operating system. `rm`, `sudo`
@@ -140,6 +171,7 @@ A site can also list command classes in `application/config/cli_mode.php`: `retu
 
 ## Upgrading
 
+* **1.3.0** the attitude is now a class (`Attitude`, registered in the `AttitudeRegistry`): polite is the default, "Mild" and "Snarky" are now "Mildly snarky" and "Super snarky", and packages can add their own. A saved setting of an older version keeps working. `show <file-id>` turns images into ASCII art, `cat` marks the images of a page with their file ID.
 * **1.2.0** optionally replaces the 404 page with the terminal (ASCII art 404 in the welcome message, suggestions, `exit` goes home).
 * **1.1.0** mandatory mode (Dashboard › CLI Mode): visitors or everybody except administrators can only use the site through the terminal; `open` and `cat` read pages inside it, `logout` signs out for real.
 * **1.0.1** settings are read from the database store, the dashboard page is created on upgrade.

@@ -7,6 +7,8 @@ defined('C5_EXECUTE') or die('Access Denied.');
  * @var Concrete\Core\Form\Service\Form $form
  * @var CliMode\Terminal\Settings $settings
  * @var array<int, array<string, mixed>> $commands
+ * @var array<string, CliMode\Terminal\Attitude\Attitude> $attitudes
+ * @var string $currentAttitude
  */
 ?>
 <form method="post" action="<?= h($view->action('save')) ?>">
@@ -46,12 +48,13 @@ defined('C5_EXECUTE') or die('Access Denied.');
             <div class="form-text"><?= t('Whoever lands on an address that does not exist gets a full-screen terminal with the 404 as ASCII art in the welcome message, a snarky remark and suggestions for similar pages. The shell starts at the closest page that does exist; "exit" takes visitors back to the home page. It works whatever the access setting says.') ?></div>
         </div>
         <div class="mb-3">
-            <label class="form-label" for="snark"><?= t('Attitude') ?></label>
-            <select class="form-select" name="snark" id="snark">
-                <?php foreach ([0 => t('Polite: plain shell messages'), 1 => t('Mild: the occasional remark'), 2 => t('Snarky: every error is a roast')] as $value => $label) { ?>
-                    <option value="<?= $value ?>"<?= $settings->getSnark() === $value ? ' selected' : '' ?>><?= h($label) ?></option>
+            <label class="form-label" for="attitude"><?= t('Attitude') ?></label>
+            <select class="form-select" name="attitude" id="attitude">
+                <?php foreach ($attitudes as $handle => $attitude) { ?>
+                    <option value="<?= h($handle) ?>"<?= $currentAttitude === $handle ? ' selected' : '' ?>><?= h($attitude->name() . ($attitude->description() !== '' ? ': ' . $attitude->description() : '')) ?></option>
                 <?php } ?>
             </select>
+            <div class="form-text"><?= t('How the terminal talks when something goes wrong. Packages add attitudes by listening to the on_cli_mode_register_attitudes event, the site can list classes in application/config/cli_mode.php (key "attitudes").') ?></div>
         </div>
         <div class="mb-3">
             <label class="form-label" for="motd"><?= t('Message of the day') ?></label>

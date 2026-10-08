@@ -2,6 +2,7 @@
 
 namespace Concrete\Package\CliMode\Controller\SinglePage\Dashboard\System\Basics;
 
+use CliMode\Terminal\AttitudeRegistry;
 use CliMode\Terminal\CommandRegistry;
 use CliMode\Terminal\Settings;
 use Concrete\Core\Page\Controller\DashboardPageController;
@@ -31,6 +32,10 @@ class CliMode extends DashboardPageController
         usort($commands, static function ($a, $b) {
             return [$a['category'], $a['name']] <=> [$b['category'], $b['name']];
         });
+        $registry = $this->app->make(AttitudeRegistry::class);
+        $this->set('attitudes', $registry->all());
+        // what the terminal falls back to when the saved attitude is gone
+        $this->set('currentAttitude', $registry->get($settings->getAttitude())->handle());
         $this->set('settings', $settings);
         $this->set('commands', $commands);
     }
@@ -46,7 +51,7 @@ class CliMode extends DashboardPageController
                 (bool) $post->get('enabled'),
                 (string) $post->get('access'),
                 (bool) $post->get('launcher'),
-                (int) $post->get('snark'),
+                (string) $post->get('attitude'),
                 (string) $post->get('motd'),
                 (string) $post->get('forced'),
                 (bool) $post->get('notfound')
