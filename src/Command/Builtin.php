@@ -94,7 +94,7 @@ class Builtin
             $title = $fallback !== '' ? $fallback : 'untitled';
         }
 
-        return htmlspecialchars('[image: ' . $title . ' (id ' . $file->getFileID() . ') - show ' . $file->getFileID() . ']', ENT_QUOTES);
+        return htmlspecialchars('[image: ' . $title . ' (id ' . $file->getFileID() . ')]', ENT_QUOTES);
     }
 
     /**
