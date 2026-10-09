@@ -10,6 +10,9 @@
 (function () {
     'use strict';
     var cfg = window.CliModeConfig;
+    // texts from the server (translated); English fallbacks
+    var L = (cfg && cfg.labels) || {};
+    var GREETING = L.greeting || 'Type \x1b[1mhelp\x1b[22m for the commands.';
     if (!cfg || window.CliMode) {
         return;
     }
@@ -193,7 +196,7 @@
                 state.history = data.history || [];
                 setPrompt(data.prompt);
                 if (inline) {
-                    print(options.greeting || 'Type \x1b[1mhelp\x1b[22m for the commands.', 'clim-dimmed');
+                    print(options.greeting || GREETING, 'clim-dimmed');
                     return null;
                 }
                 if (restored && !notfound) {
@@ -262,7 +265,7 @@
                 state.login.username = username;
                 askPassword();
             } else {
-                promptEl.textContent = 'login: ';
+                promptEl.textContent = L.login || 'login: ';
                 input.type = 'text';
                 input.value = '';
             }
@@ -270,7 +273,7 @@
 
         function askPassword() {
             state.login.step = 'pass';
-            promptEl.textContent = 'Password: ';
+            promptEl.textContent = L.password || 'Password: ';
             input.type = 'password';
             input.value = '';
             input.setAttribute('autocomplete', 'current-password');
@@ -307,19 +310,19 @@
         function loginKey(e) {
             if (e.key === 'Escape' || (e.ctrlKey && (e.key === 'c' || e.key === 'C'))) {
                 e.preventDefault();
-                echoLine(state.login.step === 'user' ? 'login: ' + input.value + '^C' : 'Password: ^C');
+                echoLine(state.login.step === 'user' ? (L.login || 'login: ') + input.value + '^C' : (L.password || 'Password: ') + '^C');
                 endLogin();
             } else if (e.key === 'Enter') {
                 e.preventDefault();
                 var value = input.value;
                 input.value = '';
                 if (state.login.step === 'user') {
-                    echoLine('login: ' + value);
+                    echoLine((L.login || 'login: ') + value);
                     if (value.trim() === '') { endLogin(); return; }
                     state.login.username = value.trim();
                     askPassword();
                 } else {
-                    echoLine('Password: ');
+                    echoLine(L.password || 'Password: ');
                     submitLogin(value);
                 }
             } else if (e.key === 'Tab' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
@@ -333,7 +336,7 @@
                 else if (a.type === 'theme') { setTheme(a.data.name); }
                 else if (a.type === 'exit') {
                     // an inline terminal has nothing to close: it just starts over
-                    if (inline) { setTimeout(function () { out.innerHTML = ''; print(options.greeting || 'Type \x1b[1mhelp\x1b[22m for the commands.', 'clim-dimmed'); }, 300); }
+                    if (inline) { setTimeout(function () { out.innerHTML = ''; print(options.greeting || GREETING, 'clim-dimmed'); }, 300); }
                     else if (!locked) { setTimeout(close, 450); }
                 }
                 else if (a.type === 'login') { startLogin(a.data.username || ''); }
@@ -449,7 +452,7 @@
                 root.setAttribute('role', 'dialog');
                 root.setAttribute('aria-modal', 'true');
             }
-            root.setAttribute('aria-label', 'Terminal');
+            root.setAttribute('aria-label', L.terminal || 'Terminal');
             var win = el('div', 'clim-window');
             var bar = el('div', 'clim-bar');
             var dots = el('span', 'clim-dots');
@@ -459,7 +462,7 @@
             if (!locked && !inline) {
                 var closeBtn = el('button', 'clim-close', '×');
                 closeBtn.type = 'button';
-                closeBtn.setAttribute('aria-label', 'Close terminal');
+                closeBtn.setAttribute('aria-label', L.close || 'Close terminal');
                 closeBtn.addEventListener('click', close);
                 bar.appendChild(closeBtn);
             }
@@ -508,7 +511,7 @@
                 launcher = el('button', 'clim-launcher', '>_');
                 launcher.type = 'button';
                 launcher.title = cfg.title || 'Terminal';
-                launcher.setAttribute('aria-label', cfg.title || 'Open the terminal');
+                launcher.setAttribute('aria-label', cfg.title || L.open || 'Open the terminal');
                 launcher.addEventListener('click', open);
                 document.body.appendChild(launcher);
             }

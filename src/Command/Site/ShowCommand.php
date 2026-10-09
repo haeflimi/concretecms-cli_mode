@@ -27,11 +27,11 @@ class ShowCommand extends TerminalCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Shows an image from the file manager as ASCII art')
-            ->addArgument('file-id', InputArgument::REQUIRED, 'ID of the file in the file manager')
-            ->addOption('width', 'w', InputOption::VALUE_REQUIRED, 'Characters per line (8 to 200)', 64)
-            ->addOption('invert', 'i', InputOption::VALUE_NONE, 'Dark becomes dense (for light themes like "paper")')
-            ->setHelp("The width should fit your window, otherwise lines wrap and the picture falls apart.\n\nExamples:\n  show 12\n  show 12 --width=100\n  show 12 -i | head -n 20");
+        $this->setDescription(t('Shows an image from the file manager as ASCII art'))
+            ->addArgument('file-id', InputArgument::REQUIRED, t('ID of the file in the file manager'))
+            ->addOption('width', 'w', InputOption::VALUE_REQUIRED, t('Characters per line (8 to 200)'), 64)
+            ->addOption('invert', 'i', InputOption::VALUE_NONE, t('Dark becomes dense (for light themes like "paper")'))
+            ->setHelp(t('The width should fit your window, otherwise lines wrap and the picture falls apart.') . "\n\n" . t('Examples:') . "\n  show 12\n  show 12 --width=100\n  show 12 -i | head -n 20");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -47,13 +47,13 @@ class ShowCommand extends TerminalCommand
             return 1;
         }
         if ((int) $version->getFullSize() > self::MAX_BYTES) {
-            $output->writeln('<error> show: ' . OutputFormatter::escape($version->getFileName()) . ' is too big for a terminal (limit ' . (self::MAX_BYTES >> 20) . ' MB). </error>');
+            $output->writeln('<error> ' . t('show: %1$s is too big for a terminal (limit %2$d MB).', OutputFormatter::escape($version->getFileName()), self::MAX_BYTES >> 20) . ' </error>');
 
             return 1;
         }
         $data = $version->getFileContents();
         if ($data === null || $data === '') {
-            $output->writeln('<error> show: ' . OutputFormatter::escape($version->getFileName()) . ' cannot be read. </error>');
+            $output->writeln('<error> ' . t('show: %s cannot be read.', OutputFormatter::escape($version->getFileName())) . ' </error>');
 
             return 1;
         }

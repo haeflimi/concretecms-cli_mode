@@ -44,10 +44,13 @@ class Terminal extends Controller
             $page = $tree->page($path);
             if ($page) {
                 $state->cwd = $tree->path($page);
-                $landing = ($context->snark->level() > 0 ? "You followed a link. Cute. Welcome to \e[96m" : 'Current page: ') . "\e[96m" . $state->cwd . "\e[39m. " . ($context->snark->level() > 0 ? "Try \e[93mcat .\e[39m or \e[93mls\e[39m." : '');
+                $where = "\e[96m" . $state->cwd . "\e[39m";
+                $landing = $context->snark->level() > 0
+                    ? t('You followed a link. Cute. Welcome to %s.', $where) . ' ' . t('Try %1$s or %2$s.', "\e[93mcat .\e[39m", "\e[93mls\e[39m")
+                    : t('Current page: %s.', $where) . ' ';
             } else {
                 $state->cwd = '/';
-                $landing = "\e[31m" . ($context->snark->level() > 0 ? $path . ': No such file or directory. The internet is a big place, and you chose a wrong spot in it.' : $path . ': No such file or directory') . "\e[39m";
+                $landing = "\e[31m" . ($context->snark->level() > 0 ? t('%s: No such file or directory. The internet is a big place, and you chose a wrong spot in it.', $path) : t('%s: No such file or directory', $path)) . "\e[39m";
             }
             $state->save();
         }
@@ -70,11 +73,11 @@ class Terminal extends Controller
             return $this->denied();
         }
         if (!$this->app->make('token')->validate(self::TOKEN, $this->request->request->get('token'))) {
-            return new JsonResponse(['error' => 'Your session went stale. Close and reopen the terminal.'], 403);
+            return new JsonResponse(['error' => t('Your session went stale. Close and reopen the terminal.')], 403);
         }
         if ($this->tooFast()) {
             return new JsonResponse([
-                'output' => "\e[31m" . ($context->snark->level() > 0 ? "Easy there, speed typist. Even my patience has a rate limit.\n" : "Too many commands, slow down.\n") . "\e[39m",
+                'output' => "\e[31m" . ($context->snark->level() > 0 ? t('Easy there, speed typist. Even my patience has a rate limit.') : t('Too many commands, slow down.')) . "\n" . "\e[39m",
                 'code' => 1,
                 'actions' => [],
                 'prompt' => $this->prompt($context),
@@ -98,16 +101,16 @@ class Terminal extends Controller
             return $this->denied();
         }
         if (!$this->app->make('token')->validate(self::TOKEN, $this->request->request->get('token'))) {
-            return new JsonResponse(['error' => 'Your session went stale. Close and reopen the terminal.'], 403);
+            return new JsonResponse(['error' => t('Your session went stale. Close and reopen the terminal.')], 403);
         }
         $reply = static function (Context $c, string $text, int $code, array $actions = []) {
             return ['output' => "\e[" . ($code === 0 ? '92' : '31') . 'm' . $text . "\e[39m\n", 'code' => $code, 'actions' => $actions];
         };
         if ($context->isRegistered()) {
-            return new JsonResponse($reply($context, 'You are already ' . $context->username() . '.', 1) + ['prompt' => $this->prompt($context)]);
+            return new JsonResponse($reply($context, t('You are already %s.', $context->username()), 1) + ['prompt' => $this->prompt($context)]);
         }
         if ($this->tooManyLogins()) {
-            return new JsonResponse($reply($context, $context->snark->level() > 0 ? 'Slow down. Even guessing needs a break.' : 'Too many login attempts, wait a minute.', 1) + ['prompt' => $this->prompt($context)]);
+            return new JsonResponse($reply($context, $context->snark->level() > 0 ? t('Slow down. Even guessing needs a break.') : t('Too many login attempts, wait a minute.'), 1) + ['prompt' => $this->prompt($context)]);
         }
 
         $login = new Login($this->app);
@@ -185,7 +188,7 @@ class Terminal extends Controller
 
     protected function denied(): JsonResponse
     {
-        return new JsonResponse(['error' => 'Permission denied.'], 403);
+        return new JsonResponse(['error' => t('Permission denied.')], 403);
     }
 
     /**
@@ -212,17 +215,17 @@ class Terminal extends Controller
         }
         $lines[] = '';
         $lines = array_merge($lines, [
-            "\e[90msnarkbash 1.0 on " . $context->hostname() . " (" . ($context->isAdmin() ? 'admin' : ($context->isRegistered() ? 'member' : 'visitor')) . ')' . "\e[39m",
+            "\e[90m" . t('%1$s on %2$s (%3$s)', 'snarkbash 1.0', $context->hostname(), $context->isAdmin() ? t('admin') : ($context->isRegistered() ? t('member') : t('visitor'))) . "\e[39m",
             '',
         ]);
         if ($context->isRegistered()) {
-            $lines[] = 'Welcome back, ' . "\e[92m" . $context->username() . "\e[39m." . ($snark > 1 ? " Your last command was probably a mistake." : '');
+            $lines[] = t('Welcome back, %s.', "\e[92m" . $context->username() . "\e[39m") . ($snark > 1 ? ' ' . t('Your last command was probably a mistake.') : '');
         } else {
-            $lines[] = 'Welcome, ' . "\e[92mguest\e[39m." . ($snark > 1 ? ' Rank: nobody. Type ' . "\e[93mlogin\e[39m" . ' to fix that.' : '');
+            $lines[] = t('Welcome, %s.', "\e[92m" . t('guest') . "\e[39m") . ($snark > 1 ? ' ' . t('Rank: nobody. Type %s to fix that.', "\e[93mlogin\e[39m") : '');
         }
-        $lines[] = "Type \e[93mhelp\e[39m for commands, \e[93mguide\e[39m for the tour." . ($snark > 1 ? " Or just mash keys. I'm used to it." : '');
+        $lines[] = t('Type %1$s for commands, %2$s for the tour.', "\e[93mhelp\e[39m", "\e[93mguide\e[39m") . ($snark > 1 ? ' ' . t("Or just mash keys. I'm used to it.") : '');
         if ($context->forced) {
-            $lines[] = "\e[90m" . ($snark > 0 ? 'This terminal is mandatory on this site. The mouse is decorative.' : 'This terminal is the only way to browse this site.') . "\e[39m";
+            $lines[] = "\e[90m" . ($snark > 0 ? t('This terminal is mandatory on this site. The mouse is decorative.') : t('This terminal is the only way to browse this site.')) . "\e[39m";
         }
         $motd = $context->settings->getMotd();
         if ($motd !== '') {
@@ -279,19 +282,19 @@ class Terminal extends Controller
             $lines[] = "\e[91m" . $row . "\e[39m";
         }
         $lines[] = '';
-        $lines[] = "\e[93mPAGE NOT FOUND\e[39m";
+        $lines[] = "\e[93m" . t('PAGE NOT FOUND') . "\e[39m";
         $lines[] = '';
         $lines[] = "\e[31m" . $context->snark->missingPage($path) . "\e[39m";
         $lines[] = '';
         if ($suggestions) {
-            $lines[] = 'Did you mean one of these?';
+            $lines[] = t('Did you mean one of these?');
             foreach ($suggestions as $name => $target) {
                 $lines[] = '  ' . "\e[96m" . $target . "\e[39m";
             }
             $lines[] = '';
         }
-        $lines[] = "You are now in \e[96m" . $closest . "\e[39m, the closest thing that exists. Try \e[93mls\e[39m, \e[93mcd /\e[39m or \e[93mfind <word>\e[39m." . ($context->snark->level() > 1 ? ' Or admit defeat with ' . "\e[93mexit\e[39m" . ' and I will take you home.' : '');
-        $lines[] = "Type \e[93mhelp\e[39m for all commands, \e[93mguide\e[39m for the tour.";
+        $lines[] = t('You are now in %1$s, the closest thing that exists. Try %2$s, %3$s or %4$s.', "\e[96m" . $closest . "\e[39m", "\e[93mls\e[39m", "\e[93mcd /\e[39m", "\e[93mfind <word>\e[39m") . ($context->snark->level() > 1 ? ' ' . t('Or admit defeat with %s and I will take you home.', "\e[93mexit\e[39m") : '');
+        $lines[] = t('Type %1$s for all commands, %2$s for the tour.', "\e[93mhelp\e[39m", "\e[93mguide\e[39m");
         $motd = $context->settings->getMotd();
         if ($motd !== '') {
             $lines[] = '';

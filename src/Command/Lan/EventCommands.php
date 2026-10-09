@@ -42,7 +42,7 @@ class EventCommands
             return $names;
         };
 
-        $events = ClosureCommand::make('events', 'The upcoming events', static function (Context $c, InputInterface $in, OutputInterface $out) {
+        $events = ClosureCommand::make('events', t('The upcoming events'), static function (Context $c, InputInterface $in, OutputInterface $out) {
             $list = self::published($c);
             usort($list, static function (Event $a, Event $b) {
                 return $a->getStartsAt() <=> $b->getStartsAt();
@@ -62,23 +62,23 @@ class EventCommands
                     OutputFormatter::escape($event->getName()),
                     OutputFormatter::escape($event->getType()->getName()),
                     $event->getCapacity() ? $registered . '/' . $event->getCapacity() : ($registered ?: '-'),
-                    $over ? 'over' : ($event->isSignupOpen() ? 'open' : $event->getPhase()),
+                    $over ? t('over') : ($event->isSignupOpen() ? t('open') : $event->getPhase()),
                 ];
             }
             if ($rows === []) {
-                $out->writeln($c->snark->level() > 0 ? '<dim>Nothing coming up. The calendar is as empty as a LAN fridge on Sunday.</dim>' : 'No events.');
+                $out->writeln($c->snark->level() > 0 ? '<dim>' . t('Nothing coming up. The calendar is as empty as a LAN fridge on Sunday.') . '</dim>' : t('No events.'));
 
                 return 0;
             }
-            (new TableHelper())->render($out, ['ID', 'When', 'Event', 'Type', 'Places', 'Signup'], $rows);
+            (new TableHelper())->render($out, [t('ID'), t('When'), t('Event'), t('Type'), t('Places'), t('Signup')], $rows);
 
             return 0;
-        }, $cat + ['options' => [['all', 'a', InputOption::VALUE_NONE, 'Include past events']], 'help' => "Examples:\n  events\n  events --all | grep LAN"]);
+        }, $cat + ['options' => [['all', 'a', InputOption::VALUE_NONE, t('Include past events')]], 'help' => t('Examples:') . "\n  events\n  events --all | grep LAN"]);
 
-        $event = ClosureCommand::make('event', 'Everything about one event', static function (Context $c, InputInterface $in, OutputInterface $out) {
+        $event = ClosureCommand::make('event', t('Everything about one event'), static function (Context $c, InputInterface $in, OutputInterface $out) {
             $event = self::find($c, (string) $in->getArgument('event'));
             if (!$event) {
-                $out->writeln('<error> event: no such event. Run "events --all" to see what exists. </error>');
+                $out->writeln('<error> ' . t('event: no such event. Run "events --all" to see what exists.') . ' </error>');
 
                 return 1;
             }
@@ -88,26 +88,28 @@ class EventCommands
             $location = $version ? $c->app->make(LocationFormatter::class)->parse((string) $version->getAttribute('event_location_name')) : null;
             $out->writeln('<accent>' . OutputFormatter::escape($event->getName()) . '</accent>  <dim>#' . $event->getID() . ' · ' . OutputFormatter::escape($event->getType()->getName()) . '</dim>');
             $facts = [
-                'When' => $event->getStartsAt() ? $event->getStartsAt()->format('D d.m.Y H:i') . ($event->getEndsAt() ? ' → ' . $event->getEndsAt()->format('D d.m.Y H:i') : '') : '-',
-                'Where' => $location ? $location['text'] : '-',
-                'Phase' => $event->getPhase(),
-                'Signup' => $event->isSignupEnabled() ? ($event->isSignupOpen() ? 'open' : 'closed') : 'not needed',
-                'Places' => $event->getCapacity() ? ((int) ($counts[Participant::STATUS_REGISTERED] ?? 0)) . ' / ' . $event->getCapacity() . ' taken' : 'unlimited',
-                'Waitlist' => (string) (int) ($counts[Participant::STATUS_WAITLISTED] ?? 0),
-                'Page' => $page ? (string) $page->getCollectionLink() : '-',
+                t('When') => $event->getStartsAt() ? $event->getStartsAt()->format('D d.m.Y H:i') . ($event->getEndsAt() ? ' → ' . $event->getEndsAt()->format('D d.m.Y H:i') : '') : '-',
+                t('Where') => $location ? $location['text'] : '-',
+                t('Phase') => $event->getPhase(),
+                t('Signup') => $event->isSignupEnabled() ? ($event->isSignupOpen() ? t('open') : t('closed')) : t('not needed'),
+                t('Places') => $event->getCapacity() ? t('%1$d / %2$d taken', (int) ($counts[Participant::STATUS_REGISTERED] ?? 0), $event->getCapacity()) : t('unlimited'),
+                t('Waitlist') => (string) (int) ($counts[Participant::STATUS_WAITLISTED] ?? 0),
+                t('Page') => $page ? (string) $page->getCollectionLink() : '-',
             ];
+            // padded by characters, not bytes: translated labels may have umlauts
+            $width = max(9, ...array_map('mb_strlen', array_keys($facts)));
             foreach ($facts as $label => $value) {
-                $out->writeln(sprintf('  <comment>%-9s</comment> %s', $label, OutputFormatter::escape((string) $value)));
+                $out->writeln('  <comment>' . $label . str_repeat(' ', $width - mb_strlen($label)) . '</comment> ' . OutputFormatter::escape((string) $value));
             }
             if ($page) {
-                $out->writeln('<dim>open ' . OutputFormatter::escape((string) $page->getCollectionPath()) . '  takes you there.</dim>');
+                $out->writeln('<dim>' . t('open %s  takes you there.', OutputFormatter::escape((string) $page->getCollectionPath())) . '</dim>');
             }
 
             return 0;
-        }, $cat + ['arguments' => [['event', InputArgument::REQUIRED, 'Event ID or a part of its name']]]);
+        }, $cat + ['arguments' => [['event', InputArgument::REQUIRED, t('Event ID or a part of its name')]]]);
         $event->setCompleter($eventNames);
 
-        $next = ClosureCommand::make('next', 'Countdown to the next event', static function (Context $c, InputInterface $in, OutputInterface $out) {
+        $next = ClosureCommand::make('next', t('Countdown to the next event'), static function (Context $c, InputInterface $in, OutputInterface $out) {
             $now = new \DateTime();
             $upcoming = array_filter(self::published($c), static function (Event $e) use ($now) {
                 return $e->getStartsAt() && $e->getStartsAt() > $now;
@@ -116,24 +118,24 @@ class EventCommands
                 return $a->getStartsAt() <=> $b->getStartsAt();
             });
             if (!$upcoming) {
-                $out->writeln('<dim>No event ahead. Go outside, I guess.</dim>');
+                $out->writeln('<dim>' . t('No event ahead. Go outside, I guess.') . '</dim>');
 
                 return 1;
             }
             $event = reset($upcoming);
             $diff = $now->diff($event->getStartsAt());
-            $out->writeln(sprintf('<accent>%s</accent> starts in <info>%d days, %d hours, %d minutes</info>', OutputFormatter::escape($event->getName()), $diff->days, $diff->h, $diff->i));
+            $out->writeln(t('%1$s starts in %2$s', '<accent>' . OutputFormatter::escape($event->getName()) . '</accent>', '<info>' . implode(', ', [t2('%d day', '%d days', $diff->days, $diff->days), t2('%d hour', '%d hours', $diff->h, $diff->h), t2('%d minute', '%d minutes', $diff->i, $diff->i)]) . '</info>'));
             if ($c->snark->level() > 1 && $diff->days < 3) {
-                $out->writeln('<snark>Have you updated your drivers? You have not. I can tell.</snark>');
+                $out->writeln('<snark>' . t('Have you updated your drivers? You have not. I can tell.') . '</snark>');
             }
 
             return 0;
         }, $cat);
 
-        $participants = ClosureCommand::make('participants', 'Who signed up for an event', static function (Context $c, InputInterface $in, OutputInterface $out) {
+        $participants = ClosureCommand::make('participants', t('Who signed up for an event'), static function (Context $c, InputInterface $in, OutputInterface $out) {
             $event = self::find($c, (string) $in->getArgument('event'));
             if (!$event) {
-                $out->writeln('<error> participants: no such event. </error>');
+                $out->writeln('<error> ' . t('participants: no such event.') . ' </error>');
 
                 return 1;
             }
@@ -150,15 +152,15 @@ class EventCommands
                 ];
             }
             if (!$rows) {
-                $out->writeln('<dim>Nobody. Crickets. Maybe advertise?</dim>');
+                $out->writeln('<dim>' . t('Nobody. Crickets. Maybe advertise?') . '</dim>');
 
                 return 0;
             }
-            (new TableHelper())->render($out, ['Nick', 'Status', 'Seat', 'Checked in'], $rows);
-            $out->writeln('<dim>' . count($rows) . (count($rows) === 1 ? ' person' : ' people') . '</dim>');
+            (new TableHelper())->render($out, [t('Nick'), t('Status'), t('Seat'), t('Checked in')], $rows);
+            $out->writeln('<dim>' . t2('%d person', '%d people', count($rows), count($rows)) . '</dim>');
 
             return 0;
-        }, ['category' => 'lan', 'access' => TerminalCommandAccess::ADMIN, 'arguments' => [['event', InputArgument::REQUIRED, 'Event ID or a part of its name']], 'options' => [['status', 's', InputOption::VALUE_REQUIRED, 'registered, waitlisted, interested or cancelled']], 'help' => 'Admins only. Pipe it: participants lan | grep waitlisted']);
+        }, ['category' => 'lan', 'access' => TerminalCommandAccess::ADMIN, 'arguments' => [['event', InputArgument::REQUIRED, t('Event ID or a part of its name')]], 'options' => [['status', 's', InputOption::VALUE_REQUIRED, t('registered, waitlisted, interested or cancelled')]], 'help' => t('Admins only. Pipe it: participants lan | grep waitlisted')]);
         $participants->setCompleter($eventNames);
 
         return [$events, $event, $next, $participants];

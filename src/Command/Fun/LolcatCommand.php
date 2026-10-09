@@ -24,10 +24,10 @@ class LolcatCommand extends TerminalCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Colors the input like a rainbow (use it after a pipe)')
-            ->addArgument('text', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'Text, when nothing is piped in')
-            ->addOption('spread', 's', InputOption::VALUE_REQUIRED, 'Characters per color band (1 to 20)', 3)
-            ->setHelp("Examples:\n  ls | lolcat\n  figlet LAN | lolcat\n  lolcat hello world");
+        $this->setDescription(t('Colors the input like a rainbow (use it after a pipe)'))
+            ->addArgument('text', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, t('Text, when nothing is piped in'))
+            ->addOption('spread', 's', InputOption::VALUE_REQUIRED, t('Characters per color band (1 to 20)'), 3)
+            ->setHelp(t('Examples:') . "\n  ls | lolcat\n  figlet LAN | lolcat\n  lolcat hello world");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -35,7 +35,7 @@ class LolcatCommand extends TerminalCommand
         $stdin = $this->context()->stdin;
         $text = $stdin !== null && $stdin !== '' ? rtrim($stdin, "\r\n") : trim(implode(' ', (array) $input->getArgument('text')));
         if ($text === '') {
-            $output->writeln('<error> ' . $this->context()->snark->usage('lolcat', 'nothing to color. Pipe something in or give me words') . ' </error>');
+            $output->writeln('<error> ' . $this->context()->snark->usage('lolcat', t('nothing to color. Pipe something in or give me words')) . ' </error>');
 
             return 1;
         }

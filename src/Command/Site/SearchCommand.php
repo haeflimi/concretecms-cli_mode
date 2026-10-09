@@ -23,10 +23,10 @@ class SearchCommand extends TerminalCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Searches the pages of the site')
-            ->addArgument('words', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'What to look for (the words are searched as one phrase)')
-            ->addOption('limit', 'n', InputOption::VALUE_REQUIRED, 'How many pages at most (1 to 100)', 20)
-            ->setHelp("Looks in names, descriptions and the text of pages you may see. Every result is a path, so it works with the rest of the shell.\n\nExamples:\n  search lan party\n  search seats -n 5\n  search pizza | head -n 3");
+        $this->setDescription(t('Searches the pages of the site'))
+            ->addArgument('words', InputArgument::IS_ARRAY | InputArgument::REQUIRED, t('What to look for (the words are searched as one phrase)'))
+            ->addOption('limit', 'n', InputOption::VALUE_REQUIRED, t('How many pages at most (1 to 100)'), 20)
+            ->setHelp(t('Looks in names, descriptions and the text of pages you may see. Every result is a path, so it works with the rest of the shell.') . "\n\n" . t('Examples:') . "\n  search lan party\n  search seats -n 5\n  search pizza | head -n 3");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -34,7 +34,7 @@ class SearchCommand extends TerminalCommand
         $c = $this->context();
         $phrase = trim(implode(' ', (array) $input->getArgument('words')));
         if (mb_strlen($phrase) < 2) {
-            $output->writeln('<error> ' . $c->snark->usage('search', 'give me at least two characters to work with') . ' </error>');
+            $output->writeln('<error> ' . $c->snark->usage('search', t('give me at least two characters to work with')) . ' </error>');
 
             return 2;
         }
@@ -60,7 +60,7 @@ class SearchCommand extends TerminalCommand
             ));
         }
         if ($hits === 0) {
-            $output->writeln('<dim>Nothing for "' . OutputFormatter::escape($phrase) . '".' . ($c->snark->level() > 0 ? ' The index has looked at itself in the mirror and shrugged.' : '') . '</dim>');
+            $output->writeln('<dim>' . t('Nothing for "%s".', OutputFormatter::escape($phrase)) . ($c->snark->level() > 0 ? ' ' . t('The index has looked at itself in the mirror and shrugged.') : '') . '</dim>');
 
             return 1;
         }

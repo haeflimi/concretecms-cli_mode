@@ -24,11 +24,11 @@ class FigletCommand extends TerminalCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Prints text in big letters')
-            ->addArgument('text', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, 'The text (or pipe it in)')
-            ->addOption('width', 'w', InputOption::VALUE_REQUIRED, 'Characters per line (8 to 200); longer text wraps', 60)
-            ->addOption('fill', 'f', InputOption::VALUE_REQUIRED, 'The character the letters are made of', '#')
-            ->setHelp("Letters, digits and . , : ! ? - _ + = / ' only. The width should fit your window, or the lines wrap and the letters fall apart.\n\nExamples:\n  figlet LAN party\n  figlet -f '*' GG\n  figlet hello | lolcat");
+        $this->setDescription(t('Prints text in big letters'))
+            ->addArgument('text', InputArgument::IS_ARRAY | InputArgument::OPTIONAL, t('The text (or pipe it in)'))
+            ->addOption('width', 'w', InputOption::VALUE_REQUIRED, t('Characters per line (8 to 200); longer text wraps'), 60)
+            ->addOption('fill', 'f', InputOption::VALUE_REQUIRED, t('The character the letters are made of'), '#')
+            ->setHelp(t("Letters, digits and . , : ! ? - _ + = / ' only. The width should fit your window, or the lines wrap and the letters fall apart.") . "\n\n" . t('Examples:') . "\n  figlet LAN party\n  figlet -f '*' GG\n  figlet hello | lolcat");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -40,12 +40,12 @@ class FigletCommand extends TerminalCommand
             $text = trim($stdin);
         }
         if ($text === '') {
-            $output->writeln('<error> ' . $c->snark->usage('figlet', 'no text. Even a banner needs something to shout') . ' </error>');
+            $output->writeln('<error> ' . $c->snark->usage('figlet', t('no text. Even a banner needs something to shout')) . ' </error>');
 
             return 1;
         }
         if (mb_strlen($text) > self::MAX_CHARS) {
-            $output->writeln('<error> figlet: that is ' . mb_strlen($text) . ' characters. Up to ' . self::MAX_CHARS . ', please: this is a banner, not a novel. </error>');
+            $output->writeln('<error> ' . t('figlet: that is %1$d characters. Up to %2$d, please: this is a banner, not a novel.', mb_strlen($text), self::MAX_CHARS) . ' </error>');
 
             return 1;
         }

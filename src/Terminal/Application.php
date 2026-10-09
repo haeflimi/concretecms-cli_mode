@@ -37,8 +37,8 @@ class Application extends SymfonyApplication
     protected function getDefaultInputDefinition(): InputDefinition
     {
         return new InputDefinition([
-            new \Symfony\Component\Console\Input\InputArgument('command', \Symfony\Component\Console\Input\InputArgument::REQUIRED, 'The command to execute'),
-            new InputOption('--help', '-h', InputOption::VALUE_NONE, 'Display help for the command'),
+            new \Symfony\Component\Console\Input\InputArgument('command', \Symfony\Component\Console\Input\InputArgument::REQUIRED, t('The command to execute')),
+            new InputOption('--help', '-h', InputOption::VALUE_NONE, t('Display help for the command')),
         ]);
     }
 

@@ -72,7 +72,7 @@ class Login
                 return $this->failed($service, $username, $password, $e);
             }
             if ($user->isError()) {
-                $this->message = 'Unknown login error.';
+                $this->message = t('Unknown login error.');
 
                 return false;
             }
@@ -82,7 +82,7 @@ class Login
             foreach (UserAttributeKey::getRegistrationList() as $key) {
                 if ($key->isAttributeKeyRequiredOnRegister() && !is_object($info->getAttributeValueObject($key))) {
                     $user->logout(false);
-                    $this->message = 'Your profile is missing some required details. Use the login page for the first sign-in: login --web';
+                    $this->message = t('Your profile is missing some required details. Use the login page for the first sign-in: login --web');
 
                     return false;
                 }
@@ -99,7 +99,7 @@ class Login
             return true;
         } catch (\Throwable $e) {
             // whatever it was, the terminal does not explain Concrete's internals to a stranger
-            $this->message = 'Login failed.';
+            $this->message = t('Login failed.');
             try {
                 $this->app->make(\Concrete\Core\Logging\LoggerFactory::class)->createLogger('cli_mode')->error('login: ' . $e->getMessage(), ['exception' => $e]);
             } catch (\Throwable $ignored) {

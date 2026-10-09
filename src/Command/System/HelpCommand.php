@@ -21,10 +21,10 @@ class HelpCommand extends TerminalCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Lists the commands, or explains one of them')
+        $this->setDescription(t('Lists the commands, or explains one of them'))
             ->setAliases(['man', 'list'])
-            ->addArgument('topic', InputArgument::OPTIONAL, 'The command to explain')
-            ->setHelp("Without an argument: every command you may run, by category.\nWith a command name: its manual.\n\nExamples:\n  help\n  help ls\n  man events\n\nNew here? Run <info>guide</info> for a short tour.");
+            ->addArgument('topic', InputArgument::OPTIONAL, t('The command to explain'))
+            ->setHelp(t("Without an argument: every command you may run, by category.\nWith a command name: its manual.") . "\n\n" . t('Examples:') . "\n  help\n  help ls\n  man events\n\n" . t('New here? Run <info>guide</info> for a short tour.'));
     }
 
     public function completeWords(string $word, array $words): array
@@ -44,7 +44,7 @@ class HelpCommand extends TerminalCommand
         if ($name !== null) {
             $command = $this->context()->registry->resolve((string) $name);
             if (!$command || !$command->isAllowedFor($this->context())) {
-                $output->writeln('<error> ' . ($command ? $this->context()->snark->denied($name) : 'No manual entry for ' . $name . '. Try harder.') . ' </error>');
+                $output->writeln('<error> ' . ($command ? $this->context()->snark->denied($name) : t('No manual entry for %s. Try harder.', $name)) . ' </error>');
 
                 return self::FAILURE;
             }
@@ -67,21 +67,43 @@ class HelpCommand extends TerminalCommand
         foreach ($application->visibleCommands() as $command) {
             $width = max($width, strlen($command->getName()));
         }
-        $output->writeln('<accent>snarkbash</accent> <dim>' . $this->context()->hostname() . ' · ' . count($application->visibleCommands()) . ' commands available</dim>');
+        $count = count($application->visibleCommands());
+        $output->writeln('<accent>snarkbash</accent> <dim>' . $this->context()->hostname() . ' · ' . t2('%d command available', '%d commands available', $count, $count) . '</dim>');
         foreach ($byCategory as $category => $commands) {
             $output->writeln('');
-            $output->writeln('<comment>' . ucfirst($category) . '</comment>');
+            $output->writeln('<comment>' . self::categoryLabel((string) $category) . '</comment>');
             foreach ($commands as $command) {
                 $output->writeln(sprintf('  <info>%s</info>%s  %s', $command->getName(), str_repeat(' ', $width - strlen($command->getName())), $command->getDescription()));
             }
         }
         $output->writeln('');
-        $output->writeln('<dim>help <command> explains one · guide gives you the tour · Tab completes · ↑ ↓ walk through the history</dim>');
+        $output->writeln('<dim>' . t('help <command> explains one · guide gives you the tour · Tab completes · ↑ ↓ walk through the history') . '</dim>');
         $footer = $this->context()->snark->emptyHelpFooter();
         if ($footer !== '') {
             $output->writeln('<snark>' . $footer . '</snark>');
         }
 
         return self::SUCCESS;
+    }
+
+    /**
+     * Heading of a command category: the built-in ones translated, the ones packages bring capitalized.
+     */
+    public static function categoryLabel(string $category): string
+    {
+        switch ($category) {
+            case 'system':
+                return t('System');
+            case 'site':
+                return t('Site');
+            case 'text':
+                return t('Text');
+            case 'lan':
+                return t('LAN');
+            case 'fun':
+                return t('Fun');
+            default:
+                return ucfirst($category);
+        }
     }
 }

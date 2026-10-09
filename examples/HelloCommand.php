@@ -33,16 +33,16 @@ class HelloCommand extends TerminalCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Greets somebody')
-            ->addArgument('who', InputArgument::OPTIONAL, 'Whom to greet', 'world')
-            ->addOption('shout', 's', InputOption::VALUE_NONE, 'In capitals')
-            ->setHelp("Examples:\n  hello\n  hello Pixel Paula --shout");
+        $this->setDescription(t('Greets somebody'))
+            ->addArgument('who', InputArgument::OPTIONAL, t('Whom to greet'), 'world')
+            ->addOption('shout', 's', InputOption::VALUE_NONE, t('In capitals'))
+            ->setHelp(t('Examples:') . "\n  hello\n  hello Pixel Paula --shout");
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         // The context knows the user, the shell state and the snark; $this->context()->app is the Concrete container
-        $greeting = 'Hello ' . $input->getArgument('who') . ' from ' . $this->context()->username() . '!';
+        $greeting = t('Hello %1$s from %2$s!', $input->getArgument('who'), $this->context()->username());
         $output->writeln('<info>' . ($input->getOption('shout') ? strtoupper($greeting) : $greeting) . '</info>');
 
         return self::SUCCESS; // anything but 0 counts as failure for && and ||

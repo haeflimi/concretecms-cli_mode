@@ -26,18 +26,18 @@ class AsciiImage
     public static function render(string $data, int $width, bool $invert = false): array
     {
         if (!function_exists('imagecreatefromstring')) {
-            throw new \RuntimeException('the GD extension is not installed on this server');
+            throw new \RuntimeException(t('the GD extension is not installed on this server'));
         }
         $info = @getimagesizefromstring($data);
         if ($info === false) {
-            throw new \RuntimeException('not an image GD can read (SVG and friends are not supported)');
+            throw new \RuntimeException(t('not an image GD can read (SVG and friends are not supported)'));
         }
         if ($info[0] < 1 || $info[1] < 1 || $info[0] * $info[1] > self::MAX_PIXELS) {
-            throw new \RuntimeException('the image is too large to turn into ASCII');
+            throw new \RuntimeException(t('the image is too large to turn into ASCII'));
         }
         $source = @imagecreatefromstring($data);
         if (!$source) {
-            throw new \RuntimeException('the image could not be decoded');
+            throw new \RuntimeException(t('the image could not be decoded'));
         }
 
         $width = max(8, min(200, $width));

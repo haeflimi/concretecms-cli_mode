@@ -46,7 +46,7 @@ class Shell
         $code = $this->context->state->lastCode;
         if ($line !== '') {
             if (strlen($line) > self::MAX_LINE) {
-                $output = $this->context->snark->parseError('line too long (' . strlen($line) . ' characters, and none of them helpful)') . "\n";
+                $output = $this->context->snark->parseError(t('line too long (%d characters, and none of them helpful)', strlen($line))) . "\n";
                 $code = 2;
             } else {
                 $this->context->state->remember($line);
@@ -56,7 +56,7 @@ class Shell
         }
         $this->context->state->save();
         if (strlen($output) > self::MAX_OUTPUT) {
-            $output = substr($output, 0, self::MAX_OUTPUT) . "\n[output truncated]\n";
+            $output = substr($output, 0, self::MAX_OUTPUT) . "\n[" . t('output truncated') . "]\n";
         }
 
         return ['output' => $output, 'code' => $code, 'actions' => $this->context->actions];
@@ -120,7 +120,7 @@ class Shell
             return [$this->red($this->context->snark->parseError($e->getMessage())) . "\n", 2];
         }
         if (count($segments) > self::MAX_COMMANDS) {
-            return [$this->red($this->context->snark->parseError('too many commands in one line, this is a shell, not a novel')) . "\n", 2];
+            return [$this->red($this->context->snark->parseError(t('too many commands in one line, this is a shell, not a novel'))) . "\n", 2];
         }
 
         // groups of piped commands, each with the operator that connects it to the previous group
@@ -203,7 +203,7 @@ class Shell
         } catch (ConsoleException | \InvalidArgumentException $e) {
             $usage = $command->getSynopsis(true);
 
-            return [$this->red($snark->usage($name, $e->getMessage())) . "\nUsage: " . $usage . "\n", 2];
+            return [$this->red($snark->usage($name, $e->getMessage())) . "\n" . t('Usage: %s', $usage) . "\n", 2];
         } catch (UserMessageException $e) {
             return [$output->fetch() . $this->red($name . ': ' . $e->getMessage()) . "\n", 1];
         } catch (\Throwable $e) {
@@ -340,7 +340,7 @@ class Shell
             $buffer .= $c;
         }
         if ($quote !== null && !$lenient) {
-            throw new \InvalidArgumentException('unexpected EOF while looking for matching `' . $quote . "'");
+            throw new \InvalidArgumentException(t("unexpected EOF while looking for matching `%s'", $quote));
         }
         if (trim($buffer) !== '' || $parts === [] || $sep !== '') {
             $flush();

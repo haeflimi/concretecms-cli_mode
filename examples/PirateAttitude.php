@@ -51,13 +51,13 @@ class PirateAttitude extends Attitude
     {
         return [
             'not_found' => [
-                '%1$s: command not found. Never heard of it, matey.',
-                '%1$s: command not found. Ye be sailin\' in uncharted waters.',
+                t('%1$s: command not found. Never heard of it, matey.'),
+                t('%1$s: command not found. Ye be sailin\' in uncharted waters.'),
             ],
-            'denied' => '%1$s: Permission denied. Only the captain may do that.',
-            'no_such_path' => '%1$s: %2$s: No such file or directory. Lost at sea, it be.',
-            'exit' => 'logout. Fair winds!',
-            'success' => ['Aye aye!', 'Done, cap\'n.'],
+            'denied' => t('%1$s: Permission denied. Only the captain may do that.'),
+            'no_such_path' => t('%1$s: %2$s: No such file or directory. Lost at sea, it be.'),
+            'exit' => t('logout. Fair winds!'),
+            'success' => [t('Aye aye!'), t('Done, cap\'n.')],
         ];
     }
 }

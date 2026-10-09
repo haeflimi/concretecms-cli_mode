@@ -32,23 +32,23 @@ class PoliteAttitude extends Attitude
     public function messages(): array
     {
         return [
-            'not_found' => 'bash: %1$s: command not found',
-            'did_you_mean' => "Did you mean '%1\$s'?",
-            'denied' => 'bash: %1$s: Permission denied',
+            'not_found' => t('bash: %1$s: command not found'),
+            'did_you_mean' => t("Did you mean '%1\$s'?"),
+            'denied' => t('bash: %1$s: Permission denied'),
             'usage' => '%1$s: %2$s',
-            'no_such_path' => '%1$s: %2$s: No such file or directory',
-            'not_directory' => '%1$s: %2$s: Not a directory',
-            'missing_page' => 'bash: %1$s: No such file or directory',
-            'parse_error' => 'bash: syntax error: %1$s',
-            'failure' => 'Segmentation fault (core dumped)',
+            'no_such_path' => t('%1$s: %2$s: No such file or directory'),
+            'not_directory' => t('%1$s: %2$s: Not a directory'),
+            'missing_page' => t('bash: %1$s: No such file or directory'),
+            'parse_error' => t('bash: syntax error: %1$s'),
+            'failure' => t('Segmentation fault (core dumped)'),
             'success' => '',
-            'exit' => 'logout',
-            'trapped' => 'exit: not available in this terminal',
-            'sudo' => 'sudo: sorry, you are not allowed to use sudo',
-            'rm' => "rm: it is dangerous to operate recursively on '/'",
+            'exit' => t('logout'),
+            'trapped' => t('exit: not available in this terminal'),
+            'sudo' => t('sudo: sorry, you are not allowed to use sudo'),
+            'rm' => t("rm: it is dangerous to operate recursively on '/'"),
             'help_footer' => '',
-            'login_failed' => 'Login incorrect',
-            'login_welcome' => 'Welcome, %1$s.',
+            'login_failed' => t('Login incorrect'),
+            'login_welcome' => t('Welcome, %1$s.'),
         ];
     }
 }

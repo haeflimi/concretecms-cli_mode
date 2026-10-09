@@ -74,11 +74,12 @@ defined('C5_EXECUTE') or die('Access Denied.');
 <table class="table table-sm table-striped">
     <thead><tr><th><?= t('Command') ?></th><th><?= t('Category') ?></th><th><?= t('Access') ?></th><th><?= t('Description') ?></th><th><?= t('Class') ?></th></tr></thead>
     <tbody>
+    <?php $accessLabels = ['public' => t('Everybody'), 'registered' => t('Members'), 'admin' => t('Admins')]; ?>
     <?php foreach ($commands as $c) { ?>
         <tr<?= $c['hidden'] ? ' class="text-muted"' : '' ?>>
             <td><code><?= h($c['name']) ?></code><?= $c['aliases'] ? ' <small class="text-muted">(' . h(implode(', ', $c['aliases'])) . ')</small>' : '' ?></td>
-            <td><?= h($c['category']) ?></td>
-            <td><?= h($c['access']) ?></td>
+            <td><?= h(CliMode\Command\System\HelpCommand::categoryLabel((string) $c['category'])) ?></td>
+            <td><?= h($accessLabels[$c['access']] ?? $c['access']) ?></td>
             <td><?= h($c['description']) ?></td>
             <td><small><code><?= h($c['class']) ?></code></small></td>
         </tr>

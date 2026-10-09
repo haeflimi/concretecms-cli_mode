@@ -24,11 +24,11 @@ class AttitudeCommand extends TerminalCommand
 
     protected function configure(): void
     {
-        $this->setDescription('Shows or changes how the terminal talks to you (this session only)')
+        $this->setDescription(t('Shows or changes how the terminal talks to you (this session only)'))
             ->setAliases(['mood'])
-            ->addArgument('name', InputArgument::OPTIONAL, 'The attitude to switch to')
-            ->addOption('reset', 'r', InputOption::VALUE_NONE, "Back to the site's attitude")
-            ->setHelp("Without an argument: the attitudes, the one you have marked.\nThe change lasts as long as your session and affects nobody else.\n\nExamples:\n  attitude\n  attitude super_snarky\n  attitude --reset");
+            ->addArgument('name', InputArgument::OPTIONAL, t('The attitude to switch to'))
+            ->addOption('reset', 'r', InputOption::VALUE_NONE, t("Back to the site's attitude"))
+            ->setHelp(t("Without an argument: the attitudes, the one you have marked.\nThe change lasts as long as your session and affects nobody else.") . "\n\n" . t('Examples:') . "\n  attitude\n  attitude super_snarky\n  attitude --reset");
     }
 
     public function completeWords(string $word, array $words): array
@@ -58,10 +58,10 @@ class AttitudeCommand extends TerminalCommand
                     $handle === $current ? '<accent>*</accent>' : ' ',
                     $handle,
                     OutputFormatter::escape($attitude->name()),
-                    $attitude->description() !== '' ? ' <dim>' . OutputFormatter::escape($attitude->description()) . ($handle === $site ? ' (site default)' : '') . '</dim>' : ($handle === $site ? ' <dim>(site default)</dim>' : '')
+                    $attitude->description() !== '' ? ' <dim>' . OutputFormatter::escape($attitude->description()) . ($handle === $site ? ' ' . t('(site default)') : '') . '</dim>' : ($handle === $site ? ' <dim>' . t('(site default)') . '</dim>' : '')
                 ));
             }
-            $output->writeln('<dim>attitude <name> switches, attitude --reset goes back to the site default.</dim>');
+            $output->writeln('<dim>' . t('attitude <name> switches, attitude --reset goes back to the site default.') . '</dim>');
 
             return 0;
         }
@@ -69,7 +69,7 @@ class AttitudeCommand extends TerminalCommand
         $attitudes = $registry->all();
         if (!isset($attitudes[$name])) {
             $output->writeln('<error> ' . $c->snark->noSuchPath('attitude', $name) . ' </error>');
-            $output->writeln('<dim>Known: ' . OutputFormatter::escape(implode(', ', array_keys($attitudes))) . '</dim>');
+            $output->writeln('<dim>' . t('Known: %s', OutputFormatter::escape(implode(', ', array_keys($attitudes)))) . '</dim>');
 
             return 1;
         }
@@ -78,7 +78,7 @@ class AttitudeCommand extends TerminalCommand
         }
         // the rest of the line (after && or a pipe) already speaks the new attitude
         $c->snark = new Snark($attitudes[$name]);
-        $output->writeln('<ok>Attitude: ' . OutputFormatter::escape($attitudes[$name]->name()) . '</ok>');
+        $output->writeln('<ok>' . t('Attitude: %s', OutputFormatter::escape($attitudes[$name]->name())) . '</ok>');
         if (($remark = $c->snark->success()) !== null) {
             $output->writeln('<snark>' . OutputFormatter::escape($remark) . '</snark>');
         }
