@@ -11,6 +11,7 @@ use CliMode\Terminal\CommandRegistry;
 use CliMode\Terminal\Settings;
 use Concrete\Core\Asset\Asset;
 use Concrete\Core\Asset\AssetList;
+use Concrete\Core\Block\BlockType\BlockType;
 use Concrete\Core\Http\Request;
 use Concrete\Core\Package\Package;
 use Concrete\Core\Page\Page;
@@ -29,7 +30,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'cli_mode';
     protected $appVersionRequired = '9.0.0';
-    protected $pkgVersion = '1.3.0';
+    protected $pkgVersion = '1.4.0';
     protected $pkgAutoloaderRegistries = [
         'src' => 'CliMode',
     ];
@@ -138,6 +139,9 @@ class Controller extends Package
         if (!$page || $page->isError()) {
             $page = SinglePage::add('/dashboard/system/basics/cli_mode', $this->getPackageEntity());
             $page->update(['cName' => t('CLI Mode'), 'cDescription' => t('The fake terminal: who may use it, how snarky it is, which commands it knows.')]);
+        }
+        if (!BlockType::getByHandle('cli_terminal')) {
+            BlockType::installBlockType('cli_terminal', $this->getPackageEntity());
         }
     }
 }
