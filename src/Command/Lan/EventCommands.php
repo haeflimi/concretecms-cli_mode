@@ -136,40 +136,98 @@ class EventCommands
         }, $cat);
 
         $participants = ClosureCommand::make('participants', t('Who signed up for an event'), static function (Context $c, InputInterface $in, OutputInterface $out) {
-            $event = self::find($c, (string) $in->getArgument('event'));
+            $event = self::target($c, (string) $in->getArgument('event'), true);
             if (!$event) {
                 $out->writeln('<error> ' . t('participants: no such event.') . ' </error>');
 
                 return 1;
             }
-            $statuses = $in->getOption('status') ? [(string) $in->getOption('status')] : [Participant::STATUS_REGISTERED, Participant::STATUS_WAITLISTED];
+            // everybody sees nicknames, seats and the waitlist; real names, check-ins and the other statuses are for admins
+            $admin = $c->isAdmin();
+            $statuses = [Participant::STATUS_REGISTERED, Participant::STATUS_WAITLISTED];
+            if ($in->getOption('status')) {
+                if (!$admin) {
+                    $out->writeln('<error> ' . t('participants: --status is for admins.') . ' </error>');
+
+                    return 1;
+                }
+                $statuses = [(string) $in->getOption('status')];
+            }
+            $labels = [
+                Participant::STATUS_REGISTERED => t('signed up'),
+                Participant::STATUS_WAITLISTED => t('waitlist'),
+                Participant::STATUS_INTERESTED => t('interested'),
+                Participant::STATUS_CANCELLED => t('cancelled'),
+            ];
             $users = $c->app->make(UserInfoRepository::class);
             $rows = [];
             foreach ($c->app->make(ParticipationService::class)->getParticipants($event, $statuses) as $participant) {
                 $ui = $users->getByID($participant->getUserID());
-                $rows[] = [
-                    OutputFormatter::escape($ui ? (string) $ui->getUserName() : '#' . $participant->getUserID()),
-                    $participant->getStatus(),
-                    $participant->getSeatID() ?: '-',
-                    $participant->getCheckedInAt() ? $participant->getCheckedInAt()->format('d.m. H:i') : '-',
-                ];
+                $row = [OutputFormatter::escape($ui ? (string) $ui->getUserName() : '#' . $participant->getUserID())];
+                if ($admin) {
+                    $name = $ui ? trim($ui->getAttribute('billing_first_name') . ' ' . $ui->getAttribute('billing_last_name')) : '';
+                    $row[] = $name !== '' ? OutputFormatter::escape($name) : '-';
+                }
+                $row[] = $labels[$participant->getStatus()] ?? $participant->getStatus();
+                $row[] = $participant->getSeatID() ? OutputFormatter::escape($participant->getSeatID()) : '-';
+                if ($admin) {
+                    $row[] = $participant->getCheckedInAt() ? $participant->getCheckedInAt()->format('d.m. H:i') : '-';
+                }
+                $rows[] = $row;
             }
+            $out->writeln('<accent>' . OutputFormatter::escape($event->getName()) . '</accent>');
             if (!$rows) {
                 $out->writeln('<dim>' . t('Nobody. Crickets. Maybe advertise?') . '</dim>');
 
                 return 0;
             }
-            (new TableHelper())->render($out, [t('Nick'), t('Status'), t('Seat'), t('Checked in')], $rows);
+            $headers = $admin ? [t('Nick'), t('Name'), t('Status'), t('Seat'), t('Checked in')] : [t('Nick'), t('Status'), t('Seat')];
+            (new TableHelper())->render($out, $headers, $rows);
             $out->writeln('<dim>' . t2('%d person', '%d people', count($rows), count($rows)) . '</dim>');
 
             return 0;
-        }, ['category' => 'lan', 'access' => TerminalCommandAccess::ADMIN, 'arguments' => [['event', InputArgument::REQUIRED, t('Event ID or a part of its name')]], 'options' => [['status', 's', InputOption::VALUE_REQUIRED, t('registered, waitlisted, interested or cancelled')]], 'help' => t('Admins only. Pipe it: participants lan | grep waitlisted')]);
+        }, [
+            'category' => 'lan',
+            'arguments' => [['event', InputArgument::OPTIONAL, t('Event ID or a part of its name (default: the next event)')]],
+            'options' => [['status', 's', InputOption::VALUE_REQUIRED, t('Admins: registered, waitlisted, interested or cancelled')]],
+            'help' => t('Lists the nicknames, status and seats of who signed up. Admins also see real names and check-ins.') . "\n\n" . t('Examples:') . "\n  participants\n  participants 35\n  participants | grep waitlist",
+        ]);
         $participants->setCompleter($eventNames);
 
         $signup = ClosureCommand::make('signup', t('Sign up for an event'), static function (Context $c, InputInterface $in, OutputInterface $out) {
-            $event = self::target($c, (string) $in->getArgument('event'));
+            // deliberately no guessing: only the exact ID of the event signs anybody up (or out)
+            $id = trim((string) $in->getArgument('event'));
+            $event = null;
+            if (ctype_digit($id)) {
+                foreach (self::published($c) as $candidate) {
+                    if ($candidate->getID() === (int) $id) {
+                        $event = $candidate;
+                    }
+                }
+            }
             if (!$event) {
-                $out->writeln('<error> ' . t('signup: no such event, or none open for signups. Run "events" to see what is coming.') . ' </error>');
+                if ($id === '') {
+                    $message = t('signup: which event? Give its ID: signup <id>');
+                } elseif (!ctype_digit($id)) {
+                    $message = t('signup: give the ID of the event (a number), not its name.');
+                } else {
+                    $message = t('signup: there is no event with the ID %s.', $id);
+                }
+                $out->writeln('<error> ' . OutputFormatter::escape($message) . ' </error>');
+                $open = array_filter(self::published($c), static function (Event $e) {
+                    return $e->isSignupOpen();
+                });
+                usort($open, static function (Event $a, Event $b) {
+                    return $a->getStartsAt() <=> $b->getStartsAt();
+                });
+                if ($open) {
+                    $out->writeln(t('Open for signups:'));
+                    foreach ($open as $e) {
+                        $out->writeln(sprintf('  <info>signup %d</info>  %s <dim>%s</dim>', $e->getID(), OutputFormatter::escape($e->getName()), $e->getStartsAt() ? $e->getStartsAt()->format('d.m.Y') : ''));
+                    }
+                } else {
+                    $out->writeln('<dim>' . t('No event is open for signups right now.') . '</dim>');
+                }
 
                 return 1;
             }
@@ -226,11 +284,21 @@ class EventCommands
             return 0;
         }, $cat + [
             'access' => TerminalCommandAccess::REGISTERED,
-            'arguments' => [['event', InputArgument::OPTIONAL, t('Event ID or a part of its name (default: the next event open for signups)')]],
+            'arguments' => [['event', InputArgument::OPTIONAL, t('The ID of the event (see "events")')]],
             'options' => [['cancel', 'c', InputOption::VALUE_NONE, t('Cancel your signup')]],
-            'help' => t('Signs you up like the signup form on the event page. When the event sells tickets, the ticket is reserved on your event tab or you are taken to the checkout.') . "\n\n" . t('Examples:') . "\n  signup\n  signup 35\n  signup turicane --cancel",
+            'help' => t('Signs you up like the signup form on the event page. It takes the ID of the event, nothing else: "signup" alone lists the events open for signups with their IDs. When the event sells tickets, the ticket is reserved on your event tab or you are taken to the checkout.') . "\n\n" . t('Examples:') . "\n  signup\n  signup 33\n  signup 33 --cancel",
         ]);
-        $signup->setCompleter($eventNames);
+        // Tab completes IDs only, the open events first
+        $signup->setCompleter(static function (Context $c): array {
+            $ids = [];
+            foreach (self::published($c) as $event) {
+                if (!$event->isOver()) {
+                    $ids[] = (string) $event->getID();
+                }
+            }
+
+            return $ids;
+        });
 
         $seat = ClosureCommand::make('seat', t('Show the seats or take one'), static function (Context $c, InputInterface $in, OutputInterface $out) {
             $event = self::target($c, (string) $in->getArgument('event'), true);

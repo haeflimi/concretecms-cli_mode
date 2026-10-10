@@ -130,12 +130,27 @@ class Builtin
                     t('<comment>4. Get help</comment>  <info>help</info> lists everything you may run, <info>help <command></info> explains one.'),
                     t('   Commands that are not for you answer with "Permission denied". Log in and they may change their mind.'),
                     '',
-                    t('<comment>5. LAN stuff</comment>  %s. More will come.', '<info>events</info>, <info>next</info>, <info>event <name></info>' . ($c->isAdmin() ? ', <info>participants <event></info>' : '')),
+                    t('<comment>5. You</comment>  <info>login</info> signs you in right here, <info>logout</info> out again. <info>whoami</info> if you forgot.'),
+                    t('   <info>lang de</info> switches the terminal to German, <info>lang en</info> back. <info>attitude</info> sets how rude I am.'),
                     '',
-                    t('<comment>6. Look</comment>  <info>theme amber</info>, <info>theme green</info>, <info>theme matrix</info>, <info>theme blackout</info>. <info>neofetch</info> for show-off.'),
+                ];
+                if (class_exists(\CommunityEventManager\Event\EventService::class)) {
+                    $lines[] = t('<comment>6. LAN</comment>  <info>events</info> what is coming, <info>next</info> the countdown, <info>event <name></info> all about one.');
+                    $lines[] = $c->isRegistered()
+                        ? t('   <info>signup <id></info> gets you in, <info>seat</info> shows the plan and takes one (<info>seat <event> <seat></info>), <info>signups</info> lists yours.')
+                        : t('   After <info>login</info>: <info>signup <id></info> gets you in, <info>seat</info> picks your seat, <info>signups</info> lists yours.');
+                    if ($c->isRegistered() && class_exists(\CommunityStoreCredit\Service\AccountOverview::class)) {
+                        $lines[] = t('   <info>balance</info> shows your credit and open bills, <info>pay</info> pays one online.');
+                    }
+                    $lines[] = t('   <info>participants</info> shows who is in and where they sit.');
+                    $lines[] = '';
+                }
+                $lines = array_merge($lines, [
+                    t('<comment>7. Look and fun</comment>  <info>theme amber</info>, <info>theme green</info>, <info>theme matrix</info>, <info>theme blackout</info>, <info>theme paper</info>.'),
+                    t('   <info>show <file-id></info> turns an image into ASCII art, <info>figlet hello</info> writes big, <info>cowsay</info>, <info>fortune</info>, <info>neofetch</info>.'),
                     '',
                     '<dim>' . t('Want to write your own commands? It works like Concrete CLI commands: see the package README.') . '</dim>',
-                ];
+                ]);
                 $out->writeln($lines);
 
                 return 0;

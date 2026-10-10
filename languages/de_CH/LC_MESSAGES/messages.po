@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cli_mode\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-10 09:00+0200\n"
+"POT-Creation-Date: 2026-10-10 10:04+0200\n"
 "PO-Revision-Date: 2026-10-09 22:30+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -95,13 +95,14 @@ msgstr "Wen begrüssen"
 msgid "In capitals"
 msgstr "In Grossbuchstaben"
 
-#: cli_mode/examples/HelloCommand.php:39 cli_mode/src/Command/Builtin.php:350
+#: cli_mode/examples/HelloCommand.php:39 cli_mode/src/Command/Builtin.php:365
 #: cli_mode/src/Command/Fun/FigletCommand.php:31
 #: cli_mode/src/Command/Fun/LolcatCommand.php:30
 #: cli_mode/src/Command/Lan/EventCommands.php:79
-#: cli_mode/src/Command/Lan/EventCommands.php:224
-#: cli_mode/src/Command/Lan/EventCommands.php:317
-#: cli_mode/src/Command/Lan/EventCommands.php:374
+#: cli_mode/src/Command/Lan/EventCommands.php:193
+#: cli_mode/src/Command/Lan/EventCommands.php:289
+#: cli_mode/src/Command/Lan/EventCommands.php:392
+#: cli_mode/src/Command/Lan/EventCommands.php:449
 #: cli_mode/src/Command/Site/SearchCommand.php:29
 #: cli_mode/src/Command/Site/ShowCommand.php:34
 #: cli_mode/src/Command/Site/StatCommand.php:28
@@ -327,7 +328,7 @@ msgid "Everybody"
 msgstr "Alle"
 
 #: cli_mode/single_pages/dashboard/system/basics/cli_mode.php:81
-#: cli_mode/src/Command/Builtin.php:626
+#: cli_mode/src/Command/Builtin.php:641
 msgid "Members"
 msgstr "Mitglieder"
 
@@ -450,21 +451,82 @@ msgstr ""
 "Melde dich an, vielleicht überlegen sie es sich dann anders."
 
 #: cli_mode/src/Command/Builtin.php:133
-#, php-format
-msgid "<comment>5. LAN stuff</comment>  %s. More will come."
-msgstr "<comment>5. LAN-Kram</comment>  %s. Mehr kommt noch."
-
-#: cli_mode/src/Command/Builtin.php:135
 msgid ""
-"<comment>6. Look</comment>  <info>theme amber</info>, <info>theme green</"
-"info>, <info>theme matrix</info>, <info>theme blackout</info>. "
-"<info>neofetch</info> for show-off."
+"<comment>5. You</comment>  <info>login</info> signs you in right here, "
+"<info>logout</info> out again. <info>whoami</info> if you forgot."
 msgstr ""
-"<comment>6. Aussehen</comment>  <info>theme amber</info>, <info>theme green</"
-"info>, <info>theme matrix</info>, <info>theme blackout</info>. "
-"<info>neofetch</info> zum Angeben."
+"<comment>5. Du</comment>  <info>login</info> meldet dich gleich hier an, "
+"<info>logout</info> wieder ab. <info>whoami</info>, falls du es vergessen "
+"hast."
 
-#: cli_mode/src/Command/Builtin.php:137
+#: cli_mode/src/Command/Builtin.php:134
+msgid ""
+"   <info>lang de</info> switches the terminal to German, <info>lang en</"
+"info> back. <info>attitude</info> sets how rude I am."
+msgstr ""
+"   <info>lang de</info> schaltet auf Deutsch, <info>lang en</info> zurück "
+"auf Englisch. <info>attitude</info> bestimmt, wie frech ich bin."
+
+#: cli_mode/src/Command/Builtin.php:138
+msgid ""
+"<comment>6. LAN</comment>  <info>events</info> what is coming, <info>next</"
+"info> the countdown, <info>event <name></info> all about one."
+msgstr ""
+"<comment>6. LAN</comment>  <info>events</info> was ansteht, <info>next</"
+"info> der Countdown, <info>event <name></info> alles über eines."
+
+#: cli_mode/src/Command/Builtin.php:140
+msgid ""
+"   <info>signup <id></info> gets you in, <info>seat</info> shows the plan "
+"and takes one (<info>seat <event> <seat></info>), <info>signups</info> lists "
+"yours."
+msgstr ""
+"   <info>signup <id></info> meldet dich an, <info>seat</info> zeigt den "
+"Sitzplan und reserviert einen Platz (<info>seat <event> <platz></info>), "
+"<info>signups</info> listet deine Anmeldungen."
+
+#: cli_mode/src/Command/Builtin.php:141
+msgid ""
+"   After <info>login</info>: <info>signup <id></info> gets you in, "
+"<info>seat</info> picks your seat, <info>signups</info> lists yours."
+msgstr ""
+"   Nach dem <info>login</info>: <info>signup <id></info> meldet dich an, "
+"<info>seat</info> sucht dir einen Platz aus, <info>signups</info> listet "
+"deine Anmeldungen."
+
+#: cli_mode/src/Command/Builtin.php:143
+msgid ""
+"   <info>balance</info> shows your credit and open bills, <info>pay</info> "
+"pays one online."
+msgstr ""
+"   <info>balance</info> zeigt dein Guthaben und offene Rechnungen, "
+"<info>pay</info> bezahlt eine online."
+
+#: cli_mode/src/Command/Builtin.php:145
+msgid "   <info>participants</info> shows who is in and where they sit."
+msgstr "   <info>participants</info> zeigt, wer dabei ist und wo alle sitzen."
+
+#: cli_mode/src/Command/Builtin.php:149
+msgid ""
+"<comment>7. Look and fun</comment>  <info>theme amber</info>, <info>theme "
+"green</info>, <info>theme matrix</info>, <info>theme blackout</info>, "
+"<info>theme paper</info>."
+msgstr ""
+"<comment>7. Aussehen und Spass</comment>  <info>theme amber</info>, "
+"<info>theme green</info>, <info>theme matrix</info>, <info>theme blackout</"
+"info>, <info>theme paper</info>."
+
+#: cli_mode/src/Command/Builtin.php:150
+msgid ""
+"   <info>show <file-id></info> turns an image into ASCII art, <info>figlet "
+"hello</info> writes big, <info>cowsay</info>, <info>fortune</info>, "
+"<info>neofetch</info>."
+msgstr ""
+"   <info>show <datei-id></info> macht aus einem Bild ASCII-Art, <info>figlet "
+"hallo</info> schreibt gross, <info>cowsay</info>, <info>fortune</info>, "
+"<info>neofetch</info>."
+
+#: cli_mode/src/Command/Builtin.php:152
 msgid ""
 "Want to write your own commands? It works like Concrete CLI commands: see "
 "the package README."
@@ -472,194 +534,194 @@ msgstr ""
 "Willst du eigene Befehle schreiben? Das funktioniert wie bei Concrete-CLI-"
 "Befehlen: siehe README des Pakets."
 
-#: cli_mode/src/Command/Builtin.php:143
+#: cli_mode/src/Command/Builtin.php:158
 msgid "Clears the screen"
 msgstr "Leert den Bildschirm"
 
-#: cli_mode/src/Command/Builtin.php:148
+#: cli_mode/src/Command/Builtin.php:163
 msgid "Prints its arguments"
 msgstr "Gibt seine Argumente aus"
 
-#: cli_mode/src/Command/Builtin.php:153
+#: cli_mode/src/Command/Builtin.php:168
 msgid "Words to print"
 msgstr "Auszugebende Wörter"
 
-#: cli_mode/src/Command/Builtin.php:153
+#: cli_mode/src/Command/Builtin.php:168
 msgid "No trailing newline"
 msgstr "Kein abschliessender Zeilenumbruch"
 
-#: cli_mode/src/Command/Builtin.php:154
+#: cli_mode/src/Command/Builtin.php:169
 msgid "Who are you, anyway?"
 msgstr "Wer bist du eigentlich?"
 
-#: cli_mode/src/Command/Builtin.php:157
+#: cli_mode/src/Command/Builtin.php:172
 msgid "(a guest. How mysterious. Log in and we will talk.)"
 msgstr "(ein Gast. Wie geheimnisvoll. Melde dich an, dann reden wir.)"
 
-#: cli_mode/src/Command/Builtin.php:162
+#: cli_mode/src/Command/Builtin.php:177
 msgid "Your user and groups"
 msgstr "Dein Benutzer und deine Gruppen"
 
-#: cli_mode/src/Command/Builtin.php:170
+#: cli_mode/src/Command/Builtin.php:185
 msgid "Registered Users"
 msgstr "Registrierte Benutzer"
 
-#: cli_mode/src/Command/Builtin.php:170
+#: cli_mode/src/Command/Builtin.php:185
 msgid "Administrators"
 msgstr "Administratoren"
 
-#: cli_mode/src/Command/Builtin.php:176
+#: cli_mode/src/Command/Builtin.php:191
 msgid "The name of this machine"
 msgstr "Der Name dieser Maschine"
 
-#: cli_mode/src/Command/Builtin.php:181
+#: cli_mode/src/Command/Builtin.php:196
 msgid "System information"
 msgstr "Systeminformationen"
 
-#: cli_mode/src/Command/Builtin.php:185
+#: cli_mode/src/Command/Builtin.php:200
 msgid "Everything we dare to say"
 msgstr "Alles, was wir uns zu sagen trauen"
 
-#: cli_mode/src/Command/Builtin.php:186
+#: cli_mode/src/Command/Builtin.php:201
 msgid "The current date and time"
 msgstr "Das aktuelle Datum und die Uhrzeit"
 
-#: cli_mode/src/Command/Builtin.php:191
+#: cli_mode/src/Command/Builtin.php:206
 msgid "How long this session has been running"
 msgstr "Wie lange diese Sitzung schon läuft"
 
-#: cli_mode/src/Command/Builtin.php:193
+#: cli_mode/src/Command/Builtin.php:208
 #, php-format
 msgid " %s up %d min, 1 user, load average: 0.%02d, 0.%02d, 0.%02d"
 msgstr " %s up %d min, 1 Benutzer, Durchschnittslast: 0,%02d, 0,%02d, 0,%02d"
 
-#: cli_mode/src/Command/Builtin.php:197
+#: cli_mode/src/Command/Builtin.php:212
 msgid "Prints the shell variables"
 msgstr "Gibt die Shell-Variablen aus"
 
-#: cli_mode/src/Command/Builtin.php:204
+#: cli_mode/src/Command/Builtin.php:219
 msgid "Sets a variable: export NAME=value"
 msgstr "Setzt eine Variable: export NAME=wert"
 
-#: cli_mode/src/Command/Builtin.php:207
+#: cli_mode/src/Command/Builtin.php:222
 #, php-format
 msgid "export: `%s': not a valid identifier. Try NAME=value."
 msgstr "export: »%s«: ist kein gültiger Bezeichner. Versuch's mit NAME=wert."
 
-#: cli_mode/src/Command/Builtin.php:216
+#: cli_mode/src/Command/Builtin.php:231
 msgid "Defines or lists aliases: alias ll=\"ls -l\""
 msgstr "Definiert oder listet Aliasse: alias ll=\"ls -l\""
 
-#: cli_mode/src/Command/Builtin.php:228
+#: cli_mode/src/Command/Builtin.php:243
 #, php-format
 msgid "alias: %s: not found"
 msgstr "alias: %s: nicht gefunden"
 
-#: cli_mode/src/Command/Builtin.php:237
+#: cli_mode/src/Command/Builtin.php:252
 msgid "alias: use alias name=\"command\"."
 msgstr "alias: Verwende alias name=\"befehl\"."
 
-#: cli_mode/src/Command/Builtin.php:245
+#: cli_mode/src/Command/Builtin.php:260
 msgid "Removes an alias"
 msgstr "Entfernt einen Alias"
 
-#: cli_mode/src/Command/Builtin.php:248
+#: cli_mode/src/Command/Builtin.php:263
 #, php-format
 msgid "unalias: %s: not found"
 msgstr "unalias: %s: nicht gefunden"
 
-#: cli_mode/src/Command/Builtin.php:255
+#: cli_mode/src/Command/Builtin.php:270
 msgid "The alias"
 msgstr "Der Alias"
 
-#: cli_mode/src/Command/Builtin.php:256
+#: cli_mode/src/Command/Builtin.php:271
 msgid "What you typed before"
 msgstr "Was du vorher getippt hast"
 
-#: cli_mode/src/Command/Builtin.php:266
+#: cli_mode/src/Command/Builtin.php:281
 msgid "That is a lot of typing for one website."
 msgstr "Ganz schön viel Getippe für eine Website."
 
-#: cli_mode/src/Command/Builtin.php:270
+#: cli_mode/src/Command/Builtin.php:285
 msgid "Forget everything"
 msgstr "Alles vergessen"
 
-#: cli_mode/src/Command/Builtin.php:271
+#: cli_mode/src/Command/Builtin.php:286
 msgid "Where a command comes from"
 msgstr "Woher ein Befehl kommt"
 
-#: cli_mode/src/Command/Builtin.php:280
+#: cli_mode/src/Command/Builtin.php:295
 #, php-format
 msgid "%s not found"
 msgstr "%s nicht gefunden"
 
-#: cli_mode/src/Command/Builtin.php:287
+#: cli_mode/src/Command/Builtin.php:302
 msgid "The command"
 msgstr "Der Befehl"
 
-#: cli_mode/src/Command/Builtin.php:288
+#: cli_mode/src/Command/Builtin.php:303
 msgid "Changes the terminal colors"
 msgstr "Ändert die Farben des Terminals"
 
-#: cli_mode/src/Command/Builtin.php:292
+#: cli_mode/src/Command/Builtin.php:307
 #, php-format
 msgid "Themes: %s"
 msgstr "Themes: %s"
 
-#: cli_mode/src/Command/Builtin.php:297
+#: cli_mode/src/Command/Builtin.php:312
 #, php-format
 msgid "theme: %1$s: unknown. Taste is a personal matter, but pick one of: %2$s"
 msgstr ""
 "theme: %1$s: unbekannt. Über Geschmack lässt sich streiten, aber nimm eins "
 "davon: %2$s"
 
-#: cli_mode/src/Command/Builtin.php:302
+#: cli_mode/src/Command/Builtin.php:317
 #, php-format
 msgid "Theme: %s"
 msgstr "Theme: %s"
 
-#: cli_mode/src/Command/Builtin.php:305
+#: cli_mode/src/Command/Builtin.php:320
 msgid "blackout, green, amber, matrix or paper"
 msgstr "blackout, green, amber, matrix oder paper"
 
-#: cli_mode/src/Command/Builtin.php:306
+#: cli_mode/src/Command/Builtin.php:321
 msgid "Leaves the terminal"
 msgstr "Verlässt das Terminal"
 
-#: cli_mode/src/Command/Builtin.php:323
+#: cli_mode/src/Command/Builtin.php:338
 msgid "Signs you out of the website"
 msgstr "Meldet dich von der Website ab"
 
-#: cli_mode/src/Command/Builtin.php:325
+#: cli_mode/src/Command/Builtin.php:340
 msgid "You are not logged in. You cannot leave what you never entered."
 msgstr "Du bist nicht angemeldet. Du kannst nicht gehen, wo du nie warst."
 
-#: cli_mode/src/Command/Builtin.php:325
+#: cli_mode/src/Command/Builtin.php:340
 msgid "logout: not logged in"
 msgstr "logout: nicht angemeldet"
 
-#: cli_mode/src/Command/Builtin.php:334
+#: cli_mode/src/Command/Builtin.php:349
 msgid "Sign in to the website"
 msgstr "An der Website anmelden"
 
-#: cli_mode/src/Command/Builtin.php:336
+#: cli_mode/src/Command/Builtin.php:351
 #, php-format
 msgid "You are already %s. Identity crises are for Tuesdays."
 msgstr "Du bist schon %s. Identitätskrisen gibt's nur dienstags."
 
-#: cli_mode/src/Command/Builtin.php:341
+#: cli_mode/src/Command/Builtin.php:356
 msgid "Redirecting to the login page."
 msgstr "Weiterleitung zur Login-Seite."
 
-#: cli_mode/src/Command/Builtin.php:350
+#: cli_mode/src/Command/Builtin.php:365
 msgid "Who you are"
 msgstr "Wer du bist"
 
-#: cli_mode/src/Command/Builtin.php:350
+#: cli_mode/src/Command/Builtin.php:365
 msgid "Use the login page of the website instead"
 msgstr "Stattdessen die Login-Seite der Website verwenden"
 
-#: cli_mode/src/Command/Builtin.php:350
+#: cli_mode/src/Command/Builtin.php:365
 msgid ""
 "Asks for the user name and the password right here. The password is not "
 "echoed and not kept in the history."
@@ -667,238 +729,238 @@ msgstr ""
 "Fragt Benutzername und Passwort direkt hier ab. Das Passwort wird weder "
 "angezeigt noch im Verlauf gespeichert."
 
-#: cli_mode/src/Command/Builtin.php:350
+#: cli_mode/src/Command/Builtin.php:365
 msgid "the regular login page (for a password that must be changed, say)"
 msgstr ""
 "die normale Login-Seite (etwa für ein Passwort, das geändert werden muss)"
 
-#: cli_mode/src/Command/Builtin.php:367
+#: cli_mode/src/Command/Builtin.php:382
 msgid "Keeps the lines that match (use it after a pipe)"
 msgstr "Behält die passenden Zeilen (nach einer Pipe verwenden)"
 
-#: cli_mode/src/Command/Builtin.php:387
+#: cli_mode/src/Command/Builtin.php:402
 msgid "Text to look for"
 msgstr "Gesuchter Text"
 
-#: cli_mode/src/Command/Builtin.php:387
+#: cli_mode/src/Command/Builtin.php:402
 msgid "Ignore case"
 msgstr "Gross-/Kleinschreibung ignorieren"
 
-#: cli_mode/src/Command/Builtin.php:387
+#: cli_mode/src/Command/Builtin.php:402
 msgid "Lines that do not match"
 msgstr "Zeilen, die nicht passen"
 
-#: cli_mode/src/Command/Builtin.php:387
+#: cli_mode/src/Command/Builtin.php:402
 msgid "Only count"
 msgstr "Nur zählen"
 
-#: cli_mode/src/Command/Builtin.php:388
+#: cli_mode/src/Command/Builtin.php:403
 msgid "The first lines of the input"
 msgstr "Die ersten Zeilen der Eingabe"
 
-#: cli_mode/src/Command/Builtin.php:394 cli_mode/src/Command/Builtin.php:402
+#: cli_mode/src/Command/Builtin.php:409 cli_mode/src/Command/Builtin.php:417
 msgid "How many"
 msgstr "Wie viele"
 
-#: cli_mode/src/Command/Builtin.php:395
+#: cli_mode/src/Command/Builtin.php:410
 msgid "The last lines of the input"
 msgstr "Die letzten Zeilen der Eingabe"
 
-#: cli_mode/src/Command/Builtin.php:403
+#: cli_mode/src/Command/Builtin.php:418
 msgid "Counts lines, words and characters of the input"
 msgstr "Zählt Zeilen, Wörter und Zeichen der Eingabe"
 
-#: cli_mode/src/Command/Builtin.php:413
+#: cli_mode/src/Command/Builtin.php:428
 msgid "Only lines"
 msgstr "Nur Zeilen"
 
-#: cli_mode/src/Command/Builtin.php:414
+#: cli_mode/src/Command/Builtin.php:429
 msgid "Sorts the lines of the input"
 msgstr "Sortiert die Zeilen der Eingabe"
 
-#: cli_mode/src/Command/Builtin.php:422
+#: cli_mode/src/Command/Builtin.php:437
 msgid "Backwards"
 msgstr "Rückwärts"
 
-#: cli_mode/src/Command/Builtin.php:423
+#: cli_mode/src/Command/Builtin.php:438
 msgid "Drops repeated neighbouring lines"
 msgstr "Entfernt wiederholte benachbarte Zeilen"
 
-#: cli_mode/src/Command/Builtin.php:445
+#: cli_mode/src/Command/Builtin.php:460
 msgid "Where you are on the site"
 msgstr "Wo du auf der Website bist"
 
-#: cli_mode/src/Command/Builtin.php:450
+#: cli_mode/src/Command/Builtin.php:465
 msgid "Lists the pages below the current one"
 msgstr "Listet die Seiten unter der aktuellen"
 
-#: cli_mode/src/Command/Builtin.php:461
+#: cli_mode/src/Command/Builtin.php:476
 msgid "(nothing here. Echo... echo... echo...)"
 msgstr "(nichts hier. Echo... echo... echo...)"
 
-#: cli_mode/src/Command/Builtin.php:486 cli_mode/src/Command/Builtin.php:555
-#: cli_mode/src/Command/Builtin.php:575
+#: cli_mode/src/Command/Builtin.php:501 cli_mode/src/Command/Builtin.php:570
+#: cli_mode/src/Command/Builtin.php:590
 msgid "A page path"
 msgstr "Ein Seitenpfad"
 
-#: cli_mode/src/Command/Builtin.php:486
+#: cli_mode/src/Command/Builtin.php:501
 msgid "Details"
 msgstr "Details"
 
-#: cli_mode/src/Command/Builtin.php:486
+#: cli_mode/src/Command/Builtin.php:501
 msgid "Include hidden and system pages"
 msgstr "Versteckte und Systemseiten einschliessen"
 
-#: cli_mode/src/Command/Builtin.php:487
+#: cli_mode/src/Command/Builtin.php:502
 msgid "Walks to another page"
 msgstr "Wechselt zu einer anderen Seite"
 
-#: cli_mode/src/Command/Builtin.php:499
+#: cli_mode/src/Command/Builtin.php:514
 msgid ""
 "A page path, \"..\" goes up, \"-\" is not supported (we are not that fancy)"
 msgstr ""
 "Ein Seitenpfad, \"..\" geht nach oben, \"-\" wird nicht unterstützt (so "
 "schick sind wir nicht)"
 
-#: cli_mode/src/Command/Builtin.php:500
+#: cli_mode/src/Command/Builtin.php:515
 msgid "Shows the page tree"
 msgstr "Zeigt den Seitenbaum"
 
-#: cli_mode/src/Command/Builtin.php:528
+#: cli_mode/src/Command/Builtin.php:543
 msgid "... and more. I am not a sitemap."
 msgstr "... und mehr. Ich bin keine Sitemap."
 
-#: cli_mode/src/Command/Builtin.php:532
+#: cli_mode/src/Command/Builtin.php:547
 msgid "Where to start"
 msgstr "Wo es losgeht"
 
-#: cli_mode/src/Command/Builtin.php:532
+#: cli_mode/src/Command/Builtin.php:547
 msgid "How deep"
 msgstr "Wie tief"
 
-#: cli_mode/src/Command/Builtin.php:533
+#: cli_mode/src/Command/Builtin.php:548
 msgid "Reads a page (or prints the piped input)"
 msgstr "Liest eine Seite (oder gibt die Eingabe aus der Pipe aus)"
 
-#: cli_mode/src/Command/Builtin.php:541
+#: cli_mode/src/Command/Builtin.php:556
 msgid "missing page path"
 msgstr "Seitenpfad fehlt"
 
-#: cli_mode/src/Command/Builtin.php:556
+#: cli_mode/src/Command/Builtin.php:571
 msgid ""
 "Opens a page (in the browser, or right here when the terminal is mandatory)"
 msgstr ""
 "Öffnet eine Seite (im Browser oder direkt hier, wenn das Terminal Pflicht "
 "ist)"
 
-#: cli_mode/src/Command/Builtin.php:571
+#: cli_mode/src/Command/Builtin.php:586
 #, php-format
 msgid "Opening %s..."
 msgstr "Öffne %s..."
 
-#: cli_mode/src/Command/Builtin.php:571
+#: cli_mode/src/Command/Builtin.php:586
 msgid "(using a graphical browser, like it is 1998)"
 msgstr "(mit einem grafischen Browser, als wäre es 1998)"
 
-#: cli_mode/src/Command/Builtin.php:576
+#: cli_mode/src/Command/Builtin.php:591
 msgid "Looks for pages by name"
 msgstr "Sucht Seiten nach Namen"
 
-#: cli_mode/src/Command/Builtin.php:597
+#: cli_mode/src/Command/Builtin.php:612
 #, php-format
 msgid "Nothing called \"%s\". Looked everywhere. Twice."
 msgstr "Nichts namens «%s». Überall gesucht. Zweimal."
 
-#: cli_mode/src/Command/Builtin.php:601
+#: cli_mode/src/Command/Builtin.php:616
 msgid "Part of a page name or handle"
 msgstr "Teil eines Seitennamens oder Handles"
 
-#: cli_mode/src/Command/Builtin.php:613
+#: cli_mode/src/Command/Builtin.php:628
 msgid "Shows off this website"
 msgstr "Gibt mit dieser Website an"
 
-#: cli_mode/src/Command/Builtin.php:624
+#: cli_mode/src/Command/Builtin.php:639
 msgid "Theme"
 msgstr "Theme"
 
-#: cli_mode/src/Command/Builtin.php:624
+#: cli_mode/src/Command/Builtin.php:639
 msgid "none"
 msgstr "keins"
 
-#: cli_mode/src/Command/Builtin.php:625
+#: cli_mode/src/Command/Builtin.php:640
 msgid "Pages"
 msgstr "Seiten"
 
-#: cli_mode/src/Command/Builtin.php:628
+#: cli_mode/src/Command/Builtin.php:643
 msgid "Uptime"
 msgstr "Laufzeit"
 
-#: cli_mode/src/Command/Builtin.php:628
+#: cli_mode/src/Command/Builtin.php:643
 msgid "since the last time somebody touched it"
 msgstr "seit irgendwer zuletzt daran rumgefummelt hat"
 
-#: cli_mode/src/Command/Builtin.php:637
+#: cli_mode/src/Command/Builtin.php:652
 msgid "A cow says it"
 msgstr "Eine Kuh sagt es"
 
-#: cli_mode/src/Command/Builtin.php:638
+#: cli_mode/src/Command/Builtin.php:653
 msgid "Moo. Say something next time."
 msgstr "Muh. Sag beim nächsten Mal was."
 
-#: cli_mode/src/Command/Builtin.php:650
+#: cli_mode/src/Command/Builtin.php:665
 msgid "What the cow says"
 msgstr "Was die Kuh sagt"
 
-#: cli_mode/src/Command/Builtin.php:651
+#: cli_mode/src/Command/Builtin.php:666
 msgid "Wisdom of dubious quality"
 msgstr "Weisheiten von zweifelhafter Qualität"
 
-#: cli_mode/src/Command/Builtin.php:653
+#: cli_mode/src/Command/Builtin.php:668
 msgid "A true gamer never rage quits. He lets the router do it for him."
 msgstr ""
 "Ein echter Gamer ragequittet nie. Das lässt er den Router für sich erledigen."
 
-#: cli_mode/src/Command/Builtin.php:654
+#: cli_mode/src/Command/Builtin.php:669
 msgid "There is no cloud. There is just someone else's LAN party."
 msgstr "Es gibt keine Cloud. Es gibt nur die LAN-Party von jemand anderem."
 
-#: cli_mode/src/Command/Builtin.php:655
+#: cli_mode/src/Command/Builtin.php:670
 msgid "It works on my machine. The machine is also on fire."
 msgstr "Auf meiner Maschine läuft's. Die Maschine brennt allerdings auch."
 
-#: cli_mode/src/Command/Builtin.php:656
+#: cli_mode/src/Command/Builtin.php:671
 msgid "The best network cable is the one you did not trip over."
 msgstr "Das beste Netzwerkkabel ist das, über das du nicht gestolpert bist."
 
-#: cli_mode/src/Command/Builtin.php:657
+#: cli_mode/src/Command/Builtin.php:672
 msgid "Latency is just the universe telling you to touch grass."
 msgstr ""
 "Latenz ist nur das Universum, das dir sagt: Geh mal raus an die frische Luft."
 
-#: cli_mode/src/Command/Builtin.php:658
+#: cli_mode/src/Command/Builtin.php:673
 msgid "First rule of LAN club: bring your own extension cord."
 msgstr "Erste Regel des LAN-Clubs: Bring deine eigene Verlängerungsschnur mit."
 
-#: cli_mode/src/Command/Builtin.php:659
+#: cli_mode/src/Command/Builtin.php:674
 msgid "Today is a good day to back up your save games."
 msgstr "Heute ist ein guter Tag, deine Spielstände zu sichern."
 
-#: cli_mode/src/Command/Builtin.php:660
+#: cli_mode/src/Command/Builtin.php:675
 msgid "You will soon meet a stranger. He will ask for your Wi-Fi password."
 msgstr ""
 "Du wirst bald einen Fremden treffen. Er wird nach deinem WLAN-Passwort "
 "fragen."
 
-#: cli_mode/src/Command/Builtin.php:661
+#: cli_mode/src/Command/Builtin.php:676
 msgid "The seat you pick is the seat somebody else wanted. This is the way."
 msgstr ""
 "Der Platz, den du wählst, ist der, den jemand anders wollte. Das ist der Weg."
 
-#: cli_mode/src/Command/Builtin.php:667
+#: cli_mode/src/Command/Builtin.php:682
 msgid "Pretends to ping a host"
 msgstr "Tut so, als würde es einen Host anpingen"
 
-#: cli_mode/src/Command/Builtin.php:677
+#: cli_mode/src/Command/Builtin.php:692
 msgid ""
 "(None of this is real. The packets are made up. The latency is also made up. "
 "So is your internet.)"
@@ -906,19 +968,19 @@ msgstr ""
 "(Nichts davon ist echt. Die Pakete sind erfunden. Die Latenz ist auch "
 "erfunden. Genau wie dein Internet.)"
 
-#: cli_mode/src/Command/Builtin.php:680
+#: cli_mode/src/Command/Builtin.php:695
 msgid "A host"
 msgstr "Ein Host"
 
-#: cli_mode/src/Command/Builtin.php:681
+#: cli_mode/src/Command/Builtin.php:696
 msgid "Do it as somebody important"
 msgstr "Mach's als jemand Wichtiges"
 
-#: cli_mode/src/Command/Builtin.php:685
+#: cli_mode/src/Command/Builtin.php:700
 msgid "What to run"
 msgstr "Was ausgeführt werden soll"
 
-#: cli_mode/src/Command/Builtin.php:698
+#: cli_mode/src/Command/Builtin.php:713
 msgid ""
 "mv: cannot move pages. They are attached to the site tree with emotional "
 "bonds."
@@ -926,42 +988,42 @@ msgstr ""
 "mv: Seiten lassen sich nicht verschieben. Sie hängen mit emotionalen "
 "Bindungen am Seitenbaum."
 
-#: cli_mode/src/Command/Builtin.php:699
+#: cli_mode/src/Command/Builtin.php:714
 msgid "cp: copy-pasting a website is called \"a competitor\"."
 msgstr "cp: Eine Website per Copy-and-paste nennt man «Konkurrenz»."
 
-#: cli_mode/src/Command/Builtin.php:700
+#: cli_mode/src/Command/Builtin.php:715
 msgid "chmod: nice try. Permissions are managed by grown-ups in the dashboard."
 msgstr ""
 "chmod: Netter Versuch. Berechtigungen verwalten die Erwachsenen im Dashboard."
 
-#: cli_mode/src/Command/Builtin.php:701
+#: cli_mode/src/Command/Builtin.php:716
 msgid "chown: you can't own the site. You can only visit it. Forever."
 msgstr ""
 "chown: Die Website kann dir nicht gehören. Du kannst sie nur besuchen. Für "
 "immer."
 
-#: cli_mode/src/Command/Builtin.php:702
+#: cli_mode/src/Command/Builtin.php:717
 msgid "kill: no processes were harmed. There are none. We are a PHP site."
 msgstr ""
 "kill: Es wurden keine Prozesse verletzt. Es gibt keine. Wir sind eine PHP-"
 "Website."
 
-#: cli_mode/src/Command/Builtin.php:703
+#: cli_mode/src/Command/Builtin.php:718
 msgid "shutdown: the LAN party must go on. Request denied."
 msgstr "shutdown: The LAN party must go on. Anfrage abgelehnt."
 
-#: cli_mode/src/Command/Builtin.php:704
+#: cli_mode/src/Command/Builtin.php:719
 msgid "reboot: have you tried turning yourself off and on again?"
 msgstr ""
 "reboot: Hast du schon versucht, dich selbst aus- und wieder einzuschalten?"
 
-#: cli_mode/src/Command/Builtin.php:705
+#: cli_mode/src/Command/Builtin.php:720
 msgid "dd: sure, let me just overwrite the production database. No. Go away."
 msgstr ""
 "dd: Klar, ich überschreibe mal eben die Produktionsdatenbank. Nein. Geh weg."
 
-#: cli_mode/src/Command/Builtin.php:706
+#: cli_mode/src/Command/Builtin.php:721
 msgid ""
 "vim: you can open it. You just can not leave. Neither can we. Press Esc to "
 "exit the terminal instead."
@@ -969,19 +1031,19 @@ msgstr ""
 "vim: Öffnen kannst du ihn. Nur rauskommen nicht. Wir übrigens auch nicht. "
 "Drück stattdessen Esc, um das Terminal zu verlassen."
 
-#: cli_mode/src/Command/Builtin.php:707
+#: cli_mode/src/Command/Builtin.php:722
 msgid ""
 "nano: a gentle editor for a gentle soul. Sadly there is nothing here to edit."
 msgstr ""
 "nano: Ein sanfter Editor für eine sanfte Seele. Leider gibt es hier nichts "
 "zu bearbeiten."
 
-#: cli_mode/src/Command/Builtin.php:708
+#: cli_mode/src/Command/Builtin.php:723
 msgid "emacs: it would take longer to load than the website. We have a limit."
 msgstr ""
 "emacs: Der bräuchte länger zum Laden als die Website. Wir haben Grenzen."
 
-#: cli_mode/src/Command/Builtin.php:709
+#: cli_mode/src/Command/Builtin.php:724
 msgid ""
 "apt: Reading package lists... Done. Nothing to install. Everything installed "
 "itself years ago."
@@ -989,7 +1051,7 @@ msgstr ""
 "apt: Paketlisten werden gelesen... Fertig. Nichts zu installieren. Alles hat "
 "sich vor Jahren selbst installiert."
 
-#: cli_mode/src/Command/Builtin.php:710
+#: cli_mode/src/Command/Builtin.php:725
 msgid ""
 "git: not a git repository (or any of the parent directories): the history is "
 "better left unexamined."
@@ -997,7 +1059,7 @@ msgstr ""
 "git: Kein Git-Repository (oder irgendeines der Elternverzeichnisse): Die "
 "Geschichte bleibt besser unerforscht."
 
-#: cli_mode/src/Command/Builtin.php:711
+#: cli_mode/src/Command/Builtin.php:726
 msgid ""
 "ssh: connect to host localhost port 22: Connection refused (you are already "
 "inside, genius)."
@@ -1005,40 +1067,40 @@ msgstr ""
 "ssh: Verbindung zu Host localhost Port 22: Verbindung abgelehnt (du bist "
 "schon drin, Genie)."
 
-#: cli_mode/src/Command/Builtin.php:712
+#: cli_mode/src/Command/Builtin.php:727
 msgid ""
 "curl: (6) Could not resolve host. You are the host. Also you are the problem."
 msgstr ""
 "curl: (6) Host konnte nicht aufgelöst werden. Du bist der Host. Und das "
 "Problem bist du auch."
 
-#: cli_mode/src/Command/Builtin.php:713
+#: cli_mode/src/Command/Builtin.php:728
 msgid "make: *** No rule to make target 'me a sandwich'. Stop."
 msgstr "make: *** Keine Regel, um »mir ein Sandwich« zu erstellen. Schluss."
 
-#: cli_mode/src/Command/Builtin.php:714
+#: cli_mode/src/Command/Builtin.php:729
 msgid ""
 "python: you cannot just invoke a snake in a PHP site. The zoo has rules."
 msgstr ""
 "python: Du kannst nicht einfach eine Schlange in einer PHP-Website "
 "beschwören. Der Zoo hat Regeln."
 
-#: cli_mode/src/Command/Builtin.php:715
+#: cli_mode/src/Command/Builtin.php:730
 msgid "su: Authentication failure. You are not that special. (Yet.)"
 msgstr ""
 "su: Authentifizierung fehlgeschlagen. So besonders bist du nicht. (Noch "
 "nicht.)"
 
-#: cli_mode/src/Command/Builtin.php:719
+#: cli_mode/src/Command/Builtin.php:734
 msgid "Not available on a website"
 msgstr "Auf einer Website nicht verfügbar"
 
-#: cli_mode/src/Command/Builtin.php:720
+#: cli_mode/src/Command/Builtin.php:735
 #, php-format
 msgid "%s: command not available"
 msgstr "%s: Befehl nicht verfügbar"
 
-#: cli_mode/src/Command/Builtin.php:723
+#: cli_mode/src/Command/Builtin.php:738
 msgid "Whatever"
 msgstr "Egal was"
 
@@ -1096,6 +1158,121 @@ msgstr "Zeichen pro Farbband (1 bis 20)"
 msgid "nothing to color. Pipe something in or give me words"
 msgstr "nichts zum Einfärben. Schick etwas per Pipe oder gib mir Wörter"
 
+#: cli_mode/src/Command/Lan/CreditCommands.php:33
+msgid "Your credit, open bills and what you owe"
+msgstr "Dein Guthaben, offene Rechnungen und was du schuldest"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:35
+#, php-format
+msgid "Credit: %s"
+msgstr "Guthaben: %s"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:38
+msgid "No open bills."
+msgstr "Keine offenen Rechnungen."
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:44
+msgid "Open bills:"
+msgstr "Offene Rechnungen:"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:45
+msgid "Order"
+msgstr "Bestellung"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:45
+msgid "Date"
+msgstr "Datum"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:45
+msgid "What"
+msgstr "Was"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:45
+msgid "Total"
+msgstr "Total"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:46
+#, php-format
+msgid "Owed: %s"
+msgstr "Offen: %s"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:49
+#, php-format
+msgid "Net: %s"
+msgstr "Saldo: %s"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:51
+msgid "Run \"pay\" to settle up online."
+msgstr "Mit \"pay\" bezahlst du online."
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:55
+msgid ""
+"Shows your credit, the open bills (orders and event tabs) and the net of "
+"both, like the \"Credit & Orders\" page of your account."
+msgstr ""
+"Zeigt dein Guthaben, die offenen Rechnungen (Bestellungen und Event-Deckel) "
+"und den Saldo aus beidem, wie die Seite \"Guthaben & Bestellungen\" in "
+"deinem Konto."
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:57
+msgid "Pay an open bill online"
+msgstr "Eine offene Rechnung online bezahlen"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:62
+msgid "No open bills. Nothing to pay."
+msgstr "Keine offenen Rechnungen. Nichts zu bezahlen."
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:67
+msgid ""
+"Online payment is not available at the moment. Please pay at the event "
+"checkout."
+msgstr ""
+"Online-Zahlung ist im Moment nicht möglich. Bitte bezahle an der Event-Kasse."
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:73
+msgid "Your open bills can't be paid online. Please pay at the event checkout."
+msgstr ""
+"Deine offenen Rechnungen können nicht online bezahlt werden. Bitte bezahle "
+"an der Event-Kasse."
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:80
+msgid "You have several open bills. Run \"pay <order>\" with one of them:"
+msgstr ""
+"Du hast mehrere offene Rechnungen. Führe \"pay <Bestellung>\" mit einer "
+"davon aus:"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:96
+#, php-format
+msgid "pay: no open bill #%s. Run \"balance\" to see what is open."
+msgstr "pay: keine offene Rechnung #%s. \"balance\" zeigt, was offen ist."
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:108
+#, php-format
+msgid ""
+"Taking you to the payment page for #%1$s (%2$s). Your account page shows the "
+"result when you are back."
+msgstr ""
+"Du kommst jetzt zur Zahlungsseite für #%1$s (%2$s). Dein Konto zeigt das "
+"Ergebnis, wenn du zurück bist."
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:113
+msgid "Order number (default: your only open bill)"
+msgstr "Bestellnummer (Standard: deine einzige offene Rechnung)"
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:114
+msgid ""
+"Opens the Payrexx payment page for an open bill (an order or an event tab). "
+"Without a number it takes your only open bill; \"balance\" lists them."
+msgstr ""
+"Öffnet die Payrexx-Zahlungsseite für eine offene Rechnung (Bestellung oder "
+"Event-Deckel). Ohne Nummer nimmt es deine einzige offene Rechnung; "
+"\"balance\" listet sie auf."
+
+#: cli_mode/src/Command/Lan/CreditCommands.php:139
+#, php-format
+msgid "%s (event tab)"
+msgstr "%s (Event-Deckel)"
+
 #: cli_mode/src/Command/Lan/EventCommands.php:48
 msgid "The upcoming events"
 msgstr "Die kommenden Events"
@@ -1119,19 +1296,19 @@ msgid "No events."
 msgstr "Keine Events."
 
 #: cli_mode/src/Command/Lan/EventCommands.php:76
-#: cli_mode/src/Command/Lan/EventCommands.php:368
+#: cli_mode/src/Command/Lan/EventCommands.php:443
 #: cli_mode/src/Command/Site/StatCommand.php:46
 msgid "ID"
 msgstr "ID"
 
 #: cli_mode/src/Command/Lan/EventCommands.php:76
 #: cli_mode/src/Command/Lan/EventCommands.php:94
-#: cli_mode/src/Command/Lan/EventCommands.php:368
+#: cli_mode/src/Command/Lan/EventCommands.php:443
 msgid "When"
 msgstr "Wann"
 
 #: cli_mode/src/Command/Lan/EventCommands.php:76
-#: cli_mode/src/Command/Lan/EventCommands.php:368
+#: cli_mode/src/Command/Lan/EventCommands.php:443
 msgid "Event"
 msgstr "Event"
 
@@ -1151,7 +1328,7 @@ msgid "Signup"
 msgstr "Anmeldung"
 
 #: cli_mode/src/Command/Lan/EventCommands.php:79
-#: cli_mode/src/Command/Lan/EventCommands.php:373
+#: cli_mode/src/Command/Lan/EventCommands.php:448
 msgid "Include past events"
 msgstr "Vergangene Events einschliessen"
 
@@ -1204,7 +1381,6 @@ msgid "open %s  takes you there."
 msgstr "open %s  bringt dich hin."
 
 #: cli_mode/src/Command/Lan/EventCommands.php:112
-#: cli_mode/src/Command/Lan/EventCommands.php:166
 msgid "Event ID or a part of its name"
 msgstr "Event-ID oder ein Teil des Namens"
 
@@ -1254,83 +1430,137 @@ msgstr "Wer sich für ein Event angemeldet hat"
 msgid "participants: no such event."
 msgstr "participants: Dieses Event gibt es nicht."
 
+#: cli_mode/src/Command/Lan/EventCommands.php:150
+msgid "participants: --status is for admins."
+msgstr "participants: --status ist nur für Admins."
+
+#: cli_mode/src/Command/Lan/EventCommands.php:157
+#: cli_mode/src/Command/Lan/EventCommands.php:422
+msgid "signed up"
+msgstr "angemeldet"
+
 #: cli_mode/src/Command/Lan/EventCommands.php:158
+msgid "waitlist"
+msgstr "Warteliste"
+
+#: cli_mode/src/Command/Lan/EventCommands.php:159
+#: cli_mode/src/Command/Lan/EventCommands.php:418
+msgid "interested"
+msgstr "interessiert"
+
+#: cli_mode/src/Command/Lan/EventCommands.php:160
+#: cli_mode/src/Command/Lan/EventCommands.php:427
+msgid "cancelled"
+msgstr "storniert"
+
+#: cli_mode/src/Command/Lan/EventCommands.php:180
 msgid "Nobody. Crickets. Maybe advertise?"
 msgstr "Niemand. Grillenzirpen. Vielleicht mal Werbung machen?"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:162
+#: cli_mode/src/Command/Lan/EventCommands.php:184
 msgid "Nick"
 msgstr "Nick"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:162
-#: cli_mode/src/Command/Lan/EventCommands.php:368
+#: cli_mode/src/Command/Lan/EventCommands.php:184
+#: cli_mode/src/Command/Site/StatCommand.php:45
+msgid "Name"
+msgstr "Name"
+
+#: cli_mode/src/Command/Lan/EventCommands.php:184
+#: cli_mode/src/Command/Lan/EventCommands.php:443
 #: cli_mode/src/Command/Site/StatCommand.php:51
 msgid "Status"
 msgstr "Status"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:162
-#: cli_mode/src/Command/Lan/EventCommands.php:368
+#: cli_mode/src/Command/Lan/EventCommands.php:184
+#: cli_mode/src/Command/Lan/EventCommands.php:443
 msgid "Seat"
 msgstr "Sitzplatz"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:162
+#: cli_mode/src/Command/Lan/EventCommands.php:184
 msgid "Checked in"
 msgstr "Eingecheckt"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:163
+#: cli_mode/src/Command/Lan/EventCommands.php:186
 #, php-format
 msgid "%d person"
 msgid_plural "%d people"
 msgstr[0] "%d Person"
 msgstr[1] "%d Personen"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:166
-msgid "registered, waitlisted, interested or cancelled"
-msgstr "registered, waitlisted, interested oder cancelled"
+#: cli_mode/src/Command/Lan/EventCommands.php:191
+#: cli_mode/src/Command/Lan/EventCommands.php:388
+msgid "Event ID or a part of its name (default: the next event)"
+msgstr "ID oder ein Teil des Event-Namens (Standard: das nächste Event)"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:166
-msgid "Admins only. Pipe it: participants lan | grep waitlisted"
-msgstr "Nur für Admins. Mit Pipe: participants lan | grep waitlisted"
+#: cli_mode/src/Command/Lan/EventCommands.php:192
+msgid "Admins: registered, waitlisted, interested or cancelled"
+msgstr "Admins: registered, waitlisted, interested oder cancelled"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:169
+#: cli_mode/src/Command/Lan/EventCommands.php:193
+msgid ""
+"Lists the nicknames, status and seats of who signed up. Admins also see real "
+"names and check-ins."
+msgstr ""
+"Listet Nicknames, Status und Plätze aller Angemeldeten. Admins sehen auch "
+"die echten Namen und Check-ins."
+
+#: cli_mode/src/Command/Lan/EventCommands.php:197
 msgid "Sign up for an event"
 msgstr "Für ein Event anmelden"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:172
-msgid ""
-"signup: no such event, or none open for signups. Run \"events\" to see what "
-"is coming."
-msgstr ""
-"signup: dieses Event gibt es nicht, oder keines ist offen für Anmeldungen. "
-"Mit \"events\" siehst du, was ansteht."
+#: cli_mode/src/Command/Lan/EventCommands.php:210
+msgid "signup: which event? Give its ID: signup <id>"
+msgstr "signup: für welches Event? Gib seine ID an: signup <id>"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:181
+#: cli_mode/src/Command/Lan/EventCommands.php:212
+msgid "signup: give the ID of the event (a number), not its name."
+msgstr "signup: gib die ID des Events an (eine Zahl), nicht seinen Namen."
+
+#: cli_mode/src/Command/Lan/EventCommands.php:214
+#, php-format
+msgid "signup: there is no event with the ID %s."
+msgstr "signup: es gibt kein Event mit der ID %s."
+
+#: cli_mode/src/Command/Lan/EventCommands.php:224
+msgid "Open for signups:"
+msgstr "Offen für Anmeldungen:"
+
+#: cli_mode/src/Command/Lan/EventCommands.php:229
+msgid "No event is open for signups right now."
+msgstr "Im Moment ist kein Event für Anmeldungen offen."
+
+#: cli_mode/src/Command/Lan/EventCommands.php:239
 #, php-format
 msgid "Your signup for %s has been cancelled."
 msgstr "Deine Anmeldung für %s ist storniert."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:187
+#: cli_mode/src/Command/Lan/EventCommands.php:246
+msgid "Run \"balance\" to see what is open and \"pay\" to settle up online."
+msgstr "\"balance\" zeigt, was offen ist, und mit \"pay\" bezahlst du online."
+
+#: cli_mode/src/Command/Lan/EventCommands.php:252
 #, php-format
 msgid "You are on the waitlist for %s."
 msgstr "Du stehst auf der Warteliste für %s."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:187
+#: cli_mode/src/Command/Lan/EventCommands.php:252
 #, php-format
 msgid "You are already signed up for %s."
 msgstr "Du bist schon für %s angemeldet."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:187
+#: cli_mode/src/Command/Lan/EventCommands.php:252
 #, php-format
 msgid "Seat: %s"
 msgstr "Platz: %s"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:195
+#: cli_mode/src/Command/Lan/EventCommands.php:260
 #, php-format
 msgid "You are in: your ticket for %s is reserved. You pay at the event."
 msgstr ""
 "Du bist dabei: dein Ticket für %s ist reserviert. Du bezahlst am Event."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:200
+#: cli_mode/src/Command/Lan/EventCommands.php:265
 #, php-format
 msgid ""
 "%s needs a ticket. Taking you to the checkout, your place is yours once it "
@@ -1339,175 +1569,158 @@ msgstr ""
 "Für %s brauchst du ein Ticket. Ab zur Kasse, dein Platz gehört dir, sobald "
 "es bezahlt ist."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:212
+#: cli_mode/src/Command/Lan/EventCommands.php:277
 #, php-format
 msgid "%s is full, you are on the waitlist. You move up when somebody cancels."
 msgstr ""
 "%s ist voll, du stehst auf der Warteliste. Du rückst nach, sobald jemand "
 "absagt."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:216
+#: cli_mode/src/Command/Lan/EventCommands.php:281
 #, php-format
 msgid "You are signed up for %s!"
 msgstr "Du bist für %s angemeldet!"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:222
-msgid ""
-"Event ID or a part of its name (default: the next event open for signups)"
-msgstr ""
-"ID oder ein Teil des Event-Namens (Standard: das nächste Event mit offener "
-"Anmeldung)"
+#: cli_mode/src/Command/Lan/EventCommands.php:287
+msgid "The ID of the event (see \"events\")"
+msgstr "Die ID des Events (siehe \"events\")"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:223
+#: cli_mode/src/Command/Lan/EventCommands.php:288
 msgid "Cancel your signup"
 msgstr "Deine Anmeldung stornieren"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:224
+#: cli_mode/src/Command/Lan/EventCommands.php:289
 msgid ""
-"Signs you up like the signup form on the event page. When the event sells "
-"tickets, the ticket is reserved on your event tab or you are taken to the "
-"checkout."
+"Signs you up like the signup form on the event page. It takes the ID of the "
+"event, nothing else: \"signup\" alone lists the events open for signups with "
+"their IDs. When the event sells tickets, the ticket is reserved on your "
+"event tab or you are taken to the checkout."
 msgstr ""
-"Meldet dich an wie das Anmeldeformular auf der Event-Seite. Verkauft das "
-"Event Tickets, wird das Ticket auf deiner Event-Rechnung reserviert oder du "
-"landest an der Kasse."
+"Meldet dich an wie das Anmeldeformular auf der Event-Seite. Es braucht die "
+"ID des Events, sonst nichts: \"signup\" allein listet die offenen Events mit "
+"ihren IDs. Verkauft das Event Tickets, wird das Ticket auf deiner Event-"
+"Rechnung reserviert oder du landest an der Kasse."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:228
+#: cli_mode/src/Command/Lan/EventCommands.php:303
 msgid "Show the seats or take one"
 msgstr "Plätze anzeigen oder einen belegen"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:231
+#: cli_mode/src/Command/Lan/EventCommands.php:306
 msgid "seat: no such event. Run \"events\" to see what is coming."
 msgstr ""
 "seat: dieses Event gibt es nicht. Mit \"events\" siehst du, was ansteht."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:237
+#: cli_mode/src/Command/Lan/EventCommands.php:312
 #, php-format
 msgid "%s has no seat plan."
 msgstr "%s hat keinen Sitzplan."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:246
+#: cli_mode/src/Command/Lan/EventCommands.php:321
 msgid "You have no seat to release."
 msgstr "Du hast keinen Platz, den du freigeben könntest."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:251
+#: cli_mode/src/Command/Lan/EventCommands.php:326
 msgid "Your seat has been released."
 msgstr "Dein Platz ist wieder frei."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:257
-#: cli_mode/src/Command/Lan/EventCommands.php:306
+#: cli_mode/src/Command/Lan/EventCommands.php:332
+#: cli_mode/src/Command/Lan/EventCommands.php:381
 #, php-format
 msgid "Sign up first: signup %s"
 msgstr "Melde dich zuerst an: signup %s"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:263
+#: cli_mode/src/Command/Lan/EventCommands.php:338
 #, php-format
 msgid "The seat \"%s\" doesn't exist."
 msgstr "Den Platz \"%s\" gibt es nicht."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:268
+#: cli_mode/src/Command/Lan/EventCommands.php:343
 #, php-format
 msgid "Seat %s is yours."
 msgstr "Platz %s gehört dir."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:288
+#: cli_mode/src/Command/Lan/EventCommands.php:363
 #, php-format
 msgid "%1$d of %2$d seats free"
 msgstr "%1$d von %2$d Plätzen frei"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:302
+#: cli_mode/src/Command/Lan/EventCommands.php:377
 msgid "green = free, grey = taken"
 msgstr "grün = frei, grau = besetzt"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:302
+#: cli_mode/src/Command/Lan/EventCommands.php:377
 msgid "highlighted = yours"
 msgstr "hervorgehoben = deiner"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:304
+#: cli_mode/src/Command/Lan/EventCommands.php:379
 #, php-format
 msgid "Move with: seat %1$s <seat>   give it back: seat %1$s --release"
 msgstr "Wechseln mit: seat %1$s <platz>   freigeben: seat %1$s --release"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:304
+#: cli_mode/src/Command/Lan/EventCommands.php:379
 #, php-format
 msgid "Take one with: seat %s <seat>"
 msgstr "Belegen mit: seat %s <platz>"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:313
-msgid "Event ID or a part of its name (default: the next event)"
-msgstr "ID oder ein Teil des Event-Namens (Standard: das nächste Event)"
-
-#: cli_mode/src/Command/Lan/EventCommands.php:314
+#: cli_mode/src/Command/Lan/EventCommands.php:389
 msgid "The seat to take, e.g. A12"
 msgstr "Der gewünschte Platz, z.B. A12"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:316
+#: cli_mode/src/Command/Lan/EventCommands.php:391
 msgid "Give your seat back"
 msgstr "Deinen Platz freigeben"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:317
+#: cli_mode/src/Command/Lan/EventCommands.php:392
 msgid "Without a seat it shows the seat plan of the event."
 msgstr "Ohne Platz zeigt der Befehl den Sitzplan des Events."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:321
+#: cli_mode/src/Command/Lan/EventCommands.php:396
 msgid "Your signups"
 msgstr "Deine Anmeldungen"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:336
+#: cli_mode/src/Command/Lan/EventCommands.php:411
 msgid "event cancelled"
 msgstr "Event abgesagt"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:341
+#: cli_mode/src/Command/Lan/EventCommands.php:416
 #, php-format
 msgid "waitlist #%d"
 msgstr "Warteliste #%d"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:343
-msgid "interested"
-msgstr "interessiert"
-
-#: cli_mode/src/Command/Lan/EventCommands.php:345
+#: cli_mode/src/Command/Lan/EventCommands.php:420
 msgid "was there"
 msgstr "warst dabei"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:345
+#: cli_mode/src/Command/Lan/EventCommands.php:420
 msgid "checked in"
 msgstr "eingecheckt"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:347
-msgid "signed up"
-msgstr "angemeldet"
-
-#: cli_mode/src/Command/Lan/EventCommands.php:350
+#: cli_mode/src/Command/Lan/EventCommands.php:425
 msgid "reserved, unpaid"
 msgstr "reserviert, offen"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:351
+#: cli_mode/src/Command/Lan/EventCommands.php:426
 msgid "paid"
 msgstr "bezahlt"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:352
-msgid "cancelled"
-msgstr "storniert"
-
-#: cli_mode/src/Command/Lan/EventCommands.php:364
+#: cli_mode/src/Command/Lan/EventCommands.php:439
 msgid "You never signed up for anything."
 msgstr "Du hast dich noch nie für etwas angemeldet."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:364
+#: cli_mode/src/Command/Lan/EventCommands.php:439
 msgid "No signups for upcoming events."
 msgstr "Keine Anmeldungen für kommende Events."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:364
+#: cli_mode/src/Command/Lan/EventCommands.php:439
 #, php-format
 msgid "See what is coming: %s"
 msgstr "Schau, was ansteht: %s"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:368
+#: cli_mode/src/Command/Lan/EventCommands.php:443
 msgid "Ticket"
 msgstr "Ticket"
 
-#: cli_mode/src/Command/Lan/EventCommands.php:374
+#: cli_mode/src/Command/Lan/EventCommands.php:449
 msgid ""
 "Lists the events you signed up for, are waitlisted for or interested in, "
 "with your seat and ticket."
@@ -1515,7 +1728,7 @@ msgstr ""
 "Listet die Events, für die du angemeldet bist, auf der Warteliste stehst "
 "oder dich interessierst, mit deinem Platz und Ticket."
 
-#: cli_mode/src/Command/Lan/EventCommands.php:417
+#: cli_mode/src/Command/Lan/EventCommands.php:492
 #, php-format
 msgid "Grab a seat: %s"
 msgstr "Schnapp dir einen Platz: %s"
@@ -1595,10 +1808,6 @@ msgstr "Zeigt die Details einer Seite"
 #: cli_mode/src/Command/Site/StatCommand.php:27
 msgid "A page path (the current page by default)"
 msgstr "Ein Seitenpfad (standardmässig die aktuelle Seite)"
-
-#: cli_mode/src/Command/Site/StatCommand.php:45
-msgid "Name"
-msgstr "Name"
 
 #: cli_mode/src/Command/Site/StatCommand.php:48
 msgid "Template"
@@ -2461,120 +2670,112 @@ msgstr "Besucher"
 msgid "%1$s on %2$s (%3$s)"
 msgstr "%1$s auf %2$s (%3$s)"
 
-#: cli_mode/src/Terminal/Welcome.php:52
+#: cli_mode/src/Terminal/Welcome.php:53
 #, php-format
 msgid "Welcome back, %s."
 msgstr "Willkommen zurück, %s."
 
-#: cli_mode/src/Terminal/Welcome.php:52
+#: cli_mode/src/Terminal/Welcome.php:53
 msgid "Your last command was probably a mistake."
 msgstr "Dein letzter Befehl war vermutlich ein Fehler."
 
-#: cli_mode/src/Terminal/Welcome.php:54
+#: cli_mode/src/Terminal/Welcome.php:55
 msgid "guest"
 msgstr "Gast"
 
-#: cli_mode/src/Terminal/Welcome.php:54
+#: cli_mode/src/Terminal/Welcome.php:55
 #, php-format
 msgid "Welcome, %s."
 msgstr "Willkommen, %s."
 
-#: cli_mode/src/Terminal/Welcome.php:54
+#: cli_mode/src/Terminal/Welcome.php:55
 #, php-format
 msgid "Rank: nobody. Type %s to fix that."
 msgstr "Rang: niemand. Tippe %s, um das zu ändern."
 
-#: cli_mode/src/Terminal/Welcome.php:56
+#: cli_mode/src/Terminal/Welcome.php:57
 #, php-format
 msgid "Type %1$s for commands, %2$s for the tour."
 msgstr "Tippe %1$s für die Befehle, %2$s für die Tour."
 
-#: cli_mode/src/Terminal/Welcome.php:56
+#: cli_mode/src/Terminal/Welcome.php:57
 msgid "Or just mash keys. I'm used to it."
 msgstr "Oder hau einfach wahllos in die Tasten. Ich bin das gewohnt."
 
-#: cli_mode/src/Terminal/Welcome.php:58
+#: cli_mode/src/Terminal/Welcome.php:59
 msgid "This terminal is mandatory on this site. The mouse is decorative."
 msgstr ""
 "Dieses Terminal ist auf dieser Website Pflicht. Die Maus ist reine Deko."
 
-#: cli_mode/src/Terminal/Welcome.php:58
+#: cli_mode/src/Terminal/Welcome.php:59
 msgid "This terminal is the only way to browse this site."
 msgstr "Dieses Terminal ist der einzige Weg durch diese Website."
 
-#: cli_mode/src/Terminal/Welcome.php:87
+#: cli_mode/src/Terminal/Welcome.php:93
 #, php-format
 msgid "Prefer English? Type: %s"
 msgstr "Lieber auf Deutsch? Tippe: %s"
 
+#~ msgid ""
+#~ "   <info>signup</info> gets you in, <info>seat</info> shows the plan and "
+#~ "takes one (<info>seat <event> <seat></info>), <info>signups</info> lists "
+#~ "yours."
+#~ msgstr ""
+#~ "   <info>signup</info> meldet dich an, <info>seat</info> zeigt den "
+#~ "Sitzplan und reserviert einen Platz (<info>seat <event> <platz></info>), "
+#~ "<info>signups</info> listet deine Anmeldungen."
+
+#~ msgid ""
+#~ "   After <info>login</info>: <info>signup</info> gets you in, <info>seat</"
+#~ "info> picks your seat, <info>signups</info> lists yours."
+#~ msgstr ""
+#~ "   Nach dem <info>login</info>: <info>signup</info> meldet dich an, "
+#~ "<info>seat</info> sucht dir einen Platz aus, <info>signups</info> listet "
+#~ "deine Anmeldungen."
+
+#~ msgid ""
+#~ "signup: no such event, or none open for signups. Run \"events\" to see "
+#~ "what is coming."
+#~ msgstr ""
+#~ "signup: dieses Event gibt es nicht, oder keines ist offen für "
+#~ "Anmeldungen. Mit \"events\" siehst du, was ansteht."
+
+#~ msgid ""
+#~ "Event ID or a part of its name (default: the next event open for signups)"
+#~ msgstr ""
+#~ "ID oder ein Teil des Event-Namens (Standard: das nächste Event mit "
+#~ "offener Anmeldung)"
+
+#~ msgid ""
+#~ "Signs you up like the signup form on the event page. When the event sells "
+#~ "tickets, the ticket is reserved on your event tab or you are taken to the "
+#~ "checkout."
+#~ msgstr ""
+#~ "Meldet dich an wie das Anmeldeformular auf der Event-Seite. Verkauft das "
+#~ "Event Tickets, wird das Ticket auf deiner Event-Rechnung reserviert oder "
+#~ "du landest an der Kasse."
+
+#~ msgid "   Admins: <info>participants <event></info> lists who is in."
+#~ msgstr "   Admins: <info>participants <event></info> listet, wer dabei ist."
+
+#~ msgid "registered, waitlisted, interested or cancelled"
+#~ msgstr "registered, waitlisted, interested oder cancelled"
+
+#~ msgid "Admins only. Pipe it: participants lan | grep waitlisted"
+#~ msgstr "Nur für Admins. Mit Pipe: participants lan | grep waitlisted"
+
+#, php-format
+#~ msgid "<comment>5. LAN stuff</comment>  %s. More will come."
+#~ msgstr "<comment>5. LAN-Kram</comment>  %s. Mehr kommt noch."
+
+#~ msgid ""
+#~ "<comment>6. Look</comment>  <info>theme amber</info>, <info>theme green</"
+#~ "info>, <info>theme matrix</info>, <info>theme blackout</info>. "
+#~ "<info>neofetch</info> for show-off."
+#~ msgstr ""
+#~ "<comment>6. Aussehen</comment>  <info>theme amber</info>, <info>theme "
+#~ "green</info>, <info>theme matrix</info>, <info>theme blackout</info>. "
+#~ "<info>neofetch</info> zum Angeben."
+
 #~ msgid "Shown under the banner when the terminal opens."
 #~ msgstr "Wird unter dem Banner angezeigt, wenn sich das Terminal öffnet."
-
-msgid "Your credit, open bills and what you owe"
-msgstr "Dein Guthaben, offene Rechnungen und was du schuldest"
-
-msgid "Credit: %s"
-msgstr "Guthaben: %s"
-
-msgid "No open bills."
-msgstr "Keine offenen Rechnungen."
-
-msgid "Open bills:"
-msgstr "Offene Rechnungen:"
-
-msgid "Order"
-msgstr "Bestellung"
-
-msgid "Date"
-msgstr "Datum"
-
-msgid "What"
-msgstr "Was"
-
-msgid "Total"
-msgstr "Total"
-
-msgid "Owed: %s"
-msgstr "Offen: %s"
-
-msgid "Net: %s"
-msgstr "Saldo: %s"
-
-msgid "Run \"pay\" to settle up online."
-msgstr "Mit \"pay\" bezahlst du online."
-
-msgid "Shows your credit, the open bills (orders and event tabs) and the net of both, like the \"Credit & Orders\" page of your account."
-msgstr "Zeigt dein Guthaben, die offenen Rechnungen (Bestellungen und Event-Deckel) und den Saldo aus beidem, wie die Seite \"Guthaben & Bestellungen\" in deinem Konto."
-
-msgid "Pay an open bill online"
-msgstr "Eine offene Rechnung online bezahlen"
-
-msgid "No open bills. Nothing to pay."
-msgstr "Keine offenen Rechnungen. Nichts zu bezahlen."
-
-msgid "Online payment is not available at the moment. Please pay at the event checkout."
-msgstr "Online-Zahlung ist im Moment nicht möglich. Bitte bezahle an der Event-Kasse."
-
-msgid "Your open bills can't be paid online. Please pay at the event checkout."
-msgstr "Deine offenen Rechnungen können nicht online bezahlt werden. Bitte bezahle an der Event-Kasse."
-
-msgid "You have several open bills. Run \"pay <order>\" with one of them:"
-msgstr "Du hast mehrere offene Rechnungen. Führe \"pay <Bestellung>\" mit einer davon aus:"
-
-msgid "pay: no open bill #%s. Run \"balance\" to see what is open."
-msgstr "pay: keine offene Rechnung #%s. \"balance\" zeigt, was offen ist."
-
-msgid "Taking you to the payment page for #%1$s (%2$s). Your account page shows the result when you are back."
-msgstr "Du kommst jetzt zur Zahlungsseite für #%1$s (%2$s). Dein Konto zeigt das Ergebnis, wenn du zurück bist."
-
-msgid "Order number (default: your only open bill)"
-msgstr "Bestellnummer (Standard: deine einzige offene Rechnung)"
-
-msgid "Opens the Payrexx payment page for an open bill (an order or an event tab). Without a number it takes your only open bill; \"balance\" lists them."
-msgstr "Öffnet die Payrexx-Zahlungsseite für eine offene Rechnung (Bestellung oder Event-Deckel). Ohne Nummer nimmt es deine einzige offene Rechnung; \"balance\" listet sie auf."
-
-msgid "%s (event tab)"
-msgstr "%s (Event-Deckel)"
-
-msgid "Run \"balance\" to see what is open and \"pay\" to settle up online."
-msgstr "\"balance\" zeigt, was offen ist, und mit \"pay\" bezahlst du online."
