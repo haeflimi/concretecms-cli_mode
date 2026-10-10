@@ -52,11 +52,18 @@ seat, ticket), upcoming ones only unless `--all`.
 (the author only to administrators), `figlet <text>` prints big letters (`--width`, `--fill`) and `lolcat` colors piped
 text like a rainbow: `figlet GG | lolcat`.
 
-`login [user]` signs in right in the terminal: a `login:` and a masked `Password:` prompt (`login --web` uses the website's login
+`login [user]` signs in right in the terminal: a `Username or email:` and a masked `Password:` prompt (`login --web` uses the website's login
 page, which you need for a password that must be changed). The credentials go to their own endpoint, not through the command
 line, so they are neither in the history nor in the saved screen. It uses Concrete's login service, with its failed login
 limits and deny list, on top of five attempts a minute per session. A page that was open before the login is reloaded when
 the terminal closes (at once in mandatory mode).
+The name is looked up as both an email address and a user name, so either works whatever Concrete's own login expects.
+A wrong password ends with a pointer to `passwd`.
+
+`passwd <email|user>` (aliases `forgot-password`, `reset-password`) sends the mail of the login page's "Forgot password?":
+the core `forgot_password` mail template with a `/login/callback/concrete/change_password/<hash>` link, under the core
+`forgot_password` IP limit (`Terminal\PasswordReset`). It never tells whether the account exists. Signed in, `passwd` without
+an argument mails the link to the user's own address.
 
 When the profile lacks attributes that are required on registration, the right password does not sign in yet: the terminal
 asks for them one by one (in the order of the attribute sets, yes/no questions such as a privacy policy last, answered with

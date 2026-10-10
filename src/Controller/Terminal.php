@@ -128,6 +128,9 @@ class Terminal extends Controller
             : $login->attempt(substr((string) $post->get('username', ''), 0, 255), substr((string) $post->get('password', ''), 0, 1024));
         if (!$ok || !$login->user()) {
             $text = $login->message() ?? $context->snark->say('login_failed');
+            if ($login->message() === null) {
+                $text .= "\n" . t('Forgot your password? Type: %s', 'passwd <email>');
+            }
             $fields = $login->fields();
 
             return new JsonResponse($reply($context, $text, $fields && !is_array($profile) ? 0 : 1) + ['prompt' => $this->prompt($context)] + ($fields ? ['profile' => $fields] : []));

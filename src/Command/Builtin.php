@@ -6,6 +6,7 @@ use CliMode\Command\System\AttitudeCommand;
 use CliMode\Command\System\HelpCommand;
 use CliMode\Command\System\LanguageCommand;
 use CliMode\Terminal\Context;
+use CliMode\Terminal\PasswordReset;
 use CliMode\Terminal\SiteTree;
 use CliMode\Terminal\TerminalCommandAccess;
 use Concrete\Core\Page\Page;
@@ -131,6 +132,7 @@ class Builtin
                     t('   Commands that are not for you answer with "Permission denied". Log in and they may change their mind.'),
                     '',
                     t('<comment>5. You</comment>  <info>login</info> signs you in right here, <info>logout</info> out again. <info>whoami</info> if you forgot.'),
+                    t('   <info>login</info> takes your user name or your email address. Forgot the password? <info>passwd <email></info> mails you a link.'),
                     t('   <info>lang de</info> switches the terminal to German, <info>lang en</info> back. <info>attitude</info> sets how rude I am.'),
                     '',
                 ];
@@ -362,7 +364,32 @@ class Builtin
                 $c->addAction('login', ['username' => (string) $in->getArgument('username')]);
 
                 return 0;
-            }, $cat + ['arguments' => [['username', InputArgument::OPTIONAL, t('Who you are')]], 'options' => [['web', 'w', InputOption::VALUE_NONE, t('Use the login page of the website instead')]], 'help' => t('Asks for the user name and the password right here. The password is not echoed and not kept in the history.') . "\n\n" . t('Examples:') . "\n  login\n  login pixelpaula\n  login --web      " . t('the regular login page (for a password that must be changed, say)')]),
+            }, $cat + ['arguments' => [['username', InputArgument::OPTIONAL, t('Your user name or email address')]], 'options' => [['web', 'w', InputOption::VALUE_NONE, t('Use the login page of the website instead')]], 'help' => t('Asks for your user name or email address and the password right here. The password is not echoed and not kept in the history.') . "\n\n" . t('Examples:') . "\n  login\n  login pixelpaula\n  login paula@example.com\n  login --web      " . t('the regular login page (for a password that must be changed, say)') . "\n\n" . t('Forgot your password? Type: %s', 'passwd')]),
+            ClosureCommand::make('passwd', t('Sends you a link to set a new password'), static function (Context $c, InputInterface $in, OutputInterface $out) {
+                $who = trim((string) $in->getArgument('who'));
+                if ($c->isRegistered()) {
+                    // signed in: the link goes to the own address, whatever was typed
+                    $who = (string) $c->user->getUserInfoObject()->getUserEmail();
+                } elseif ($who === '') {
+                    $out->writeln('<error> ' . OutputFormatter::escape(t('passwd: whose password? Give your email address or user name: passwd <email>')) . ' </error>');
+
+                    return 1;
+                }
+                $error = (new PasswordReset($c->app))->request($who);
+                if ($error !== null) {
+                    $out->writeln('<error> ' . OutputFormatter::escape($error) . ' </error>');
+
+                    return 1;
+                }
+                $out->writeln('<ok>' . OutputFormatter::escape($c->isRegistered()
+                    ? t('A link to set a new password is on its way to %s.', $who)
+                    : t('If an account belongs to "%s", a link to set a new password is on its way to its email address.', $who)) . '</ok>');
+                if ($c->snark->level() > 0) {
+                    $out->writeln('<snark>' . OutputFormatter::escape(t('Check your spam folder too. That is where my mails go to feel unloved.')) . '</snark>');
+                }
+
+                return 0;
+            }, $cat + ['aliases' => ['forgot-password', 'reset-password'], 'arguments' => [['who', InputArgument::OPTIONAL, t('Your email address or user name (not needed when you are logged in)')]], 'help' => t('Sends the same mail as "Forgot password?" on the login page: a link to set a new password. The terminal never tells whether an account exists.') . "\n\n" . t('Examples:') . "\n  passwd paula@example.com\n  passwd pixelpaula\n  passwd           " . t('when you are logged in: a link to your own address')]),
         ];
     }
 

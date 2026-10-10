@@ -326,7 +326,7 @@ class Settings
     {
         return [
             'greeting' => t('Type %s for the commands.', "\x1b[1mhelp\x1b[22m"),
-            'login' => t('login: '),
+            'login' => t('Username or email: '),
             'password' => t('Password: '),
             'terminal' => t('Terminal'),
             'close' => t('Close terminal'),
