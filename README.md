@@ -209,6 +209,7 @@ It then shows up in the dashboard. Your own commands can use messages of the att
 
 ## Upgrading
 
+* **1.9.1** `signup` respects the event manager's "settled balance" setting: members with open bills are told to pay first (`open /account/credit`).
 * **1.3.0** the attitude is now a class (`Attitude`, registered in the `AttitudeRegistry`): polite is the default, "Mild" and "Snarky" are now "Mildly snarky" and "Super snarky", and packages can add their own. A saved setting of an older version keeps working. `attitude` switches the attitude for a session, `search`, `stat`, `figlet` and `lolcat` are new, `show <file-id>` turns images into ASCII art, `cat` marks the images of a page with their file ID.
 * **1.2.0** optionally replaces the 404 page with the terminal (ASCII art 404 in the welcome message, suggestions, `exit` goes home).
 * **1.1.0** mandatory mode (Dashboard › CLI Mode): visitors or everybody except administrators can only use the site through the terminal; `open` and `cat` read pages inside it, `logout` signs out for real.

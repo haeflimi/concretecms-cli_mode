@@ -182,6 +182,13 @@ class EventCommands
 
                     return 0;
                 }
+                $check = $participation->checkSignup($event, $c->user);
+                if (($check['reason'] ?? null) === ParticipationService::REASON_BALANCE) {
+                    $out->writeln('<error> ' . OutputFormatter::escape($participation->describeReason($event, ParticipationService::REASON_BALANCE, $check)) . ' </error>');
+                    $out->writeln('<dim>' . t('Run "open %s" to settle up.', '/account/credit') . '</dim>');
+
+                    return 1;
+                }
                 $participant = $participation->getParticipant($event, (int) $c->user->getUserID());
                 if ($participant && $participant->isSignedUp()) {
                     $out->writeln($participant->isWaitlisted() ? t('You are on the waitlist for %s.', $name) : t('You are already signed up for %s.', $name) . ($participant->getSeatID() ? ' ' . t('Seat: %s', '<info>' . OutputFormatter::escape($participant->getSeatID()) . '</info>') : ''));

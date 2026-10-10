@@ -2509,3 +2509,6 @@ msgstr "Lieber auf Deutsch? Tippe: %s"
 
 #~ msgid "Shown under the banner when the terminal opens."
 #~ msgstr "Wird unter dem Banner angezeigt, wenn sich das Terminal öffnet."
+
+msgid "Run \"open %s\" to settle up."
+msgstr "Mit \"open %s\" kommst du zur Abrechnung."
