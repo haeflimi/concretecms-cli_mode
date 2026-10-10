@@ -57,9 +57,13 @@ defined('C5_EXECUTE') or die('Access Denied.');
             <div class="form-text"><?= t('How the terminal talks when something goes wrong. Packages add attitudes by listening to the on_cli_mode_register_attitudes event, the site can list classes in application/config/cli_mode.php (key "attitudes").') ?></div>
         </div>
         <div class="mb-3">
-            <label class="form-label" for="motd"><?= t('Message of the day') ?></label>
-            <textarea class="form-control" name="motd" id="motd" rows="2" maxlength="500"><?= h($settings->getMotd()) ?></textarea>
-            <div class="form-text"><?= t('Shown under the banner when the terminal opens.') ?></div>
+            <label class="form-label"><?= t('Message of the day') ?></label>
+            <div class="form-text mt-0 mb-2"><?= t('Shown under the banner when the terminal opens, in the language the terminal speaks (lang command). A language without a message gets the English one.') ?></div>
+            <?php $motds = $settings->getMotds(); ?>
+            <?php foreach (CliMode\Terminal\Settings::languages() as $locale => $language) { ?>
+                <label class="form-label small text-muted mb-1" for="motd_<?= h($locale) ?>"><?= h($language) ?> <code><?= h($locale) ?></code></label>
+                <textarea class="form-control font-monospace mb-3" name="motd[<?= h($locale) ?>]" id="motd_<?= h($locale) ?>" rows="8" maxlength="5000" style="font-size: .85rem"><?= h($motds[$locale] ?? '') ?></textarea>
+            <?php } ?>
         </div>
     </fieldset>
     <div class="ccm-dashboard-form-actions-wrapper">

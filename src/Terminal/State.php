@@ -34,6 +34,9 @@ class State
     /** @var string|null handle of the attitude this session switched to, null = the site's */
     public $attitude;
 
+    /** @var string|null locale this session switched to with "lang", null = never chose (English) */
+    public $lang;
+
     /** @var int */
     public $startedAt;
 
@@ -46,7 +49,7 @@ class State
         $data = $session->get(self::KEY);
         $this->startedAt = time();
         if (is_array($data)) {
-            foreach (['cwd', 'env', 'aliases', 'history', 'lastCode', 'startedAt', 'attitude'] as $field) {
+            foreach (['cwd', 'env', 'aliases', 'history', 'lastCode', 'startedAt', 'attitude', 'lang'] as $field) {
                 if (array_key_exists($field, $data)) {
                     $this->$field = $data[$field];
                 }
@@ -78,6 +81,7 @@ class State
             'lastCode' => $this->lastCode,
             'startedAt' => $this->startedAt,
             'attitude' => $this->attitude,
+            'lang' => $this->lang,
         ]);
     }
 }

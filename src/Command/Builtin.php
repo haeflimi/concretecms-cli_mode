@@ -4,6 +4,7 @@ namespace CliMode\Command;
 
 use CliMode\Command\System\AttitudeCommand;
 use CliMode\Command\System\HelpCommand;
+use CliMode\Command\System\LanguageCommand;
 use CliMode\Terminal\Context;
 use CliMode\Terminal\SiteTree;
 use CliMode\Terminal\TerminalCommandAccess;
@@ -27,7 +28,7 @@ class Builtin
      */
     public static function all(): array
     {
-        return array_merge([new HelpCommand(), new Site\ShowCommand(), new Site\SearchCommand(), new Site\StatCommand(), new AttitudeCommand(), new Fun\FigletCommand(), new Fun\LolcatCommand()], self::system(), self::filters(), self::site(), self::fun(), self::jokes(), self::lan());
+        return array_merge([new HelpCommand(), new Site\ShowCommand(), new Site\SearchCommand(), new Site\StatCommand(), new AttitudeCommand(), new LanguageCommand(), new Fun\FigletCommand(), new Fun\LolcatCommand()], self::system(), self::filters(), self::site(), self::fun(), self::jokes(), self::lan());
     }
 
     /**

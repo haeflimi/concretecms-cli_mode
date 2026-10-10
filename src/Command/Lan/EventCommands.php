@@ -11,6 +11,8 @@ use CommunityEventManager\Entity\Participant;
 use CommunityEventManager\Event\EventService;
 use CommunityEventManager\Event\LocationFormatter;
 use CommunityEventManager\Participation\ParticipationService;
+use CommunityEventManager\Ticket\TicketService;
+use Concrete\Core\Error\UserMessageException;
 use Concrete\Core\User\UserInfoRepository;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -22,7 +24,8 @@ defined('C5_EXECUTE') or die('Access Denied.');
 
 /**
  * The LAN party commands on top of community_event_manager: the first of what could become a full management CLI.
- * Public ones read what the event pages show anyway, the others check the admin group.
+ * Public ones read what the event pages show anyway, signup and seat act for the signed-in member through the same
+ * services as the signup block, the others check the admin group.
  */
 class EventCommands
 {
@@ -163,7 +166,280 @@ class EventCommands
         }, ['category' => 'lan', 'access' => TerminalCommandAccess::ADMIN, 'arguments' => [['event', InputArgument::REQUIRED, t('Event ID or a part of its name')]], 'options' => [['status', 's', InputOption::VALUE_REQUIRED, t('registered, waitlisted, interested or cancelled')]], 'help' => t('Admins only. Pipe it: participants lan | grep waitlisted')]);
         $participants->setCompleter($eventNames);
 
-        return [$events, $event, $next, $participants];
+        $signup = ClosureCommand::make('signup', t('Sign up for an event'), static function (Context $c, InputInterface $in, OutputInterface $out) {
+            $event = self::target($c, (string) $in->getArgument('event'));
+            if (!$event) {
+                $out->writeln('<error> ' . t('signup: no such event, or none open for signups. Run "events" to see what is coming.') . ' </error>');
+
+                return 1;
+            }
+            $name = '<accent>' . OutputFormatter::escape($event->getName()) . '</accent>';
+            $participation = $c->app->make(ParticipationService::class);
+            try {
+                if ($in->getOption('cancel')) {
+                    $participation->cancel($event, $c->user);
+                    $out->writeln(t('Your signup for %s has been cancelled.', $name));
+
+                    return 0;
+                }
+                $participant = $participation->getParticipant($event, (int) $c->user->getUserID());
+                if ($participant && $participant->isSignedUp()) {
+                    $out->writeln($participant->isWaitlisted() ? t('You are on the waitlist for %s.', $name) : t('You are already signed up for %s.', $name) . ($participant->getSeatID() ? ' ' . t('Seat: %s', '<info>' . OutputFormatter::escape($participant->getSeatID()) . '</info>') : ''));
+                    self::seatHint($c, $out, $event, $participant);
+
+                    return 0;
+                }
+                if ($event->isTicketsEnabled()) {
+                    $url = $c->app->make(TicketService::class)->startCheckout($event, $c->user, []);
+                    if ($url === '') {
+                        $out->writeln('<ok>' . t('You are in: your ticket for %s is reserved. You pay at the event.', $name) . '</ok>');
+                        self::seatHint($c, $out, $event, $participation->getParticipant($event, (int) $c->user->getUserID()));
+
+                        return 0;
+                    }
+                    $out->writeln(t('%s needs a ticket. Taking you to the checkout, your place is yours once it is paid.', $name));
+                    $c->addAction('redirect', ['url' => $url]);
+
+                    return 0;
+                }
+                $participant = $participation->signup($event, $c->user);
+            } catch (UserMessageException $e) {
+                $out->writeln('<error> ' . OutputFormatter::escape($e->getMessage()) . ' </error>');
+
+                return 1;
+            }
+            if ($participant->isWaitlisted()) {
+                $out->writeln('<warn>' . t('%s is full, you are on the waitlist. You move up when somebody cancels.', $name) . '</warn>');
+
+                return 0;
+            }
+            $out->writeln('<ok>' . t('You are signed up for %s!', $name) . '</ok>');
+            self::seatHint($c, $out, $event, $participant);
+
+            return 0;
+        }, $cat + [
+            'access' => TerminalCommandAccess::REGISTERED,
+            'arguments' => [['event', InputArgument::OPTIONAL, t('Event ID or a part of its name (default: the next event open for signups)')]],
+            'options' => [['cancel', 'c', InputOption::VALUE_NONE, t('Cancel your signup')]],
+            'help' => t('Signs you up like the signup form on the event page. When the event sells tickets, the ticket is reserved on your event tab or you are taken to the checkout.') . "\n\n" . t('Examples:') . "\n  signup\n  signup 35\n  signup turicane --cancel",
+        ]);
+        $signup->setCompleter($eventNames);
+
+        $seat = ClosureCommand::make('seat', t('Show the seats or take one'), static function (Context $c, InputInterface $in, OutputInterface $out) {
+            $event = self::target($c, (string) $in->getArgument('event'), true);
+            if (!$event) {
+                $out->writeln('<error> ' . t('seat: no such event. Run "events" to see what is coming.') . ' </error>');
+
+                return 1;
+            }
+            $participation = $c->app->make(ParticipationService::class);
+            if (!$event->isSeatsEnabled() || $event->getSeatIDs() === []) {
+                $out->writeln(t('%s has no seat plan.', OutputFormatter::escape($event->getName())));
+
+                return 1;
+            }
+            $participant = $participation->getParticipant($event, (int) $c->user->getUserID());
+            $wanted = trim((string) $in->getArgument('seat'));
+            try {
+                if ($in->getOption('release')) {
+                    if (!$participant || !$participant->getSeatID()) {
+                        $out->writeln(t('You have no seat to release.'));
+
+                        return 1;
+                    }
+                    $participation->assignSeat($participant, null);
+                    $out->writeln(t('Your seat has been released.'));
+
+                    return 0;
+                }
+                if ($wanted !== '') {
+                    if (!$participant || !$participant->isRegistered()) {
+                        $out->writeln('<error> ' . t('Sign up first: signup %s', $event->getID()) . ' </error>');
+
+                        return 1;
+                    }
+                    $seatID = self::matchSeat($event->getSeatIDs(), $wanted);
+                    if ($seatID === null) {
+                        $out->writeln('<error> ' . t('The seat "%s" doesn\'t exist.', OutputFormatter::escape($wanted)) . ' </error>');
+
+                        return 1;
+                    }
+                    $participation->assignSeat($participant, $seatID);
+                    $out->writeln('<ok>' . t('Seat %s is yours.', $seatID) . '</ok>');
+
+                    return 0;
+                }
+            } catch (UserMessageException $e) {
+                $out->writeln('<error> ' . OutputFormatter::escape($e->getMessage()) . ' </error>');
+
+                return 1;
+            }
+
+            // the plan: one line per row of seats (A, B, ...), mine highlighted, taken ones dimmed
+            $taken = $participation->getSeatAssignments($event);
+            $mine = $participant ? $participant->getSeatID() : null;
+            $rows = [];
+            $ids = $event->getSeatIDs();
+            natsort($ids);
+            foreach ($ids as $id) {
+                $rows[preg_match('/^\D*/', $id, $m) && $m[0] !== '' ? rtrim($m[0], '-_ ') : '#'][] = $id;
+            }
+            $width = max(array_map('mb_strlen', $ids));
+            $out->writeln('<accent>' . OutputFormatter::escape($event->getName()) . '</accent>  ' . t('%1$d of %2$d seats free', count($ids) - count($taken), count($ids)));
+            foreach ($rows as $label => $seats) {
+                $cells = array_map(static function ($id) use ($taken, $mine, $width) {
+                    $cell = OutputFormatter::escape(str_pad($id, $width));
+                    if ($id === $mine) {
+                        return '<accent>' . $cell . '</accent>';
+                    }
+
+                    return isset($taken[$id]) ? '<dim>' . $cell . '</dim>' : '<ok>' . $cell . '</ok>';
+                }, $seats);
+                foreach (array_chunk($cells, 12) as $chunk) {
+                    $out->writeln('  ' . implode(' ', $chunk));
+                }
+            }
+            $out->writeln('<dim>' . t('green = free, grey = taken') . ($mine ? ', ' . t('highlighted = yours') : '') . '</dim>');
+            if ($participant && $participant->isRegistered() && $participation->canChooseSeat($event, $participant)) {
+                $out->writeln(OutputFormatter::escape($mine ? t('Move with: seat %1$s <seat>   give it back: seat %1$s --release', $event->getID()) : t('Take one with: seat %s <seat>', $event->getID())));
+            } elseif (!$participant || !$participant->isSignedUp()) {
+                $out->writeln('<dim>' . t('Sign up first: signup %s', $event->getID()) . '</dim>');
+            }
+
+            return 0;
+        }, $cat + [
+            'access' => TerminalCommandAccess::REGISTERED,
+            'arguments' => [
+                ['event', InputArgument::OPTIONAL, t('Event ID or a part of its name (default: the next event)')],
+                ['seat', InputArgument::OPTIONAL, t('The seat to take, e.g. A12')],
+            ],
+            'options' => [['release', 'r', InputOption::VALUE_NONE, t('Give your seat back')]],
+            'help' => t('Without a seat it shows the seat plan of the event.') . "\n\n" . t('Examples:') . "\n  seat\n  seat 35\n  seat 35 B14\n  seat 35 --release",
+        ]);
+        $seat->setCompleter($eventNames);
+
+        $signups = ClosureCommand::make('signups', t('Your signups'), static function (Context $c, InputInterface $in, OutputInterface $out) {
+            $participation = $c->app->make(ParticipationService::class);
+            $now = new \DateTime();
+            $rows = [];
+            $list = array_filter($participation->getParticipationsOfUser((int) $c->user->getUserID()), static function (Participant $p) use ($in, $now) {
+                $event = $p->getEvent();
+
+                return $event->getStatus() !== Event::STATUS_DRAFT && ($in->getOption('all') || !$event->isOver($now));
+            });
+            usort($list, static function (Participant $a, Participant $b) {
+                return $a->getEvent()->getStartsAt() <=> $b->getEvent()->getStartsAt();
+            });
+            foreach ($list as $p) {
+                $event = $p->getEvent();
+                if ($event->isCancelled()) {
+                    $status = '<error>' . t('event cancelled') . '</error>';
+                } elseif ($p->isWaitlisted()) {
+                    $position = 1 + (int) array_search($p->getID(), array_map(static function (Participant $w) {
+                        return $w->getID();
+                    }, $participation->getParticipants($event, [Participant::STATUS_WAITLISTED])), true);
+                    $status = '<warn>' . t('waitlist #%d', $position) . '</warn>';
+                } elseif ($p->isInterested()) {
+                    $status = '<dim>' . t('interested') . '</dim>';
+                } elseif ($p->getCheckedInAt() || $event->isOver($now)) {
+                    $status = '<ok>' . ($p->getCheckedOutAt() || $event->isOver($now) ? t('was there') : t('checked in')) . '</ok>';
+                } else {
+                    $status = '<ok>' . t('signed up') . '</ok>';
+                }
+                $tickets = [
+                    Participant::TICKET_PENDING => t('reserved, unpaid'),
+                    Participant::TICKET_PAID => t('paid'),
+                    Participant::TICKET_CANCELLED => t('cancelled'),
+                ];
+                $rows[] = [
+                    $event->getID(),
+                    $event->getStartsAt() ? $event->getStartsAt()->format('d.m.Y H:i') : '-',
+                    OutputFormatter::escape($event->getName()),
+                    $status,
+                    $p->getSeatID() ? OutputFormatter::escape($p->getSeatID()) : '-',
+                    $tickets[$p->getTicketStatus()] ?? '-',
+                ];
+            }
+            if ($rows === []) {
+                $out->writeln($in->getOption('all') ? t('You never signed up for anything.') : t('No signups for upcoming events.') . ' ' . t('See what is coming: %s', '<info>events</info>'));
+
+                return 0;
+            }
+            (new TableHelper())->render($out, [t('ID'), t('When'), t('Event'), t('Status'), t('Seat'), t('Ticket')], $rows);
+
+            return 0;
+        }, $cat + [
+            'access' => TerminalCommandAccess::REGISTERED,
+            'options' => [['all', 'a', InputOption::VALUE_NONE, t('Include past events')]],
+            'help' => t('Lists the events you signed up for, are waitlisted for or interested in, with your seat and ticket.') . "\n\n" . t('Examples:') . "\n  signups\n  signups --all",
+        ]);
+
+        return [$events, $event, $next, $participants, $signup, $seat, $signups];
+    }
+
+    /**
+     * The event a member command is about: the given one, else the next event open for signups (or, for seat, the
+     * next one the member is registered for, then the next one at all).
+     */
+    protected static function target(Context $c, string $needle, bool $preferMine = false): ?Event
+    {
+        if (trim($needle) !== '') {
+            return self::find($c, $needle);
+        }
+        $now = new \DateTime();
+        $upcoming = array_filter(self::published($c), static function (Event $e) use ($now) {
+            return !$e->isOver($now);
+        });
+        usort($upcoming, static function (Event $a, Event $b) {
+            return $a->getStartsAt() <=> $b->getStartsAt();
+        });
+        if ($preferMine) {
+            $participation = $c->app->make(ParticipationService::class);
+            foreach ($upcoming as $event) {
+                $participant = $participation->getParticipant($event, (int) $c->user->getUserID());
+                if ($participant && $participant->isRegistered()) {
+                    return $event;
+                }
+            }
+        }
+        foreach ($upcoming as $event) {
+            if ($event->isSignupOpen()) {
+                return $event;
+            }
+        }
+
+        return $preferMine && $upcoming ? reset($upcoming) : null;
+    }
+
+    protected static function seatHint(Context $c, OutputInterface $out, Event $event, ?Participant $participant): void
+    {
+        if ($participant && !$participant->getSeatID() && $c->app->make(ParticipationService::class)->canChooseSeat($event, $participant)) {
+            $out->writeln(t('Grab a seat: %s', '<info>seat ' . $event->getID() . '</info>'));
+        }
+    }
+
+    /**
+     * A typed seat to one of the plan: case and separators do not matter, nor leading zeros ("b14" = "B-14", "a1" = "A01").
+     */
+    protected static function matchSeat(array $seatIDs, string $typed): ?string
+    {
+        $key = static function (string $id): string {
+            return (string) preg_replace_callback('/\d+/', static function ($m) {
+                return (string) (int) $m[0];
+            }, preg_replace('/[^A-Z0-9]/', '', strtoupper($id)));
+        };
+        foreach ($seatIDs as $id) {
+            if (strcasecmp($id, $typed) === 0) {
+                return $id;
+            }
+        }
+        foreach ($seatIDs as $id) {
+            if ($key($id) === $key($typed)) {
+                return $id;
+            }
+        }
+
+        return null;
     }
 
     /**

@@ -32,9 +32,17 @@ events --all | sort -r | head -n 3
 ```
 
 Built-in command groups: **system** (help, guide, echo, env, export, alias, history, theme, exit, ...), **site** (ls, cd,
-cat, tree, find, open, ...), **text** (grep, head, tail, sort, uniq, wc), **lan** (events, event, next, participants; only
-with the community_event_manager package) and **fun** (neofetch, cowsay, fortune, ping, sudo, and a few commands that
+cat, tree, find, open, ...), **text** (grep, head, tail, sort, uniq, wc), **lan** (events, event, next, signup, seat, signups,
+participants; only with the community_event_manager package) and **fun** (neofetch, cowsay, fortune, ping, sudo, and a few commands that
 refuse to work on a website).
+
+`signup [event]` and `seat [event] [seat]` act for the signed-in member through community_event_manager's
+ParticipationService (and TicketService), with the same rules as the signup block: without an event they take the next
+one open for signups (`seat`: the next one the member is registered for). `signup` registers or waitlists; on a ticket event
+it reserves the ticket on the event tab or redirects to the store checkout; `--cancel` cancels. `seat` prints the plan one
+row per seat letter (free green, taken grey, own highlighted), `seat <event> B14` takes a seat (case, separators and leading
+zeros don't matter), `--release` gives it back. `signups [--all]` lists the member's own signups (status incl. waitlist position,
+seat, ticket), upcoming ones only unless `--all`.
 
 `show <file-id>` turns an image from the file manager into ASCII art (`--width` sets the characters per line, default 64,
 `--invert` is for light themes). It needs PHP's GD extension and respects the file's view permission.
@@ -49,14 +57,30 @@ line, so they are neither in the history nor in the saved screen. It uses Concre
 limits and deny list, on top of five attempts a minute per session. A page that was open before the login is reloaded when
 the terminal closes (at once in mandatory mode).
 
+When the profile lacks attributes that are required on registration, the right password does not sign in yet: the terminal
+asks for them one by one (in the order of the attribute sets, yes/no questions such as a privacy policy last, answered with
+y/j) and posts them back as `profile[handle]`. The sign-in waits in the session for ten minutes. Text, textarea, telephone,
+email, url, number and boolean attributes can be asked for; any other required type (an address, a select) still sends
+the user to `login --web`.
+
 `attitude` lists the attitudes and `attitude super_snarky` switches to one for the current session only (`attitude --reset`
 goes back to the site's setting from the dashboard).
+
+The terminal speaks English by default, whatever the website's language. `lang` lists English plus every translation in
+the package's `languages/` folder, `lang de` (the site's own variant when there is one, so de_CH on a Swiss site),
+`lang de_DE` or `lang en` switches for the current session. Every terminal request switches to that locale first
+(`Settings::locale()`), and boot and `lang` send the browser-side texts (greeting, login prompt) along.
+As long as a session has not chosen a language, a browser that prefers another language the terminal speaks
+(Accept-Language) gets a box in that language at the top and bottom of the welcome ("Lieber auf Deutsch? Tippe: lang de";
+the inline terminal prints it after its greeting). `lang` shows the whole welcome again in the new language
+(`Terminal\Welcome`, shared with boot).
 
 ## Settings
 
 Dashboard › System › Basics › **CLI Mode**: switch it off, choose who may open it (everybody / signed-in members /
 administrators), show or hide the `>_` button in the corner, pick the attitude (polite, which is the default, mildly snarky, super snarky, or one a package adds) and a message of the
-day. The page also lists every registered command with its class.
+day per terminal language (one field per language `lang` offers; config `cli_mode.motd.<locale>`, a language
+without one shows the English text). The page also lists every registered command with its class.
 
 Individual commands have their own access rules on top of that.
 

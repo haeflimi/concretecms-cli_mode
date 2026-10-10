@@ -11,7 +11,9 @@ use CliMode\Terminal\Shell;
 use CliMode\Terminal\SiteTree;
 use CliMode\Terminal\Snark;
 use CliMode\Terminal\State;
+use CliMode\Terminal\Welcome;
 use Concrete\Core\Controller\Controller;
+use Concrete\Core\Localization\Localization;
 use Concrete\Core\User\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -58,11 +60,14 @@ class Terminal extends Controller
         return new JsonResponse([
             'token' => $this->app->make('token')->generate(self::TOKEN),
             'prompt' => $this->prompt($context),
-            'banner' => $banner ?? $this->banner($context),
+            'banner' => $banner ?? (new Welcome($context, $this->request))->banner(),
             'landing' => $landing,
             'notfound' => $context->notFound,
             'history' => $state->history,
             'forced' => $context->forced,
+            'labels' => Settings::labels(),
+            // the inline terminal shows no banner, only its greeting: it prints the hint on its own
+            'hint' => (new Welcome($context, $this->request))->languageHint(),
         ]);
     }
 
@@ -92,7 +97,8 @@ class Terminal extends Controller
     /**
      * The login prompt of the terminal. The browser asks for the user name and the password and sends both here,
      * not through exec: a password must not end up in the history, the command line or the saved screen. Answers like exec,
-     * plus a new token (the CSRF token is bound to the user, so it changes with the login).
+     * plus a new token (the CSRF token is bound to the user, so it changes with the login). When required profile details
+     * are missing the answer carries "profile" (the fields to ask for) and the browser posts the answers back as profile[handle].
      */
     public function login(): JsonResponse
     {
@@ -115,10 +121,16 @@ class Terminal extends Controller
 
         $login = new Login($this->app);
         $post = $this->request->request;
-        if (!$login->attempt(substr((string) $post->get('username', ''), 0, 255), substr((string) $post->get('password', ''), 0, 1024)) || !$login->user()) {
+        // the second step answers the profile questions of a sign-in whose password was right
+        $profile = $post->get('profile');
+        $ok = is_array($profile)
+            ? $login->completeProfile($profile)
+            : $login->attempt(substr((string) $post->get('username', ''), 0, 255), substr((string) $post->get('password', ''), 0, 1024));
+        if (!$ok || !$login->user()) {
             $text = $login->message() ?? $context->snark->say('login_failed');
+            $fields = $login->fields();
 
-            return new JsonResponse($reply($context, $text, 1) + ['prompt' => $this->prompt($context)]);
+            return new JsonResponse($reply($context, $text, $fields && !is_array($profile) ? 0 : 1) + ['prompt' => $this->prompt($context)] + ($fields ? ['profile' => $fields] : []));
         }
 
         // the container's User is the one from before the login: replace it, then everything below sees the member
@@ -162,6 +174,8 @@ class Terminal extends Controller
         }
 
         $state = new State($this->app->make('session'));
+        // everything the terminal says (commands, help, messages) in the session's language, English by default
+        Localization::changeLocale(Settings::locale($state->lang));
         $attitudes = $this->app->make(AttitudeRegistry::class);
         // the attitude this session switched to with the "attitude" command, else the site's
         $handle = $state->attitude !== null && isset($attitudes->all()[$state->attitude]) ? $state->attitude : $settings->getAttitude();
@@ -197,43 +211,6 @@ class Terminal extends Controller
     protected function prompt(Context $context): array
     {
         return ['user' => $context->username(), 'host' => $context->hostname(), 'cwd' => $context->state->cwd, 'admin' => $context->isAdmin()];
-    }
-
-    protected function banner(Context $context): string
-    {
-        $snark = $context->snark->level();
-        $ascii = $context->settings->getBanner() ?: implode("\n", [
-            '  ____ _     ___   __  __  ___  ____  _____',
-            ' / ___| |   |_ _| |  \\/  |/ _ \\|  _ \\| ____|',
-            '| |   | |    | |  | |\\/| | | | | | | |  _|',
-            '| |___| |___ | |  | |  | | |_| | |_| | |___',
-            ' \\____|_____|___| |_|  |_|\\___/|____/|_____|',
-        ]);
-        $lines = [];
-        foreach (explode("\n", $ascii) as $row) {
-            $lines[] = "\e[93m" . $row . "\e[39m";
-        }
-        $lines[] = '';
-        $lines = array_merge($lines, [
-            "\e[90m" . t('%1$s on %2$s (%3$s)', 'snarkbash 1.0', $context->hostname(), $context->isAdmin() ? t('admin') : ($context->isRegistered() ? t('member') : t('visitor'))) . "\e[39m",
-            '',
-        ]);
-        if ($context->isRegistered()) {
-            $lines[] = t('Welcome back, %s.', "\e[92m" . $context->username() . "\e[39m") . ($snark > 1 ? ' ' . t('Your last command was probably a mistake.') : '');
-        } else {
-            $lines[] = t('Welcome, %s.', "\e[92m" . t('guest') . "\e[39m") . ($snark > 1 ? ' ' . t('Rank: nobody. Type %s to fix that.', "\e[93mlogin\e[39m") : '');
-        }
-        $lines[] = t('Type %1$s for commands, %2$s for the tour.', "\e[93mhelp\e[39m", "\e[93mguide\e[39m") . ($snark > 1 ? ' ' . t("Or just mash keys. I'm used to it.") : '');
-        if ($context->forced) {
-            $lines[] = "\e[90m" . ($snark > 0 ? t('This terminal is mandatory on this site. The mouse is decorative.') : t('This terminal is the only way to browse this site.')) . "\e[39m";
-        }
-        $motd = $context->settings->getMotd();
-        if ($motd !== '') {
-            $lines[] = '';
-            $lines[] = $motd;
-        }
-
-        return implode("\n", $lines) . "\n";
     }
 
     /**

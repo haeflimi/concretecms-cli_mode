@@ -52,7 +52,7 @@ class CliMode extends DashboardPageController
                 (string) $post->get('access'),
                 (bool) $post->get('launcher'),
                 (string) $post->get('attitude'),
-                (string) $post->get('motd'),
+                array_map('strval', (array) $post->all('motd')),
                 (string) $post->get('forced'),
                 (bool) $post->get('notfound')
             );

@@ -30,7 +30,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'cli_mode';
     protected $appVersionRequired = '9.0.0';
-    protected $pkgVersion = '1.5.0';
+    protected $pkgVersion = '1.9.0';
     protected $pkgAutoloaderRegistries = [
         'src' => 'CliMode',
     ];
@@ -108,15 +108,8 @@ class Controller extends Package
                 'login' => (string) $urls->resolve(['/ccm/cli_mode/login']),
                 'launcher' => $settings->showLauncher() && !$forced && !$notFound,
                 'title' => t('Open the terminal (press `)'),
-                // texts of the browser side (the shell's own output is translated on the server)
-                'labels' => [
-                    'greeting' => t('Type %s for the commands.', "\x1b[1mhelp\x1b[22m"),
-                    'login' => t('login: '),
-                    'password' => t('Password: '),
-                    'terminal' => t('Terminal'),
-                    'close' => t('Close terminal'),
-                    'open' => t('Open the terminal'),
-                ],
+                // texts of the browser side; boot sends them again in the terminal's language
+                'labels' => Settings::labels(),
             ];
             $view->addFooterItem('<script>window.CliModeConfig = ' . json_encode($config, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES) . ';</script>');
             if ($forced || $notFound) {

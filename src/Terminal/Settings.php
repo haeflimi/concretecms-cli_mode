@@ -138,9 +138,31 @@ class Settings
         return (string) $handle;
     }
 
-    public function getMotd(): string
+    /**
+     * The message of the day in the terminal's current language, else the English one.
+     */
+    public function getMotd(?string $locale = null): string
     {
-        return (string) $this->value('motd', '');
+        $motds = $this->getMotds();
+        $locale = $locale ?? \Concrete\Core\Localization\Localization::activeLocale();
+
+        return $motds[$locale] ?? $motds[self::DEFAULT_LOCALE] ?? '';
+    }
+
+    /**
+     * @return array<string, string> locale => message of the day, only the languages that have one (before 1.8.0 it
+     *                                was one text, which counts as the English one)
+     */
+    public function getMotds(): array
+    {
+        $saved = $this->value('motd', []);
+        if (is_string($saved)) {
+            $saved = [self::DEFAULT_LOCALE => $saved];
+        }
+
+        return array_filter(array_map('strval', (array) $saved), static function ($text) {
+            return trim($text) !== '';
+        });
     }
 
     /**
@@ -175,7 +197,10 @@ class Settings
         return array_values(array_filter((array) $this->config->get('cli_mode.commands', []), 'is_string'));
     }
 
-    public function save(bool $enabled, string $access, bool $launcher, string $attitude, string $motd, string $forced = self::FORCE_OFF, bool $notFound = false): void
+    /**
+     * @param array<string, string>|string $motd locale => message of the day (a plain string is the English one)
+     */
+    public function save(bool $enabled, string $access, bool $launcher, string $attitude, $motd, string $forced = self::FORCE_OFF, bool $notFound = false): void
     {
         $this->store->save('cli_mode.notfound', $notFound);
         $this->store->save('cli_mode.forced', in_array($forced, [self::FORCE_VISITORS, self::FORCE_EVERYONE], true) ? $forced : self::FORCE_OFF);
@@ -183,7 +208,15 @@ class Settings
         $this->store->save('cli_mode.access', in_array($access, [self::ACCESS_REGISTERED, self::ACCESS_ADMINS], true) ? $access : self::ACCESS_EVERYONE);
         $this->store->save('cli_mode.launcher', $launcher);
         $this->store->save('cli_mode.attitude', preg_match('/^[a-z0-9_]+$/', $attitude) ? $attitude : AttitudeRegistry::DEFAULT_HANDLE);
-        $this->store->save('cli_mode.motd', trim($motd));
+        $motds = [];
+        foreach (is_array($motd) ? $motd : [self::DEFAULT_LOCALE => $motd] as $locale => $text) {
+            if (isset(self::languages()[$locale]) && trim((string) $text) !== '') {
+                $motds[$locale] = rtrim(str_replace("\r\n", "\n", (string) $text));
+            }
+        }
+        // before 1.8.0 the message was one text in the row "motd" itself: the saver only replaces rows below it
+        app('database')->connection()->delete('Config', ['configNamespace' => '', 'configGroup' => 'cli_mode', 'configItem' => 'motd']);
+        $this->store->save('cli_mode.motd', $motds);
     }
 
     /**
@@ -219,5 +252,85 @@ class Settings
         $admins = Group::getByID(ADMIN_GROUP_ID);
 
         return $user->isSuperUser() || ($admins && $user->inGroup($admins));
+    }
+
+    /** the terminal speaks English unless the session picked another language with "lang" */
+    public const DEFAULT_LOCALE = 'en_US';
+
+    /**
+     * The languages the terminal can speak: English plus every translation shipped in the package's languages folder.
+     *
+     * @return array<string, string> locale => name in that language
+     */
+    public static function languages(): array
+    {
+        $locales = [self::DEFAULT_LOCALE];
+        foreach (glob(dirname(__DIR__, 2) . '/languages/*/LC_MESSAGES/messages.mo') ?: [] as $file) {
+            $locales[] = basename(dirname($file, 2));
+        }
+        $languages = [];
+        foreach (array_unique($locales) as $locale) {
+            $name = '';
+            try {
+                $name = (string) \Punic\Language::getName($locale, $locale);
+            } catch (\Throwable $e) {
+            }
+            $languages[$locale] = $name !== '' ? $name : $locale;
+        }
+
+        return $languages;
+    }
+
+    /**
+     * The terminal language a browser would rather have (Accept-Language, in its order): the first wish the terminal
+     * can fulfil, the website's own variant preferred for a bare language (de → de_CH on a Swiss site).
+     *
+     * @param string[] $wishes e.g. ['de_CH', 'de', 'en_US', 'en'] from Request::getLanguages()
+     */
+    public static function preferredLocale(array $wishes, string $siteLocale = ''): ?string
+    {
+        $locales = array_keys(self::languages());
+        foreach ($wishes as $wish) {
+            $wish = strtolower(str_replace('-', '_', (string) $wish));
+            foreach ($locales as $locale) {
+                if (strtolower($locale) === $wish) {
+                    return $locale;
+                }
+            }
+            $language = strtok($wish, '_');
+            $candidates = array_values(array_filter($locales, static function ($locale) use ($language) {
+                return strtolower(strtok($locale, '_')) === $language;
+            }));
+            if ($candidates) {
+                return in_array($siteLocale, $candidates, true) ? $siteLocale : $candidates[0];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @return string the locale for a session's choice, the default when there is none or it is not available (any more)
+     */
+    public static function locale(?string $chosen): string
+    {
+        return $chosen !== null && isset(self::languages()[$chosen]) ? $chosen : self::DEFAULT_LOCALE;
+    }
+
+    /**
+     * Texts of the browser side, in the current locale (the shell's own output is translated on the server).
+     *
+     * @return array<string, string>
+     */
+    public static function labels(): array
+    {
+        return [
+            'greeting' => t('Type %s for the commands.', "\x1b[1mhelp\x1b[22m"),
+            'login' => t('login: '),
+            'password' => t('Password: '),
+            'terminal' => t('Terminal'),
+            'close' => t('Close terminal'),
+            'open' => t('Open the terminal'),
+        ];
     }
 }

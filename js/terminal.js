@@ -194,9 +194,11 @@
             return request(bootUrl, null, 'GET').then(function (data) {
                 state.token = data.token;
                 state.history = data.history || [];
+                setLabels(data.labels);
                 setPrompt(data.prompt);
                 if (inline) {
                     print(options.greeting || GREETING, 'clim-dimmed');
+                    if (data.hint) { print(data.hint); }
                     return null;
                 }
                 if (restored && !notfound) {
@@ -246,6 +248,13 @@
             if (state.reload) { window.location.reload(); }
         }
 
+        // the terminal's language may differ from the page's: the server sends the browser-side texts with boot and "lang"
+        function setLabels(labels) {
+            if (!labels) { return; }
+            L = labels;
+            GREETING = L.greeting || GREETING;
+        }
+
         function echoLine(text) {
             var line = el('div', 'clim-block clim-echo');
             line.textContent = text;
@@ -287,15 +296,42 @@
             if (state.prompt) { promptEl.innerHTML = promptHtml(); }
         }
 
+        /*
+         * A right password with required profile details missing: the server sends the fields, they are asked for one
+         * by one like the password and posted back as profile[handle]. The sign-in happens after that.
+         */
+        function askProfile(fields) {
+            state.login = { step: 'profile', fields: fields, index: 0, values: {} };
+            input.type = 'text';
+            input.setAttribute('autocomplete', 'off');
+            askField();
+        }
+
+        function askField() {
+            promptEl.textContent = state.login.fields[state.login.index].prompt;
+            input.value = '';
+        }
+
+        function promptText() {
+            if (state.login.step === 'user') { return L.login || 'login: '; }
+            if (state.login.step === 'pass') { return L.password || 'Password: '; }
+            return state.login.fields[state.login.index].prompt;
+        }
+
         function submitLogin(password) {
-            var username = state.login.username;
+            var data = { username: state.login.username, password: password };
+            if (state.login.step === 'profile') {
+                data = {};
+                Object.keys(state.login.values).forEach(function (k) { data['profile[' + k + ']'] = state.login.values[k]; });
+            }
             state.busy = true;
             input.disabled = true;
-            request(cfg.login, { username: username, password: password }).then(function (res) {
+            request(cfg.login, data).then(function (res) {
                 print(res.output || '');
                 if (res.token) { state.token = res.token; }
                 endLogin();
                 if (res.prompt) { setPrompt(res.prompt); }
+                if (res.profile && res.profile.length) { askProfile(res.profile); }
                 applyActions(res.actions);
             }).catch(function (e) {
                 endLogin();
@@ -310,7 +346,7 @@
         function loginKey(e) {
             if (e.key === 'Escape' || (e.ctrlKey && (e.key === 'c' || e.key === 'C'))) {
                 e.preventDefault();
-                echoLine(state.login.step === 'user' ? (L.login || 'login: ') + input.value + '^C' : (L.password || 'Password: ') + '^C');
+                echoLine(promptText() + (state.login.step === 'pass' ? '' : input.value) + '^C');
                 endLogin();
             } else if (e.key === 'Enter') {
                 e.preventDefault();
@@ -321,6 +357,10 @@
                     if (value.trim() === '') { endLogin(); return; }
                     state.login.username = value.trim();
                     askPassword();
+                } else if (state.login.step === 'profile') {
+                    echoLine(promptText() + value);
+                    state.login.values[state.login.fields[state.login.index].handle] = value;
+                    if (++state.login.index < state.login.fields.length) { askField(); } else { submitLogin(''); }
                 } else {
                     echoLine(L.password || 'Password: ');
                     submitLogin(value);
@@ -340,6 +380,7 @@
                     else if (!locked) { setTimeout(close, 450); }
                 }
                 else if (a.type === 'login') { startLogin(a.data.username || ''); }
+                else if (a.type === 'labels') { setLabels(a.data); }
                 else if (a.type === 'reload') {
                     if (a.data.now || inline) { setTimeout(function () { window.location.reload(); }, 900); } else { state.reload = true; }
                 }
