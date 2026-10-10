@@ -190,6 +190,37 @@ class Login
     }
 
     /**
+     * Signs in a user whose password was checked another way (a registration that just happened).
+     */
+    public function signIn(int $uID): bool
+    {
+        $user = User::getByUserID($uID, true);
+        if (!$user || $user->isError() || !$user->isRegistered()) {
+            return false;
+        }
+        $info = $user->getUserInfoObject();
+
+        return $this->finish($user, (string) ($this->app->make('config')->get('concrete.user.registration.email_registration') ? $info->getUserEmail() : $info->getUserName()));
+    }
+
+    /**
+     * At most five tries a minute per session, on top of the failed login limit Concrete keeps per address. Counts
+     * this try.
+     */
+    public function throttled(): bool
+    {
+        $session = $this->app->make('session');
+        $now = time();
+        $tries = array_filter((array) $session->get('cli_mode.logins', []), static function ($t) use ($now) {
+            return $t > $now - 60;
+        });
+        $tries[] = $now;
+        $session->set('cli_mode.logins', array_values($tries));
+
+        return count($tries) > 5;
+    }
+
+    /**
      * What the password form does after a good login.
      */
     protected function finish(User $user, string $username): bool
@@ -210,27 +241,36 @@ class Login
      */
     protected function missingKeys(UserInfo $info): array
     {
-        $missing = [];
-        foreach (UserAttributeKey::getRegistrationList() as $key) {
-            if ($key->isAttributeKeyRequiredOnRegister() && !$this->hasValue($info, $key)) {
-                $missing[] = $key;
-            }
-        }
-        // in the order of the profile (attribute sets), the yes/no questions (privacy policy and the like) at the end
+        return array_values(array_filter($this->requiredKeys(), function ($key) use ($info) {
+            return !$this->hasValue($info, $key);
+        }));
+    }
+
+    /**
+     * The attributes required on registration, in the order of the profile (attribute sets), the yes/no questions
+     * (privacy policy and the like) at the end.
+     *
+     * @return UserAttributeKey[]
+     */
+    public function requiredKeys(): array
+    {
+        $keys = array_values(array_filter(UserAttributeKey::getRegistrationList(), static function ($key) {
+            return $key->isAttributeKeyRequiredOnRegister();
+        }));
         $order = [];
-        if ($missing) {
+        if ($keys) {
             foreach ($this->app->make('database')->connection()->fetchAllAssociative(
                 'SELECT sk.akID FROM AttributeSetKeys sk INNER JOIN AttributeSets s ON s.asID = sk.asID ORDER BY s.asDisplayOrder, s.asID, sk.asDisplayOrder'
             ) as $i => $row) {
                 $order[(int) $row['akID']] = $order[(int) $row['akID']] ?? $i;
             }
         }
-        usort($missing, static function ($a, $b) use ($order) {
+        usort($keys, static function ($a, $b) use ($order) {
             return [$a->getAttributeTypeHandle() === 'boolean', $order[$a->getAttributeKeyID()] ?? PHP_INT_MAX]
                 <=> [$b->getAttributeTypeHandle() === 'boolean', $order[$b->getAttributeKeyID()] ?? PHP_INT_MAX];
         });
 
-        return $missing;
+        return $keys;
     }
 
     /**
@@ -254,7 +294,7 @@ class Login
      *
      * @return array<int, array{handle: string, prompt: string, type: string}>
      */
-    protected function describe(array $keys): array
+    public function describe(array $keys): array
     {
         return array_map(static function ($key) {
             $type = $key->getAttributeTypeHandle();
@@ -271,7 +311,7 @@ class Login
     /**
      * @return mixed the value to store, null when the answer does not do
      */
-    protected function parse(string $type, string $answer)
+    public function parse(string $type, string $answer)
     {
         if ($type === 'boolean') {
             // a required checkbox (privacy policy and the like) only counts when ticked

@@ -30,7 +30,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'cli_mode';
     protected $appVersionRequired = '9.0.0';
-    protected $pkgVersion = '1.13.0';
+    protected $pkgVersion = '1.15.0';
     protected $pkgAutoloaderRegistries = [
         'src' => 'CliMode',
     ];

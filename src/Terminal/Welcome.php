@@ -55,6 +55,10 @@ class Welcome
             $lines[] = t('Welcome, %s.', "\e[92m" . t('guest') . "\e[39m") . ($snark > 1 ? ' ' . t('Rank: nobody. Type %s to fix that.', "\e[93mlogin\e[39m") : '');
         }
         $lines[] = t('Type %1$s for commands, %2$s for the tour.', "\e[93mhelp\e[39m", "\e[93mguide\e[39m") . ($snark > 1 ? ' ' . t("Or just mash keys. I'm used to it.") : '');
+        if ($this->context->registry->resolve('easy') !== null) {
+            // for everybody who came for the signup and not for a shell
+            $lines[] = t('New to terminals? Type %s and I guide you through the signup, step by step.', "\e[93measy\e[39m");
+        }
         if ($this->context->forced) {
             $lines[] = "\e[90m" . ($snark > 0 ? t('This terminal is mandatory on this site. The mouse is decorative.') : t('This terminal is the only way to browse this site.')) . "\e[39m";
         }

@@ -126,6 +126,22 @@ class CreditCommands
     }
 
     /**
+     * The open bills of the signed-in member that can be paid online (empty when online payment is not available).
+     *
+     * @return array<int, array{id: int, date: string, what: string, total: float, order: object}>
+     */
+    public static function payableBills(Context $c): array
+    {
+        $payrexx = $c->app->make(PayrexxCheckout::class);
+        if (!$payrexx->isAvailable()) {
+            return [];
+        }
+        $bills = self::openBills($c, $c->app->make(AccountOverview::class)->build((int) $c->user->getUserID(), 0, 0));
+
+        return array_values(array_filter($bills, static fn (array $bill) => $payrexx->canPay($bill['order'])));
+    }
+
+    /**
      * The open orders and open event tabs of the overview as flat rows.
      *
      * @return array<int, array{id: int, date: string, what: string, total: float, order: object}>
@@ -167,7 +183,7 @@ class CreditCommands
         ];
     }
 
-    protected static function money(float $amount): string
+    public static function money(float $amount): string
     {
         if (class_exists(\Concrete\Package\CommunityStore\Src\CommunityStore\Utilities\Price::class)) {
             return trim(strip_tags((string) \Concrete\Package\CommunityStore\Src\CommunityStore\Utilities\Price::format($amount)));

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cli_mode\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-10 14:15+0200\n"
+"POT-Creation-Date: 2026-10-10 17:11+0200\n"
 "PO-Revision-Date: 2026-10-09 22:30+0200\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,13 +94,13 @@ msgstr "Wen begrüßen"
 msgid "In capitals"
 msgstr "In Großbuchstaben"
 
-#: examples/HelloCommand.php:39 src/Command/Builtin.php:367
-#: src/Command/Builtin.php:392 src/Command/Fun/FigletCommand.php:31
-#: src/Command/Fun/LolcatCommand.php:30 src/Command/Lan/EventCommands.php:79
-#: src/Command/Lan/EventCommands.php:193 src/Command/Lan/EventCommands.php:289
-#: src/Command/Lan/EventCommands.php:392 src/Command/Lan/EventCommands.php:449
-#: src/Command/Site/SearchCommand.php:29 src/Command/Site/ShowCommand.php:34
-#: src/Command/Site/StatCommand.php:28
+#: examples/HelloCommand.php:39 src/Command/Builtin.php:371
+#: src/Command/Builtin.php:387 src/Command/Builtin.php:412
+#: src/Command/Fun/FigletCommand.php:31 src/Command/Fun/LolcatCommand.php:30
+#: src/Command/Lan/EventCommands.php:79 src/Command/Lan/EventCommands.php:193
+#: src/Command/Lan/EventCommands.php:289 src/Command/Lan/EventCommands.php:392
+#: src/Command/Lan/EventCommands.php:449 src/Command/Site/SearchCommand.php:29
+#: src/Command/Site/ShowCommand.php:34 src/Command/Site/StatCommand.php:28
 #: src/Command/System/AttitudeCommand.php:31
 #: src/Command/System/HelpCommand.php:27
 #: src/Command/System/LanguageCommand.php:31
@@ -323,7 +323,7 @@ msgid "Everybody"
 msgstr "Alle"
 
 #: single_pages/dashboard/system/basics/cli_mode.php:81
-#: src/Command/Builtin.php:668
+#: src/Command/Builtin.php:688
 msgid "Members"
 msgstr "Mitglieder"
 
@@ -331,47 +331,47 @@ msgstr "Mitglieder"
 msgid "Admins"
 msgstr "Admins"
 
-#: src/Command/Builtin.php:66
+#: src/Command/Builtin.php:68
 msgid "(no text on this page. It lets its blocks do the talking.)"
 msgstr "(kein Text auf dieser Seite. Sie lässt lieber ihre Blöcke reden.)"
 
-#: src/Command/Builtin.php:71
+#: src/Command/Builtin.php:73
 msgid "Pages here"
 msgstr "Seiten hier"
 
-#: src/Command/Builtin.php:75
+#: src/Command/Builtin.php:77
 msgid "cd <name> goes in, cat <name> reads, cd .. goes back."
 msgstr "cd <name> geht hinein, cat <name> liest, cd .. geht zurück."
 
-#: src/Command/Builtin.php:97
+#: src/Command/Builtin.php:99
 msgid "untitled"
 msgstr "ohne Titel"
 
-#: src/Command/Builtin.php:100
+#: src/Command/Builtin.php:102
 #, php-format
 msgid "[image: %1$s (id %2$s)]"
 msgstr "[Bild: %1$s (ID %2$s)]"
 
-#: src/Command/Builtin.php:111
+#: src/Command/Builtin.php:113
 msgid "Does nothing, successfully"
 msgstr "Tut nichts, und zwar erfolgreich"
 
-#: src/Command/Builtin.php:114
+#: src/Command/Builtin.php:116
 msgid "Does nothing, unsuccessfully"
 msgstr "Tut nichts, und zwar erfolglos"
 
-#: src/Command/Builtin.php:117
+#: src/Command/Builtin.php:119
 msgid "A short tour of the terminal"
 msgstr "Eine kurze Tour durchs Terminal"
 
-#: src/Command/Builtin.php:119
+#: src/Command/Builtin.php:121
 msgid ""
 "<accent>Welcome to snarkbash.</accent> A shell for a website. Yes, really."
 msgstr ""
 "<accent>Willkommen bei snarkbash.</accent> Eine Shell für eine Website. Ja, "
 "wirklich."
 
-#: src/Command/Builtin.php:121
+#: src/Command/Builtin.php:123
 msgid ""
 "<comment>1. Move around</comment>  The site is a file system: pages are "
 "folders."
@@ -379,7 +379,7 @@ msgstr ""
 "<comment>1. Bewegen</comment>  Die Website ist ein Dateisystem: Seiten sind "
 "Ordner."
 
-#: src/Command/Builtin.php:122
+#: src/Command/Builtin.php:124
 msgid ""
 "   <info>ls</info>  lists the pages here · <info>cd events</info>  walks in "
 "· <info>cd ..</info>  walks out · <info>tree</info>  shows it all"
@@ -387,7 +387,7 @@ msgstr ""
 "   <info>ls</info>  listet die Seiten hier · <info>cd events</info>  geht "
 "hinein · <info>cd ..</info>  geht hinaus · <info>tree</info>  zeigt alles"
 
-#: src/Command/Builtin.php:123
+#: src/Command/Builtin.php:125
 msgid ""
 "   <info>cat events</info>  reads a page · <info>open events</info>  "
 "actually goes there"
@@ -395,7 +395,7 @@ msgstr ""
 "   <info>cat events</info>  liest eine Seite · <info>open events</info>  "
 "geht tatsächlich hin"
 
-#: src/Command/Builtin.php:125
+#: src/Command/Builtin.php:127
 msgid ""
 "<comment>2. Be lazy</comment>  <info>Tab</info> completes commands and page "
 "names. <info>↑</info> / <info>↓</info> bring back what you typed."
@@ -404,7 +404,7 @@ msgstr ""
 "Seitennamen. <info>↑</info> / <info>↓</info> holen zurück, was du getippt "
 "hast."
 
-#: src/Command/Builtin.php:126
+#: src/Command/Builtin.php:128
 msgid ""
 "   <info>Ctrl+L</info> clears, <info>Ctrl+C</info> drops the line, "
 "<info>Esc</info> leaves."
@@ -412,7 +412,7 @@ msgstr ""
 "   <info>Ctrl+L</info> leert den Bildschirm, <info>Ctrl+C</info> verwirft "
 "die Zeile, <info>Esc</info> geht raus."
 
-#: src/Command/Builtin.php:128
+#: src/Command/Builtin.php:130
 msgid ""
 "<comment>3. Combine</comment>  Pipes and lists work: <info>ls -l | grep "
 "events</info>, <info>cd events && ls</info>, <info>echo hi; whoami</info>"
@@ -421,7 +421,7 @@ msgstr ""
 "-l | grep events</info>, <info>cd events && ls</info>, <info>echo hi; "
 "whoami</info>"
 
-#: src/Command/Builtin.php:129
+#: src/Command/Builtin.php:131
 msgid ""
 "   Variables too: <info>export GREETING=hello</info> then <info>echo "
 "$GREETING $USER</info>. Shortcuts: <info>alias ll=\"ls -l\"</info>"
@@ -429,7 +429,7 @@ msgstr ""
 "   Variablen auch: <info>export GREETING=hallo</info>, dann <info>echo "
 "$GREETING $USER</info>. Abkürzungen: <info>alias ll=\"ls -l\"</info>"
 
-#: src/Command/Builtin.php:131
+#: src/Command/Builtin.php:133
 msgid ""
 "<comment>4. Get help</comment>  <info>help</info> lists everything you may "
 "run, <info>help <command></info> explains one."
@@ -437,7 +437,7 @@ msgstr ""
 "<comment>4. Hilfe holen</comment>  <info>help</info> listet alles, was du "
 "ausführen darfst, <info>help <command></info> erklärt einen Befehl."
 
-#: src/Command/Builtin.php:132
+#: src/Command/Builtin.php:134
 msgid ""
 "   Commands that are not for you answer with \"Permission denied\". Log in "
 "and they may change their mind."
@@ -445,7 +445,7 @@ msgstr ""
 "   Befehle, die nicht für dich sind, antworten mit „Keine Berechtigung“. "
 "Melde dich an, vielleicht überlegen sie es sich dann anders."
 
-#: src/Command/Builtin.php:134
+#: src/Command/Builtin.php:136
 msgid ""
 "<comment>5. You</comment>  <info>login</info> signs you in right here, "
 "<info>logout</info> out again. <info>whoami</info> if you forgot."
@@ -454,7 +454,7 @@ msgstr ""
 "<info>logout</info> wieder ab. <info>whoami</info>, falls du es vergessen "
 "hast."
 
-#: src/Command/Builtin.php:135
+#: src/Command/Builtin.php:137
 msgid ""
 "   <info>login</info> takes your user name or your email address. Forgot the "
 "password? <info>passwd <email></info> mails you a link."
@@ -462,7 +462,12 @@ msgstr ""
 "   <info>login</info> nimmt deinen Benutzernamen oder deine E-Mail-Adresse. "
 "Passwort vergessen? <info>passwd <email></info> schickt dir einen Link."
 
-#: src/Command/Builtin.php:136
+#: src/Command/Builtin.php:138
+msgid "   No account yet? <info>register</info> creates one right here."
+msgstr ""
+"   Noch kein Konto? <info>register</info> erstellt dir gleich hier eins."
+
+#: src/Command/Builtin.php:139
 msgid ""
 "   <info>lang de</info> switches the terminal to German, <info>lang en</"
 "info> back. <info>attitude</info> sets how rude I am."
@@ -470,7 +475,7 @@ msgstr ""
 "   <info>lang de</info> schaltet auf Deutsch, <info>lang en</info> zurück "
 "auf Englisch. <info>attitude</info> bestimmt, wie frech ich bin."
 
-#: src/Command/Builtin.php:140
+#: src/Command/Builtin.php:143
 msgid ""
 "<comment>6. LAN</comment>  <info>events</info> what is coming, <info>next</"
 "info> the countdown, <info>event <name></info> all about one."
@@ -478,7 +483,15 @@ msgstr ""
 "<comment>6. LAN</comment>  <info>events</info> was ansteht, <info>next</"
 "info> der Countdown, <info>event <name></info> alles über eines."
 
-#: src/Command/Builtin.php:142
+#: src/Command/Builtin.php:144
+msgid ""
+"   <info>easy</info> takes you through the whole signup step by step, no "
+"commands needed."
+msgstr ""
+"   <info>easy</info> führt dich Schritt für Schritt durch die ganze "
+"Anmeldung, ganz ohne Befehle."
+
+#: src/Command/Builtin.php:146
 msgid ""
 "   <info>signup <id></info> gets you in, <info>seat</info> shows the plan "
 "and takes one (<info>seat <event> <seat></info>), <info>signups</info> lists "
@@ -488,7 +501,7 @@ msgstr ""
 "Sitzplan und reserviert einen Platz (<info>seat <event> <platz></info>), "
 "<info>signups</info> listet deine Anmeldungen."
 
-#: src/Command/Builtin.php:143
+#: src/Command/Builtin.php:147
 msgid ""
 "   After <info>login</info>: <info>signup <id></info> gets you in, "
 "<info>seat</info> picks your seat, <info>signups</info> lists yours."
@@ -497,7 +510,7 @@ msgstr ""
 "<info>seat</info> sucht dir einen Platz aus, <info>signups</info> listet "
 "deine Anmeldungen."
 
-#: src/Command/Builtin.php:145
+#: src/Command/Builtin.php:149
 msgid ""
 "   <info>balance</info> shows your credit and open bills, <info>pay</info> "
 "pays one online."
@@ -505,11 +518,11 @@ msgstr ""
 "   <info>balance</info> zeigt dein Guthaben und offene Rechnungen, "
 "<info>pay</info> bezahlt eine online."
 
-#: src/Command/Builtin.php:147
+#: src/Command/Builtin.php:151
 msgid "   <info>participants</info> shows who is in and where they sit."
 msgstr "   <info>participants</info> zeigt, wer dabei ist und wo alle sitzen."
 
-#: src/Command/Builtin.php:151
+#: src/Command/Builtin.php:155
 msgid ""
 "<comment>7. Look and fun</comment>  <info>theme amber</info>, <info>theme "
 "green</info>, <info>theme matrix</info>, <info>theme blackout</info>, "
@@ -519,7 +532,7 @@ msgstr ""
 "<info>theme green</info>, <info>theme matrix</info>, <info>theme blackout</"
 "info>, <info>theme paper</info>."
 
-#: src/Command/Builtin.php:152
+#: src/Command/Builtin.php:156
 msgid ""
 "   <info>show <file-id></info> turns an image into ASCII art, <info>figlet "
 "hello</info> writes big, <info>cowsay</info>, <info>fortune</info>, "
@@ -529,7 +542,7 @@ msgstr ""
 "hallo</info> schreibt groß, <info>cowsay</info>, <info>fortune</info>, "
 "<info>neofetch</info>."
 
-#: src/Command/Builtin.php:154
+#: src/Command/Builtin.php:158
 msgid ""
 "Want to write your own commands? It works like Concrete CLI commands: see "
 "the package README."
@@ -537,194 +550,194 @@ msgstr ""
 "Willst du eigene Befehle schreiben? Das funktioniert wie bei Concrete-CLI-"
 "Befehlen: siehe README des Pakets."
 
-#: src/Command/Builtin.php:160
+#: src/Command/Builtin.php:164
 msgid "Clears the screen"
 msgstr "Leert den Bildschirm"
 
-#: src/Command/Builtin.php:165
+#: src/Command/Builtin.php:169
 msgid "Prints its arguments"
 msgstr "Gibt seine Argumente aus"
 
-#: src/Command/Builtin.php:170
+#: src/Command/Builtin.php:174
 msgid "Words to print"
 msgstr "Auszugebende Wörter"
 
-#: src/Command/Builtin.php:170
+#: src/Command/Builtin.php:174
 msgid "No trailing newline"
 msgstr "Kein abschließender Zeilenumbruch"
 
-#: src/Command/Builtin.php:171
+#: src/Command/Builtin.php:175
 msgid "Who are you, anyway?"
 msgstr "Wer bist du eigentlich?"
 
-#: src/Command/Builtin.php:174
+#: src/Command/Builtin.php:178
 msgid "(a guest. How mysterious. Log in and we will talk.)"
 msgstr "(ein Gast. Wie geheimnisvoll. Melde dich an, dann reden wir.)"
 
-#: src/Command/Builtin.php:179
+#: src/Command/Builtin.php:183
 msgid "Your user and groups"
 msgstr "Dein Benutzer und deine Gruppen"
 
-#: src/Command/Builtin.php:187
+#: src/Command/Builtin.php:191
 msgid "Registered Users"
 msgstr "Registrierte Benutzer"
 
-#: src/Command/Builtin.php:187
+#: src/Command/Builtin.php:191
 msgid "Administrators"
 msgstr "Administratoren"
 
-#: src/Command/Builtin.php:193
+#: src/Command/Builtin.php:197
 msgid "The name of this machine"
 msgstr "Der Name dieser Maschine"
 
-#: src/Command/Builtin.php:198
+#: src/Command/Builtin.php:202
 msgid "System information"
 msgstr "Systeminformationen"
 
-#: src/Command/Builtin.php:202
+#: src/Command/Builtin.php:206
 msgid "Everything we dare to say"
 msgstr "Alles, was wir uns zu sagen trauen"
 
-#: src/Command/Builtin.php:203
+#: src/Command/Builtin.php:207
 msgid "The current date and time"
 msgstr "Das aktuelle Datum und die Uhrzeit"
 
-#: src/Command/Builtin.php:208
+#: src/Command/Builtin.php:212
 msgid "How long this session has been running"
 msgstr "Wie lange diese Sitzung schon läuft"
 
-#: src/Command/Builtin.php:210
+#: src/Command/Builtin.php:214
 #, php-format
 msgid " %s up %d min, 1 user, load average: 0.%02d, 0.%02d, 0.%02d"
 msgstr " %s up %d min, 1 Benutzer, Durchschnittslast: 0,%02d, 0,%02d, 0,%02d"
 
-#: src/Command/Builtin.php:214
+#: src/Command/Builtin.php:218
 msgid "Prints the shell variables"
 msgstr "Gibt die Shell-Variablen aus"
 
-#: src/Command/Builtin.php:221
+#: src/Command/Builtin.php:225
 msgid "Sets a variable: export NAME=value"
 msgstr "Setzt eine Variable: export NAME=wert"
 
-#: src/Command/Builtin.php:224
+#: src/Command/Builtin.php:228
 #, php-format
 msgid "export: `%s': not a valid identifier. Try NAME=value."
 msgstr "export: »%s«: ist kein gültiger Bezeichner. Versuch's mit NAME=wert."
 
-#: src/Command/Builtin.php:233
+#: src/Command/Builtin.php:237
 msgid "Defines or lists aliases: alias ll=\"ls -l\""
 msgstr "Definiert oder listet Aliasse: alias ll=\"ls -l\""
 
-#: src/Command/Builtin.php:245
+#: src/Command/Builtin.php:249
 #, php-format
 msgid "alias: %s: not found"
 msgstr "alias: %s: nicht gefunden"
 
-#: src/Command/Builtin.php:254
+#: src/Command/Builtin.php:258
 msgid "alias: use alias name=\"command\"."
 msgstr "alias: Verwende alias name=\"befehl\"."
 
-#: src/Command/Builtin.php:262
+#: src/Command/Builtin.php:266
 msgid "Removes an alias"
 msgstr "Entfernt einen Alias"
 
-#: src/Command/Builtin.php:265
+#: src/Command/Builtin.php:269
 #, php-format
 msgid "unalias: %s: not found"
 msgstr "unalias: %s: nicht gefunden"
 
-#: src/Command/Builtin.php:272
+#: src/Command/Builtin.php:276
 msgid "The alias"
 msgstr "Der Alias"
 
-#: src/Command/Builtin.php:273
+#: src/Command/Builtin.php:277
 msgid "What you typed before"
 msgstr "Was du vorher getippt hast"
 
-#: src/Command/Builtin.php:283
+#: src/Command/Builtin.php:287
 msgid "That is a lot of typing for one website."
 msgstr "Ganz schön viel Getippe für eine Website."
 
-#: src/Command/Builtin.php:287
+#: src/Command/Builtin.php:291
 msgid "Forget everything"
 msgstr "Alles vergessen"
 
-#: src/Command/Builtin.php:288
+#: src/Command/Builtin.php:292
 msgid "Where a command comes from"
 msgstr "Woher ein Befehl kommt"
 
-#: src/Command/Builtin.php:297
+#: src/Command/Builtin.php:301
 #, php-format
 msgid "%s not found"
 msgstr "%s nicht gefunden"
 
-#: src/Command/Builtin.php:304
+#: src/Command/Builtin.php:308
 msgid "The command"
 msgstr "Der Befehl"
 
-#: src/Command/Builtin.php:305
+#: src/Command/Builtin.php:309
 msgid "Changes the terminal colors"
 msgstr "Ändert die Farben des Terminals"
 
-#: src/Command/Builtin.php:309
+#: src/Command/Builtin.php:313
 #, php-format
 msgid "Themes: %s"
 msgstr "Themes: %s"
 
-#: src/Command/Builtin.php:314
+#: src/Command/Builtin.php:318
 #, php-format
 msgid "theme: %1$s: unknown. Taste is a personal matter, but pick one of: %2$s"
 msgstr ""
 "theme: %1$s: unbekannt. Über Geschmack lässt sich streiten, aber nimm eins "
 "davon: %2$s"
 
-#: src/Command/Builtin.php:319
+#: src/Command/Builtin.php:323
 #, php-format
 msgid "Theme: %s"
 msgstr "Theme: %s"
 
-#: src/Command/Builtin.php:322
+#: src/Command/Builtin.php:326
 msgid "blackout, green, amber, matrix or paper"
 msgstr "blackout, green, amber, matrix oder paper"
 
-#: src/Command/Builtin.php:323
+#: src/Command/Builtin.php:327
 msgid "Leaves the terminal"
 msgstr "Verlässt das Terminal"
 
-#: src/Command/Builtin.php:340
+#: src/Command/Builtin.php:344
 msgid "Signs you out of the website"
 msgstr "Meldet dich von der Website ab"
 
-#: src/Command/Builtin.php:342
+#: src/Command/Builtin.php:346
 msgid "You are not logged in. You cannot leave what you never entered."
 msgstr "Du bist nicht angemeldet. Du kannst nicht gehen, wo du nie warst."
 
-#: src/Command/Builtin.php:342
+#: src/Command/Builtin.php:346
 msgid "logout: not logged in"
 msgstr "logout: nicht angemeldet"
 
-#: src/Command/Builtin.php:351
+#: src/Command/Builtin.php:355
 msgid "Sign in to the website"
 msgstr "An der Website anmelden"
 
-#: src/Command/Builtin.php:353
+#: src/Command/Builtin.php:357
 #, php-format
 msgid "You are already %s. Identity crises are for Tuesdays."
 msgstr "Du bist schon %s. Identitätskrisen gibt's nur dienstags."
 
-#: src/Command/Builtin.php:358
+#: src/Command/Builtin.php:362
 msgid "Redirecting to the login page."
 msgstr "Weiterleitung zur Login-Seite."
 
-#: src/Command/Builtin.php:367
+#: src/Command/Builtin.php:371
 msgid "Your user name or email address"
 msgstr "Dein Benutzername oder deine E-Mail-Adresse"
 
-#: src/Command/Builtin.php:367
+#: src/Command/Builtin.php:371
 msgid "Use the login page of the website instead"
 msgstr "Stattdessen die Login-Seite der Website verwenden"
 
-#: src/Command/Builtin.php:367
+#: src/Command/Builtin.php:371
 msgid ""
 "Asks for your user name or email address and the password right here. The "
 "password is not echoed and not kept in the history."
@@ -733,33 +746,65 @@ msgstr ""
 "dem Passwort. Das Passwort wird nicht angezeigt und nicht im Verlauf "
 "gespeichert."
 
-#: src/Command/Builtin.php:367
+#: src/Command/Builtin.php:371
 msgid "the regular login page (for a password that must be changed, say)"
 msgstr ""
 "die normale Login-Seite (etwa für ein Passwort, das geändert werden muss)"
 
-#: src/Command/Builtin.php:367 src/Controller/Terminal.php:132
+#: src/Command/Builtin.php:371 src/Controller/Terminal.php:146
 #, php-format
 msgid "Forgot your password? Type: %s"
 msgstr "Passwort vergessen? Tippe: %s"
 
-#: src/Command/Builtin.php:368
+#: src/Command/Builtin.php:372
+msgid "Create an account"
+msgstr "Ein Konto erstellen"
+
+#: src/Command/Builtin.php:374 src/Dialog/RegisterDialog.php:65
+#, php-format
+msgid "You already have an account and you are signed in as %s."
+msgstr "Du hast schon ein Konto und bist als %s angemeldet."
+
+#: src/Command/Builtin.php:379
+msgid "Redirecting to the registration page."
+msgstr "Weiter zur Registrierungsseite."
+
+#: src/Command/Builtin.php:387
+msgid "Use the registration page of the website instead"
+msgstr "Stattdessen die Registrierungsseite der Website verwenden"
+
+#: src/Command/Builtin.php:387
+msgid ""
+"Creates your account right here, one question at a time: the same details as "
+"the registration page. The password is not echoed and not kept in the "
+"history. Ctrl+C stops, nothing is saved before you confirm."
+msgstr ""
+"Erstellt dein Konto gleich hier, eine Frage nach der anderen: dieselben "
+"Angaben wie auf der Registrierungsseite. Das Passwort wird nicht angezeigt "
+"und nicht im Verlauf gespeichert. Ctrl+C bricht ab, gespeichert wird erst, "
+"wenn du bestätigst."
+
+#: src/Command/Builtin.php:387
+msgid "the regular registration page"
+msgstr "die normale Registrierungsseite"
+
+#: src/Command/Builtin.php:388
 msgid "Sends you a link to set a new password"
 msgstr "Schickt dir einen Link, um ein neues Passwort zu setzen"
 
-#: src/Command/Builtin.php:374
+#: src/Command/Builtin.php:394
 msgid ""
 "passwd: whose password? Give your email address or user name: passwd <email>"
 msgstr ""
 "passwd: Wessen Passwort? Gib deine E-Mail-Adresse oder deinen Benutzernamen "
 "an: passwd <email>"
 
-#: src/Command/Builtin.php:385
+#: src/Command/Builtin.php:405
 #, php-format
 msgid "A link to set a new password is on its way to %s."
 msgstr "Ein Link für ein neues Passwort ist unterwegs an %s."
 
-#: src/Command/Builtin.php:386
+#: src/Command/Builtin.php:406
 #, php-format
 msgid ""
 "If an account belongs to \"%s\", a link to set a new password is on its way "
@@ -768,19 +813,19 @@ msgstr ""
 "Falls es zu «%s» ein Konto gibt, ist ein Link für ein neues Passwort an "
 "dessen E-Mail-Adresse unterwegs."
 
-#: src/Command/Builtin.php:388
+#: src/Command/Builtin.php:408
 msgid "Check your spam folder too. That is where my mails go to feel unloved."
 msgstr ""
 "Schau auch im Spam-Ordner nach. Dorthin gehen meine Mails, um sich ungeliebt "
 "zu fühlen."
 
-#: src/Command/Builtin.php:392
+#: src/Command/Builtin.php:412
 msgid "Your email address or user name (not needed when you are logged in)"
 msgstr ""
 "Deine E-Mail-Adresse oder dein Benutzername (nicht nötig, wenn du angemeldet "
 "bist)"
 
-#: src/Command/Builtin.php:392
+#: src/Command/Builtin.php:412
 msgid ""
 "Sends the same mail as \"Forgot password?\" on the login page: a link to set "
 "a new password. The terminal never tells whether an account exists."
@@ -789,237 +834,237 @@ msgstr ""
 "einen Link, um ein neues Passwort zu setzen. Das Terminal verrät nie, ob es "
 "ein Konto gibt."
 
-#: src/Command/Builtin.php:392
+#: src/Command/Builtin.php:412
 msgid "when you are logged in: a link to your own address"
 msgstr "wenn du angemeldet bist: ein Link an deine eigene Adresse"
 
-#: src/Command/Builtin.php:409
+#: src/Command/Builtin.php:429
 msgid "Keeps the lines that match (use it after a pipe)"
 msgstr "Behält die passenden Zeilen (nach einer Pipe verwenden)"
 
-#: src/Command/Builtin.php:429
+#: src/Command/Builtin.php:449
 msgid "Text to look for"
 msgstr "Gesuchter Text"
 
-#: src/Command/Builtin.php:429
+#: src/Command/Builtin.php:449
 msgid "Ignore case"
 msgstr "Groß-/Kleinschreibung ignorieren"
 
-#: src/Command/Builtin.php:429
+#: src/Command/Builtin.php:449
 msgid "Lines that do not match"
 msgstr "Zeilen, die nicht passen"
 
-#: src/Command/Builtin.php:429
+#: src/Command/Builtin.php:449
 msgid "Only count"
 msgstr "Nur zählen"
 
-#: src/Command/Builtin.php:430
+#: src/Command/Builtin.php:450
 msgid "The first lines of the input"
 msgstr "Die ersten Zeilen der Eingabe"
 
-#: src/Command/Builtin.php:436 src/Command/Builtin.php:444
+#: src/Command/Builtin.php:456 src/Command/Builtin.php:464
 msgid "How many"
 msgstr "Wie viele"
 
-#: src/Command/Builtin.php:437
+#: src/Command/Builtin.php:457
 msgid "The last lines of the input"
 msgstr "Die letzten Zeilen der Eingabe"
 
-#: src/Command/Builtin.php:445
+#: src/Command/Builtin.php:465
 msgid "Counts lines, words and characters of the input"
 msgstr "Zählt Zeilen, Wörter und Zeichen der Eingabe"
 
-#: src/Command/Builtin.php:455
+#: src/Command/Builtin.php:475
 msgid "Only lines"
 msgstr "Nur Zeilen"
 
-#: src/Command/Builtin.php:456
+#: src/Command/Builtin.php:476
 msgid "Sorts the lines of the input"
 msgstr "Sortiert die Zeilen der Eingabe"
 
-#: src/Command/Builtin.php:464
+#: src/Command/Builtin.php:484
 msgid "Backwards"
 msgstr "Rückwärts"
 
-#: src/Command/Builtin.php:465
+#: src/Command/Builtin.php:485
 msgid "Drops repeated neighbouring lines"
 msgstr "Entfernt wiederholte benachbarte Zeilen"
 
-#: src/Command/Builtin.php:487
+#: src/Command/Builtin.php:507
 msgid "Where you are on the site"
 msgstr "Wo du auf der Website bist"
 
-#: src/Command/Builtin.php:492
+#: src/Command/Builtin.php:512
 msgid "Lists the pages below the current one"
 msgstr "Listet die Seiten unter der aktuellen"
 
-#: src/Command/Builtin.php:503
+#: src/Command/Builtin.php:523
 msgid "(nothing here. Echo... echo... echo...)"
 msgstr "(nichts hier. Echo... echo... echo...)"
 
-#: src/Command/Builtin.php:528 src/Command/Builtin.php:597
-#: src/Command/Builtin.php:617
+#: src/Command/Builtin.php:548 src/Command/Builtin.php:617
+#: src/Command/Builtin.php:637
 msgid "A page path"
 msgstr "Ein Seitenpfad"
 
-#: src/Command/Builtin.php:528
+#: src/Command/Builtin.php:548
 msgid "Details"
 msgstr "Details"
 
-#: src/Command/Builtin.php:528
+#: src/Command/Builtin.php:548
 msgid "Include hidden and system pages"
 msgstr "Versteckte und Systemseiten einschließen"
 
-#: src/Command/Builtin.php:529
+#: src/Command/Builtin.php:549
 msgid "Walks to another page"
 msgstr "Wechselt zu einer anderen Seite"
 
-#: src/Command/Builtin.php:541
+#: src/Command/Builtin.php:561
 msgid ""
 "A page path, \"..\" goes up, \"-\" is not supported (we are not that fancy)"
 msgstr ""
 "Ein Seitenpfad, \"..\" geht nach oben, \"-\" wird nicht unterstützt (so "
 "schick sind wir nicht)"
 
-#: src/Command/Builtin.php:542
+#: src/Command/Builtin.php:562
 msgid "Shows the page tree"
 msgstr "Zeigt den Seitenbaum"
 
-#: src/Command/Builtin.php:570
+#: src/Command/Builtin.php:590
 msgid "... and more. I am not a sitemap."
 msgstr "... und mehr. Ich bin keine Sitemap."
 
-#: src/Command/Builtin.php:574
+#: src/Command/Builtin.php:594
 msgid "Where to start"
 msgstr "Wo es losgeht"
 
-#: src/Command/Builtin.php:574
+#: src/Command/Builtin.php:594
 msgid "How deep"
 msgstr "Wie tief"
 
-#: src/Command/Builtin.php:575
+#: src/Command/Builtin.php:595
 msgid "Reads a page (or prints the piped input)"
 msgstr "Liest eine Seite (oder gibt die Eingabe aus der Pipe aus)"
 
-#: src/Command/Builtin.php:583
+#: src/Command/Builtin.php:603
 msgid "missing page path"
 msgstr "Seitenpfad fehlt"
 
-#: src/Command/Builtin.php:598
+#: src/Command/Builtin.php:618
 msgid ""
 "Opens a page (in the browser, or right here when the terminal is mandatory)"
 msgstr ""
 "Öffnet eine Seite (im Browser oder direkt hier, wenn das Terminal Pflicht "
 "ist)"
 
-#: src/Command/Builtin.php:613
+#: src/Command/Builtin.php:633
 #, php-format
 msgid "Opening %s..."
 msgstr "Öffne %s..."
 
-#: src/Command/Builtin.php:613
+#: src/Command/Builtin.php:633
 msgid "(using a graphical browser, like it is 1998)"
 msgstr "(mit einem grafischen Browser, als wäre es 1998)"
 
-#: src/Command/Builtin.php:618
+#: src/Command/Builtin.php:638
 msgid "Looks for pages by name"
 msgstr "Sucht Seiten nach Namen"
 
-#: src/Command/Builtin.php:639
+#: src/Command/Builtin.php:659
 #, php-format
 msgid "Nothing called \"%s\". Looked everywhere. Twice."
 msgstr "Nichts namens „%s“. Überall gesucht. Zweimal."
 
-#: src/Command/Builtin.php:643
+#: src/Command/Builtin.php:663
 msgid "Part of a page name or handle"
 msgstr "Teil eines Seitennamens oder Handles"
 
-#: src/Command/Builtin.php:655
+#: src/Command/Builtin.php:675
 msgid "Shows off this website"
 msgstr "Gibt mit dieser Website an"
 
-#: src/Command/Builtin.php:666
+#: src/Command/Builtin.php:686
 msgid "Theme"
 msgstr "Theme"
 
-#: src/Command/Builtin.php:666
+#: src/Command/Builtin.php:686
 msgid "none"
 msgstr "keins"
 
-#: src/Command/Builtin.php:667
+#: src/Command/Builtin.php:687
 msgid "Pages"
 msgstr "Seiten"
 
-#: src/Command/Builtin.php:670
+#: src/Command/Builtin.php:690
 msgid "Uptime"
 msgstr "Laufzeit"
 
-#: src/Command/Builtin.php:670
+#: src/Command/Builtin.php:690
 msgid "since the last time somebody touched it"
 msgstr "seit irgendwer zuletzt daran rumgefummelt hat"
 
-#: src/Command/Builtin.php:679
+#: src/Command/Builtin.php:699
 msgid "A cow says it"
 msgstr "Eine Kuh sagt es"
 
-#: src/Command/Builtin.php:680
+#: src/Command/Builtin.php:700
 msgid "Moo. Say something next time."
 msgstr "Muh. Sag beim nächsten Mal was."
 
-#: src/Command/Builtin.php:692
+#: src/Command/Builtin.php:712
 msgid "What the cow says"
 msgstr "Was die Kuh sagt"
 
-#: src/Command/Builtin.php:693
+#: src/Command/Builtin.php:713
 msgid "Wisdom of dubious quality"
 msgstr "Weisheiten von zweifelhafter Qualität"
 
-#: src/Command/Builtin.php:695
+#: src/Command/Builtin.php:715
 msgid "A true gamer never rage quits. He lets the router do it for him."
 msgstr ""
 "Ein echter Gamer ragequittet nie. Das lässt er den Router für sich erledigen."
 
-#: src/Command/Builtin.php:696
+#: src/Command/Builtin.php:716
 msgid "There is no cloud. There is just someone else's LAN party."
 msgstr "Es gibt keine Cloud. Es gibt nur die LAN-Party von jemand anderem."
 
-#: src/Command/Builtin.php:697
+#: src/Command/Builtin.php:717
 msgid "It works on my machine. The machine is also on fire."
 msgstr "Auf meiner Maschine läuft's. Die Maschine brennt allerdings auch."
 
-#: src/Command/Builtin.php:698
+#: src/Command/Builtin.php:718
 msgid "The best network cable is the one you did not trip over."
 msgstr "Das beste Netzwerkkabel ist das, über das du nicht gestolpert bist."
 
-#: src/Command/Builtin.php:699
+#: src/Command/Builtin.php:719
 msgid "Latency is just the universe telling you to touch grass."
 msgstr ""
 "Latenz ist nur das Universum, das dir sagt: Geh mal raus an die frische Luft."
 
-#: src/Command/Builtin.php:700
+#: src/Command/Builtin.php:720
 msgid "First rule of LAN club: bring your own extension cord."
 msgstr "Erste Regel des LAN-Clubs: Bring deine eigene Verlängerungsschnur mit."
 
-#: src/Command/Builtin.php:701
+#: src/Command/Builtin.php:721
 msgid "Today is a good day to back up your save games."
 msgstr "Heute ist ein guter Tag, deine Spielstände zu sichern."
 
-#: src/Command/Builtin.php:702
+#: src/Command/Builtin.php:722
 msgid "You will soon meet a stranger. He will ask for your Wi-Fi password."
 msgstr ""
 "Du wirst bald einen Fremden treffen. Er wird nach deinem WLAN-Passwort "
 "fragen."
 
-#: src/Command/Builtin.php:703
+#: src/Command/Builtin.php:723
 msgid "The seat you pick is the seat somebody else wanted. This is the way."
 msgstr ""
 "Der Platz, den du wählst, ist der, den jemand anders wollte. Das ist der Weg."
 
-#: src/Command/Builtin.php:709
+#: src/Command/Builtin.php:729
 msgid "Pretends to ping a host"
 msgstr "Tut so, als würde es einen Host anpingen"
 
-#: src/Command/Builtin.php:719
+#: src/Command/Builtin.php:739
 msgid ""
 "(None of this is real. The packets are made up. The latency is also made up. "
 "So is your internet.)"
@@ -1027,19 +1072,19 @@ msgstr ""
 "(Nichts davon ist echt. Die Pakete sind erfunden. Die Latenz ist auch "
 "erfunden. Genau wie dein Internet.)"
 
-#: src/Command/Builtin.php:722
+#: src/Command/Builtin.php:742
 msgid "A host"
 msgstr "Ein Host"
 
-#: src/Command/Builtin.php:723
+#: src/Command/Builtin.php:743
 msgid "Do it as somebody important"
 msgstr "Mach's als jemand Wichtiges"
 
-#: src/Command/Builtin.php:727
+#: src/Command/Builtin.php:747
 msgid "What to run"
 msgstr "Was ausgeführt werden soll"
 
-#: src/Command/Builtin.php:740
+#: src/Command/Builtin.php:760
 msgid ""
 "mv: cannot move pages. They are attached to the site tree with emotional "
 "bonds."
@@ -1047,42 +1092,42 @@ msgstr ""
 "mv: Seiten lassen sich nicht verschieben. Sie hängen mit emotionalen "
 "Bindungen am Seitenbaum."
 
-#: src/Command/Builtin.php:741
+#: src/Command/Builtin.php:761
 msgid "cp: copy-pasting a website is called \"a competitor\"."
 msgstr "cp: Eine Website per Copy-and-paste nennt man „Konkurrenz“."
 
-#: src/Command/Builtin.php:742
+#: src/Command/Builtin.php:762
 msgid "chmod: nice try. Permissions are managed by grown-ups in the dashboard."
 msgstr ""
 "chmod: Netter Versuch. Berechtigungen verwalten die Erwachsenen im Dashboard."
 
-#: src/Command/Builtin.php:743
+#: src/Command/Builtin.php:763
 msgid "chown: you can't own the site. You can only visit it. Forever."
 msgstr ""
 "chown: Die Website kann dir nicht gehören. Du kannst sie nur besuchen. Für "
 "immer."
 
-#: src/Command/Builtin.php:744
+#: src/Command/Builtin.php:764
 msgid "kill: no processes were harmed. There are none. We are a PHP site."
 msgstr ""
 "kill: Es wurden keine Prozesse verletzt. Es gibt keine. Wir sind eine PHP-"
 "Website."
 
-#: src/Command/Builtin.php:745
+#: src/Command/Builtin.php:765
 msgid "shutdown: the LAN party must go on. Request denied."
 msgstr "shutdown: The LAN party must go on. Anfrage abgelehnt."
 
-#: src/Command/Builtin.php:746
+#: src/Command/Builtin.php:766
 msgid "reboot: have you tried turning yourself off and on again?"
 msgstr ""
 "reboot: Hast du schon versucht, dich selbst aus- und wieder einzuschalten?"
 
-#: src/Command/Builtin.php:747
+#: src/Command/Builtin.php:767
 msgid "dd: sure, let me just overwrite the production database. No. Go away."
 msgstr ""
 "dd: Klar, ich überschreibe mal eben die Produktionsdatenbank. Nein. Geh weg."
 
-#: src/Command/Builtin.php:748
+#: src/Command/Builtin.php:768
 msgid ""
 "vim: you can open it. You just can not leave. Neither can we. Press Esc to "
 "exit the terminal instead."
@@ -1090,19 +1135,19 @@ msgstr ""
 "vim: Öffnen kannst du ihn. Nur rauskommen nicht. Wir übrigens auch nicht. "
 "Drück stattdessen Esc, um das Terminal zu verlassen."
 
-#: src/Command/Builtin.php:749
+#: src/Command/Builtin.php:769
 msgid ""
 "nano: a gentle editor for a gentle soul. Sadly there is nothing here to edit."
 msgstr ""
 "nano: Ein sanfter Editor für eine sanfte Seele. Leider gibt es hier nichts "
 "zu bearbeiten."
 
-#: src/Command/Builtin.php:750
+#: src/Command/Builtin.php:770
 msgid "emacs: it would take longer to load than the website. We have a limit."
 msgstr ""
 "emacs: Der bräuchte länger zum Laden als die Website. Wir haben Grenzen."
 
-#: src/Command/Builtin.php:751
+#: src/Command/Builtin.php:771
 msgid ""
 "apt: Reading package lists... Done. Nothing to install. Everything installed "
 "itself years ago."
@@ -1110,7 +1155,7 @@ msgstr ""
 "apt: Paketlisten werden gelesen... Fertig. Nichts zu installieren. Alles hat "
 "sich vor Jahren selbst installiert."
 
-#: src/Command/Builtin.php:752
+#: src/Command/Builtin.php:772
 msgid ""
 "git: not a git repository (or any of the parent directories): the history is "
 "better left unexamined."
@@ -1118,7 +1163,7 @@ msgstr ""
 "git: Kein Git-Repository (oder irgendeines der Elternverzeichnisse): Die "
 "Geschichte bleibt besser unerforscht."
 
-#: src/Command/Builtin.php:753
+#: src/Command/Builtin.php:773
 msgid ""
 "ssh: connect to host localhost port 22: Connection refused (you are already "
 "inside, genius)."
@@ -1126,42 +1171,340 @@ msgstr ""
 "ssh: Verbindung zu Host localhost Port 22: Verbindung abgelehnt (du bist "
 "schon drin, Genie)."
 
-#: src/Command/Builtin.php:754
+#: src/Command/Builtin.php:774
 msgid ""
 "curl: (6) Could not resolve host. You are the host. Also you are the problem."
 msgstr ""
 "curl: (6) Host konnte nicht aufgelöst werden. Du bist der Host. Und das "
 "Problem bist du auch."
 
-#: src/Command/Builtin.php:755
+#: src/Command/Builtin.php:775
 msgid "make: *** No rule to make target 'me a sandwich'. Stop."
 msgstr "make: *** Keine Regel, um »mir ein Sandwich« zu erstellen. Schluss."
 
-#: src/Command/Builtin.php:756
+#: src/Command/Builtin.php:776
 msgid ""
 "python: you cannot just invoke a snake in a PHP site. The zoo has rules."
 msgstr ""
 "python: Du kannst nicht einfach eine Schlange in einer PHP-Website "
 "beschwören. Der Zoo hat Regeln."
 
-#: src/Command/Builtin.php:757
+#: src/Command/Builtin.php:777
 msgid "su: Authentication failure. You are not that special. (Yet.)"
 msgstr ""
 "su: Authentifizierung fehlgeschlagen. So besonders bist du nicht. (Noch "
 "nicht.)"
 
-#: src/Command/Builtin.php:761
+#: src/Command/Builtin.php:781
 msgid "Not available on a website"
 msgstr "Auf einer Website nicht verfügbar"
 
-#: src/Command/Builtin.php:762
+#: src/Command/Builtin.php:782
 #, php-format
 msgid "%s: command not available"
 msgstr "%s: Befehl nicht verfügbar"
 
-#: src/Command/Builtin.php:765
+#: src/Command/Builtin.php:785 src/Command/Fun/DosCommands.php:158
 msgid "Whatever"
 msgstr "Egal was"
+
+#: src/Command/Builtin.php:801
+msgid "Easy mode: I guide you through the signup, step by step"
+msgstr ""
+"Einfacher Modus: Ich führe dich Schritt für Schritt durch die Anmeldung"
+
+#: src/Command/Builtin.php:805
+msgid ""
+"For everybody who would rather not learn commands: a patient wizard that "
+"takes you from signing in (or creating an account) to picking the event, "
+"signing up, choosing a seat and paying. It asks before it does anything. "
+"Ctrl+C stops at any time."
+msgstr ""
+"Für alle, die keine Befehle lernen möchten: ein geduldiger Assistent, der "
+"dich vom Einloggen (oder Konto erstellen) über die Wahl des Events, die "
+"Anmeldung und die Platzwahl bis zum Bezahlen begleitet. Er fragt, bevor er "
+"etwas tut. Ctrl+C bricht jederzeit ab."
+
+#: src/Command/Fun/DosCommands.php:31
+msgid "Lists the pages, the DOS way"
+msgstr "Listet die Seiten auf, wie unter DOS"
+
+#: src/Command/Fun/DosCommands.php:34
+msgid "Reads a page, the DOS way"
+msgstr "Liest eine Seite, wie unter DOS"
+
+#: src/Command/Fun/DosCommands.php:38
+msgid "The syntax of the command is incorrect."
+msgstr "Die Syntax des Befehls ist falsch."
+
+#: src/Command/Fun/DosCommands.php:38
+msgid "The system cannot find the file specified."
+msgstr "Das System kann die angegebene Datei nicht finden."
+
+#: src/Command/Fun/DosCommands.php:46
+msgid "Goes up a page, the DOS way"
+msgstr "Geht eine Seite nach oben, wie unter DOS"
+
+#: src/Command/Fun/DosCommands.php:55
+msgid "DOS version"
+msgstr "DOS-Version"
+
+#: src/Command/Fun/DosCommands.php:56
+msgid "in a trench coat"
+msgstr "im Trenchcoat"
+
+#: src/Command/Fun/DosCommands.php:60
+msgid "Memory report"
+msgstr "Speicherbericht"
+
+#: src/Command/Fun/DosCommands.php:63
+msgid "Memory Type        Total  =   Used   +   Free"
+msgstr "Speichertyp       Gesamt  =  Belegt  +   Frei"
+
+#: src/Command/Fun/DosCommands.php:65
+msgid "Conventional          640K      639K        1K"
+msgstr "Konventionell         640K      639K        1K"
+
+#: src/Command/Fun/DosCommands.php:66
+msgid "Upper                   0K        0K        0K"
+msgstr "Hoher Speicher          0K        0K        0K"
+
+#: src/Command/Fun/DosCommands.php:68
+msgid "Largest executable program size        1K (1 024 bytes)"
+msgstr "Größtes ausführbares Programm          1K (1 024 Bytes)"
+
+#: src/Command/Fun/DosCommands.php:69
+msgid "640K ought to be enough for anybody. It was not."
+msgstr "640K sollten für jeden reichen. Taten sie nicht."
+
+#: src/Command/Fun/DosCommands.php:74
+msgid "Network configuration"
+msgstr "Netzwerkkonfiguration"
+
+#: src/Command/Fun/DosCommands.php:77
+msgid "Windows IP Configuration"
+msgstr "Windows-IP-Konfiguration"
+
+#: src/Command/Fun/DosCommands.php:79
+msgid "Ethernet adapter LAN-Party:"
+msgstr "Ethernet-Adapter LAN-Party:"
+
+#: src/Command/Fun/DosCommands.php:83
+msgid "somewhere in the cable salad"
+msgstr "irgendwo im Kabelsalat"
+
+#: src/Command/Fun/DosCommands.php:88
+msgid "Running programs"
+msgstr "Laufende Programme"
+
+#: src/Command/Fun/DosCommands.php:102
+msgid "Checks the disk"
+msgstr "Prüft den Datenträger"
+
+#: src/Command/Fun/DosCommands.php:104
+msgid "The type of the file system is WEBSITE."
+msgstr "Der Typ des Dateisystems ist WEBSITE."
+
+#: src/Command/Fun/DosCommands.php:105
+msgid "Checking pages... 100 percent completed."
+msgstr "Seiten werden überprüft... 100 Prozent abgeschlossen."
+
+#: src/Command/Fun/DosCommands.php:106
+msgid "0 bad sectors. 1 bad operating system found: yours."
+msgstr "0 fehlerhafte Sektoren. 1 fehlerhaftes Betriebssystem gefunden: deins."
+
+#: src/Command/Fun/DosCommands.php:111
+msgid "Formats a disk"
+msgstr "Formatiert einen Datenträger"
+
+#: src/Command/Fun/DosCommands.php:112
+msgid "WARNING: ALL DATA ON NON-REMOVABLE DISK DRIVE C: WILL BE LOST!"
+msgstr "ACHTUNG: ALLE DATEN AUF DEM FESTPLATTENLAUFWERK C: GEHEN VERLOREN!"
+
+#: src/Command/Fun/DosCommands.php:113
+msgid "Proceed with Format (Y/N)? N"
+msgstr "Formatierung durchführen (J/N)? N"
+
+#: src/Command/Fun/DosCommands.php:114
+msgid "(I answered for you. You are welcome.)"
+msgstr "(Ich habe für dich geantwortet. Gern geschehen.)"
+
+#: src/Command/Fun/DosCommands.php:118
+msgid "Deletes a page"
+msgstr "Löscht eine Seite"
+
+#: src/Command/Fun/DosCommands.php:118 src/Command/Fun/DosCommands.php:122
+msgid "Access is denied. The pages are staying."
+msgstr "Zugriff verweigert. Die Seiten bleiben."
+
+#: src/Command/Fun/DosCommands.php:119
+msgid "Copies a page"
+msgstr "Kopiert eine Seite"
+
+#: src/Command/Fun/DosCommands.php:119
+msgid "Access is denied. 0 file(s) copied."
+msgstr "Zugriff verweigert. 0 Datei(en) kopiert."
+
+#: src/Command/Fun/DosCommands.php:120
+msgid "Moves a page"
+msgstr "Verschiebt eine Seite"
+
+#: src/Command/Fun/DosCommands.php:120
+msgid "Access is denied. 0 file(s) moved."
+msgstr "Zugriff verweigert. 0 Datei(en) verschoben."
+
+#: src/Command/Fun/DosCommands.php:121
+msgid "Makes a page"
+msgstr "Erstellt eine Seite"
+
+#: src/Command/Fun/DosCommands.php:121
+msgid "Access is denied. New pages are made in the dashboard."
+msgstr "Zugriff verweigert. Neue Seiten entstehen im Dashboard."
+
+#: src/Command/Fun/DosCommands.php:122
+msgid "Removes a page"
+msgstr "Entfernt eine Seite"
+
+#: src/Command/Fun/DosCommands.php:123
+msgid "File attributes"
+msgstr "Dateiattribute"
+
+#: src/Command/Fun/DosCommands.php:123
+msgid "Access is denied. Your attributes: R (read only)."
+msgstr "Zugriff verweigert. Deine Attribute: R (nur lesen)."
+
+#: src/Command/Fun/DosCommands.php:124
+msgid "Opens an editor"
+msgstr "Öffnet einen Editor"
+
+#: src/Command/Fun/DosCommands.php:124
+msgid "EDIT.COM is missing. So is the point."
+msgstr "EDIT.COM fehlt. Der Sinn auch."
+
+#: src/Command/Fun/DosCommands.php:125
+msgid "Defragments the disk"
+msgstr "Defragmentiert den Datenträger"
+
+#: src/Command/Fun/DosCommands.php:127
+msgid ""
+"Defragmenting a website. Please wait until the heat death of the universe."
+msgstr ""
+"Eine Website wird defragmentiert. Bitte warte bis zum Wärmetod des "
+"Universums."
+
+#: src/Command/Fun/DosCommands.php:131
+msgid "Edits the registry"
+msgstr "Bearbeitet die Registry"
+
+#: src/Command/Fun/DosCommands.php:131
+msgid "There is no registry. There is a sitemap, and it is not yours."
+msgstr ""
+"Es gibt keine Registry. Es gibt eine Sitemap, und die gehört nicht dir."
+
+#: src/Command/Fun/DosCommands.php:132
+msgid "Starts Windows"
+msgstr "Startet Windows"
+
+#: src/Command/Fun/DosCommands.php:132
+msgid "Starting Windows... Updating 1 of 214... Do not turn off your computer."
+msgstr ""
+"Windows wird gestartet... Update 1 von 214... Schalte den Computer nicht aus."
+
+#: src/Command/Fun/DosCommands.php:176
+#, php-format
+msgid "Microslop called, they want their command back. On Linux: %s"
+msgstr ""
+"Microslop hat angerufen, sie wollen ihren Befehl zurück. Unter Linux: %s"
+
+#: src/Command/Fun/DosCommands.php:177
+#, php-format
+msgid ""
+"DOS commands in %1$s. Bold. Linux has said \"%2$s\" for decades, without a "
+"reboot."
+msgstr ""
+"DOS-Befehle im Jahr %1$s. Mutig. Linux sagt seit Jahrzehnten „%2$s“, ganz "
+"ohne Neustart."
+
+#: src/Command/Fun/DosCommands.php:178
+#, php-format
+msgid ""
+"C:\\> is not a prompt, it is a cry for help. Get well soon: install Linux "
+"and type %s"
+msgstr ""
+"C:\\> ist kein Prompt, das ist ein Hilferuf. Gute Besserung: Installier "
+"Linux und tippe %s"
+
+#: src/Command/Fun/DosCommands.php:179
+#, php-format
+msgid ""
+"Next you will ask me to restart to apply the changes. Linux: %s, no restart, "
+"no ads in the start menu."
+msgstr ""
+"Als Nächstes willst du neu starten, damit die Änderungen wirken. Linux: %s, "
+"kein Neustart, keine Werbung im Startmenü."
+
+#: src/Command/Fun/DosCommands.php:180
+#, php-format
+msgid ""
+"Microslop Windows: now with telemetry, ads and an AI you did not ask for. "
+"Linux: %s, and none of that."
+msgstr ""
+"Microslop Windows: jetzt mit Telemetrie, Werbung und einer KI, nach der du "
+"nie gefragt hast. Linux: %s, und nichts davon."
+
+#: src/Command/Fun/DosCommands.php:181
+#, php-format
+msgid ""
+"Every time someone types a DOS command, a penguin cries. Make it stop: %s"
+msgstr ""
+"Jedes Mal, wenn jemand einen DOS-Befehl tippt, weint ein Pinguin. Mach, dass "
+"es aufhört: %s"
+
+#: src/Command/Fun/DosCommands.php:183
+#, php-format
+msgid ""
+"(Psst: on Linux this is \"%s\". It is free, and it does not restart on its "
+"own.)"
+msgstr ""
+"(Psst: Unter Linux heißt das „%s“. Kostet nichts und startet nicht von "
+"selbst neu.)"
+
+#: src/Command/Fun/DosCommands.php:184
+#, php-format
+msgid "(Old habits. The Linux way would be: %s)"
+msgstr "(Alte Gewohnheiten. Unter Linux wäre das: %s)"
+
+#: src/Command/Fun/DosCommands.php:185
+#, php-format
+msgid "(This is a bash. Here we say: %s)"
+msgstr "(Das hier ist eine Bash. Hier sagt man: %s)"
+
+#: src/Command/Fun/DosCommands.php:220
+msgid "File Not Found"
+msgstr "Datei nicht gefunden"
+
+#: src/Command/Fun/DosCommands.php:230
+#, php-format
+msgid "Volume in drive C is %s"
+msgstr "Datenträger in Laufwerk C ist %s"
+
+#: src/Command/Fun/DosCommands.php:231
+#, php-format
+msgid "Volume Serial Number is %s"
+msgstr "Volumeseriennummer: %s"
+
+#: src/Command/Fun/DosCommands.php:233
+#, php-format
+msgid "Directory of %s"
+msgstr "Verzeichnis von %s"
+
+#: src/Command/Fun/DosCommands.php:244
+msgid "File(s)"
+msgstr "Datei(en)"
+
+#: src/Command/Fun/DosCommands.php:245
+msgid "Dir(s)   640K bytes free"
+msgstr "Verzeichnis(se)   640K Bytes frei"
 
 #: src/Command/Fun/FigletCommand.php:27
 msgid "Prints text in big letters"
@@ -1327,7 +1670,7 @@ msgstr ""
 "Event-Deckel). Ohne Nummer nimmt es deine einzige offene Rechnung; "
 "\"balance\" listet sie auf."
 
-#: src/Command/Lan/CreditCommands.php:139
+#: src/Command/Lan/CreditCommands.php:155
 #, php-format
 msgid "%s (event tab)"
 msgstr "%s (Event-Deckel)"
@@ -1770,7 +2113,7 @@ msgstr ""
 "Listet die Events, für die du angemeldet bist, auf der Warteliste stehst "
 "oder dich interessierst, mit deinem Platz und Ticket."
 
-#: src/Command/Lan/EventCommands.php:492
+#: src/Command/Lan/EventCommands.php:510
 #, php-format
 msgid "Grab a seat: %s"
 msgstr "Schnapp dir einen Platz: %s"
@@ -2053,45 +2396,45 @@ msgstr ""
 msgid "%s: No such file or directory"
 msgstr "%s: Datei oder Verzeichnis nicht gefunden"
 
-#: src/Controller/Terminal.php:81 src/Controller/Terminal.php:110
+#: src/Controller/Terminal.php:83 src/Controller/Terminal.php:124
 msgid "Your session went stale. Close and reopen the terminal."
 msgstr ""
 "Deine Sitzung ist abgelaufen. Schließe das Terminal und öffne es wieder."
 
-#: src/Controller/Terminal.php:85
+#: src/Controller/Terminal.php:87
 msgid "Easy there, speed typist. Even my patience has a rate limit."
 msgstr "Langsam, Schnelltipper. Auch meine Geduld hat ein Rate-Limit."
 
-#: src/Controller/Terminal.php:85
+#: src/Controller/Terminal.php:87
 msgid "Too many commands, slow down."
 msgstr "Zu viele Befehle, mach langsamer."
 
-#: src/Controller/Terminal.php:116
+#: src/Controller/Terminal.php:130
 #, php-format
 msgid "You are already %s."
 msgstr "Du bist schon %s."
 
-#: src/Controller/Terminal.php:119
+#: src/Controller/Terminal.php:133
 msgid "Slow down. Even guessing needs a break."
 msgstr "Mach mal langsam. Auch Raten braucht eine Pause."
 
-#: src/Controller/Terminal.php:119
+#: src/Controller/Terminal.php:133
 msgid "Too many login attempts, wait a minute."
 msgstr "Zu viele Anmeldeversuche, warte eine Minute."
 
-#: src/Controller/Terminal.php:208
+#: src/Controller/Terminal.php:222
 msgid "Permission denied."
 msgstr "Keine Berechtigung."
 
-#: src/Controller/Terminal.php:265
+#: src/Controller/Terminal.php:279
 msgid "PAGE NOT FOUND"
 msgstr "SEITE NICHT GEFUNDEN"
 
-#: src/Controller/Terminal.php:270
+#: src/Controller/Terminal.php:284
 msgid "Did you mean one of these?"
 msgstr "Meintest du eine von diesen?"
 
-#: src/Controller/Terminal.php:276
+#: src/Controller/Terminal.php:290
 #, php-format
 msgid ""
 "You are now in %1$s, the closest thing that exists. Try %2$s, %3$s or %4$s."
@@ -2099,15 +2442,694 @@ msgstr ""
 "Du bist jetzt in %1$s, dem Nächstbesten, das es gibt. Versuch's mit %2$s, "
 "%3$s oder %4$s."
 
-#: src/Controller/Terminal.php:276
+#: src/Controller/Terminal.php:290
 #, php-format
 msgid "Or admit defeat with %s and I will take you home."
 msgstr "Oder gib mit %s auf, und ich bringe dich nach Hause."
 
-#: src/Controller/Terminal.php:277
+#: src/Controller/Terminal.php:291
 #, php-format
 msgid "Type %1$s for all commands, %2$s for the tour."
 msgstr "Tippe %1$s für alle Befehle, %2$s für die Tour."
+
+#: src/Dialog/EasyDialog.php:35
+msgid "Great, let us continue with the signup."
+msgstr "Super, dann machen wir mit der Anmeldung weiter."
+
+#: src/Dialog/EasyDialog.php:37
+msgid "Easy mode"
+msgstr "Einfacher Modus"
+
+#: src/Dialog/EasyDialog.php:38
+msgid "Hello! I will help you sign up for an event, one small step at a time."
+msgstr ""
+"Hallo! Ich helfe dir, dich für einen Event anzumelden, in kleinen Schritten."
+
+#: src/Dialog/EasyDialog.php:39
+msgid ""
+"There are no wrong answers: if I do not understand something, I will simply "
+"ask again."
+msgstr ""
+"Es gibt keine falschen Antworten: Wenn ich etwas nicht verstehe, frage ich "
+"einfach nochmals."
+
+#: src/Dialog/EasyDialog.php:40
+msgid ""
+"I will not do anything without asking you first. You can stop at any time "
+"with Ctrl+C or Esc."
+msgstr ""
+"Ich mache nichts, ohne dich vorher zu fragen. Du kannst jederzeit mit Ctrl+C "
+"oder Esc aufhören."
+
+#: src/Dialog/EasyDialog.php:57
+msgid "No problem, we will create one together. It takes about two minutes."
+msgstr ""
+"Kein Problem, wir erstellen zusammen eins. Das dauert etwa zwei Minuten."
+
+#: src/Dialog/EasyDialog.php:66
+msgid ""
+"I did not get anything. Please type your email address or your username and "
+"press Enter."
+msgstr ""
+"Da ist nichts angekommen. Tippe bitte deine E-Mail-Adresse oder deinen "
+"Benutzernamen und drück Enter."
+
+#: src/Dialog/EasyDialog.php:68 src/Dialog/EasyDialog.php:232
+msgid "Email or username: "
+msgstr "E-Mail oder Benutzername: "
+
+#: src/Dialog/EasyDialog.php:72
+msgid "Thank you. Now your password."
+msgstr "Danke. Jetzt dein Passwort."
+
+#: src/Dialog/EasyDialog.php:73 src/Dialog/RegisterDialog.php:264
+msgid ""
+"You will not see what you type, not even dots. That is on purpose: just type "
+"it and press Enter."
+msgstr ""
+"Du siehst nicht, was du tippst, nicht einmal Punkte. Das ist Absicht: Tipp "
+"es einfach ein und drück Enter."
+
+#: src/Dialog/EasyDialog.php:75 src/Dialog/RegisterDialog.php:266
+#: src/Terminal/Settings.php:330
+msgid "Password: "
+msgstr "Passwort: "
+
+#: src/Dialog/EasyDialog.php:88
+#, php-format
+msgid ""
+"Done. If there is an account for \"%s\", an email with a link is on its way."
+msgstr ""
+"Erledigt. Falls es zu „%s“ ein Konto gibt, ist eine E-Mail mit einem Link "
+"unterwegs."
+
+#: src/Dialog/EasyDialog.php:89
+#, php-format
+msgid ""
+"Click the link in the email and choose a new password. Then come back and "
+"type %s, and we continue right here."
+msgstr ""
+"Klick auf den Link in der E-Mail und wähle ein neues Passwort. Komm dann "
+"zurück und tippe %s, dann machen wir genau hier weiter."
+
+#: src/Dialog/EasyDialog.php:90 src/Dialog/RegisterDialog.php:333
+msgid "No mail after a few minutes? Have a look in the spam folder."
+msgstr "Nach ein paar Minuten noch keine Mail? Schau im Spam-Ordner nach."
+
+#: src/Dialog/EasyDialog.php:95
+msgid "Okay, let us try once more."
+msgstr "Okay, dann versuchen wir es nochmals."
+
+#: src/Dialog/EasyDialog.php:105
+#, php-format
+msgid "Please type one of the numbers from the list, from 1 to %d."
+msgstr "Tippe bitte eine der Nummern aus der Liste, von 1 bis %d."
+
+#: src/Dialog/EasyDialog.php:107 src/Dialog/EasyDialog.php:172
+#: src/Dialog/EasyDialog.php:181 src/Dialog/EasyDialog.php:224
+msgid "Number: "
+msgstr "Nummer: "
+
+#: src/Dialog/EasyDialog.php:117
+#, php-format
+msgid ""
+"Okay, I did not sign you up. If you change your mind, just type %s again."
+msgstr ""
+"Okay, ich habe dich nicht angemeldet. Falls du es dir anders überlegst, "
+"tippe einfach nochmals %s."
+
+#: src/Dialog/EasyDialog.php:129
+#, php-format
+msgid "Okay. You can choose a seat later with: %s"
+msgstr "Okay. Einen Platz kannst du später wählen mit: %s"
+
+#: src/Dialog/EasyDialog.php:135
+#, php-format
+msgid ""
+"The green seats are free. Type the name of the one you would like, e.g. %s. "
+"Or just press Enter to skip."
+msgstr ""
+"Die grünen Plätze sind frei. Tippe den Namen des Platzes, den du möchtest, "
+"z.B. %s. Oder drück einfach Enter, um das zu überspringen."
+
+#: src/Dialog/EasyDialog.php:137 src/Dialog/EasyDialog.php:147
+msgid "Seat: "
+msgstr "Platz: "
+
+#: src/Dialog/EasyDialog.php:140
+#, php-format
+msgid "Okay, no seat for now. You can choose one later with: %s"
+msgstr "Okay, vorerst kein Platz. Du kannst später einen wählen mit: %s"
+
+#: src/Dialog/EasyDialog.php:145
+msgid ""
+"That one did not work. Please pick another one that is green in the plan "
+"above (or press Enter to skip)."
+msgstr ""
+"Der hat nicht geklappt. Wähl bitte einen anderen, der oben im Plan grün ist "
+"(oder drück Enter zum Überspringen)."
+
+#: src/Dialog/EasyDialog.php:158
+#, php-format
+msgid "Okay. You can pay later with %s, or at the event."
+msgstr "Okay. Du kannst später mit %s bezahlen, oder am Event."
+
+#: src/Dialog/EasyDialog.php:167
+msgid "Which bill would you like to pay? Type its number:"
+msgstr "Welche Rechnung möchtest du bezahlen? Tippe ihre Nummer:"
+
+#: src/Dialog/EasyDialog.php:179
+msgid "Please type one of the numbers from the list (or press Ctrl+C to stop)."
+msgstr "Tippe bitte eine der Nummern aus der Liste (oder Ctrl+C zum Aufhören)."
+
+#: src/Dialog/EasyDialog.php:189
+#, php-format
+msgid ""
+"Okay, we stop here. Whatever is done stays done. Type %s whenever you want "
+"to continue."
+msgstr ""
+"Okay, wir hören hier auf. Was erledigt ist, bleibt erledigt. Tippe %s, wann "
+"immer du weitermachen möchtest."
+
+#: src/Dialog/EasyDialog.php:200
+msgid "Step 1: your account"
+msgstr "Schritt 1: dein Konto"
+
+#: src/Dialog/EasyDialog.php:201
+msgid ""
+"To sign up, you need an account on this website. Do you already have one?"
+msgstr ""
+"Für die Anmeldung brauchst du ein Konto auf dieser Website. Hast du schon "
+"eins?"
+
+#: src/Dialog/EasyDialog.php:203 src/Dialog/EasyDialog.php:267
+#: src/Dialog/EasyDialog.php:365 src/Dialog/EasyDialog.php:431
+#: src/Dialog/EasyDialog.php:450 src/Dialog/EasyDialog.php:490
+#: src/Dialog/RegisterDialog.php:213 src/Dialog/RegisterDialog.php:260
+msgid "[y/n]"
+msgstr "[j/n]"
+
+#: src/Dialog/EasyDialog.php:206
+msgid "Step 2: the event"
+msgstr "Schritt 2: der Event"
+
+#: src/Dialog/EasyDialog.php:209
+#, php-format
+msgid ""
+"Right now no event is open for signups. Sorry! Have a look at what is coming "
+"with %s, or come back later."
+msgstr ""
+"Gerade ist kein Event zur Anmeldung offen. Sorry! Schau mit %s, was ansteht, "
+"oder komm später wieder."
+
+#: src/Dialog/EasyDialog.php:210
+msgid "The good news: your account is ready, so next time it will be quick."
+msgstr ""
+"Die gute Nachricht: Dein Konto ist bereit, nächstes Mal geht es also schnell."
+
+#: src/Dialog/EasyDialog.php:218
+msgid "These events are open for signups:"
+msgstr "Für diese Events kannst du dich anmelden:"
+
+#: src/Dialog/EasyDialog.php:222
+msgid "Which one would you like to join? Type its number."
+msgstr "Bei welchem möchtest du dabei sein? Tippe seine Nummer."
+
+#: src/Dialog/EasyDialog.php:230
+msgid ""
+"Fine, let us sign you in. Type your email address (or your username) and "
+"press Enter."
+msgstr ""
+"Gut, dann loggen wir dich ein. Tippe deine E-Mail-Adresse (oder deinen "
+"Benutzernamen) und drück Enter."
+
+#: src/Dialog/EasyDialog.php:239
+#, php-format
+msgid ""
+"That was a lot of tries in a short time. Let us take a short break: wait a "
+"minute, then type %s again."
+msgstr ""
+"Das waren viele Versuche in kurzer Zeit. Machen wir eine kurze Pause: Warte "
+"eine Minute und tippe dann nochmals %s."
+
+#: src/Dialog/EasyDialog.php:248
+msgid ""
+"The password is right! Your profile is just missing a few details. Please "
+"fill them in:"
+msgstr ""
+"Das Passwort stimmt! In deinem Profil fehlen nur noch ein paar Angaben. Füll "
+"sie bitte aus:"
+
+#: src/Dialog/EasyDialog.php:264
+msgid ""
+"Hmm, that did not work three times. Maybe the password is not the one you "
+"remember?"
+msgstr ""
+"Hm, das hat dreimal nicht geklappt. Vielleicht ist das Passwort ein anderes, "
+"als du denkst?"
+
+#: src/Dialog/EasyDialog.php:265
+msgid "Shall I send you an email with a link to set a new password?"
+msgstr ""
+"Soll ich dir eine E-Mail mit einem Link schicken, um ein neues Passwort zu "
+"setzen?"
+
+#: src/Dialog/EasyDialog.php:269
+msgid ""
+"That did not work. Maybe a little typo? Upper and lower case matter in the "
+"password. Let us try again."
+msgstr ""
+"Das hat nicht geklappt. Vielleicht ein kleiner Tippfehler? Beim Passwort "
+"zählt Groß- und Kleinschreibung. Versuchen wir es nochmals."
+
+#: src/Dialog/EasyDialog.php:304
+#, php-format
+msgid "You are signed in. Welcome, %s!"
+msgstr "Du bist eingeloggt. Willkommen, %s!"
+
+#: src/Dialog/EasyDialog.php:321
+msgid ""
+"You are already on the waitlist for this event. When a place becomes free, "
+"you move up automatically."
+msgstr ""
+"Du bist für diesen Event schon auf der Warteliste. Wenn ein Platz frei wird, "
+"rückst du automatisch nach."
+
+#: src/Dialog/EasyDialog.php:325
+msgid "Good news: you are already signed up for this event!"
+msgstr "Gute Nachricht: Du bist für diesen Event schon angemeldet!"
+
+#: src/Dialog/EasyDialog.php:333
+#, php-format
+msgid ""
+"So first the open amount needs to be paid. After that, type %s again and we "
+"continue with the signup."
+msgstr ""
+"Zuerst muss also der offene Betrag bezahlt werden. Tippe danach nochmals %s, "
+"dann machen wir mit der Anmeldung weiter."
+
+#: src/Dialog/EasyDialog.php:343
+#, php-format
+msgid "This event is only open to: %s."
+msgstr "Dieser Event ist nur offen für: %s."
+
+#: src/Dialog/EasyDialog.php:344
+msgid ""
+"Your account is not in that group (yet). If you think it should be, please "
+"contact the organizers."
+msgstr ""
+"Dein Konto ist (noch) nicht in dieser Gruppe. Falls du findest, es sollte so "
+"sein, melde dich bitte bei den Organisatoren."
+
+#: src/Dialog/EasyDialog.php:356
+msgid ""
+"This event needs a ticket. If you say yes, I reserve it for you. If it has "
+"to be paid first, I take you to the checkout page, and your place is yours "
+"once it is paid."
+msgstr ""
+"Für diesen Event brauchst du ein Ticket. Wenn du ja sagst, reserviere ich es "
+"dir. Muss es zuerst bezahlt werden, bringe ich dich zur Kasse, und der Platz "
+"gehört dir, sobald es bezahlt ist."
+
+#: src/Dialog/EasyDialog.php:358
+msgid ""
+"The event is full at the moment. If you say yes, I put you on the waitlist: "
+"when somebody cancels, you move up automatically."
+msgstr ""
+"Der Event ist im Moment voll. Wenn du ja sagst, setze ich dich auf die "
+"Warteliste: Wenn jemand absagt, rückst du automatisch nach."
+
+#: src/Dialog/EasyDialog.php:360
+#, php-format
+msgid "If you say yes, I sign you up as %s."
+msgstr "Wenn du ja sagst, melde ich dich als %s an."
+
+#: src/Dialog/EasyDialog.php:362
+#, php-format
+msgid "Shall I sign you up for %s?"
+msgstr "Soll ich dich für %s anmelden?"
+
+#: src/Dialog/EasyDialog.php:377
+msgid "When:"
+msgstr "Wann:"
+
+#: src/Dialog/EasyDialog.php:380
+msgid "Where:"
+msgstr "Wo:"
+
+#: src/Dialog/EasyDialog.php:383
+msgid "Places:"
+msgstr "Plätze:"
+
+#: src/Dialog/EasyDialog.php:383
+#, php-format
+msgid "%1$d of %2$d taken"
+msgstr "%1$d von %2$d belegt"
+
+#: src/Dialog/EasyDialog.php:394
+#, php-format
+msgid "After paying, come back and type %s: then we choose your seat."
+msgstr ""
+"Komm nach dem Bezahlen zurück und tippe %s: Dann wählen wir deinen Platz."
+
+#: src/Dialog/EasyDialog.php:400
+msgid ""
+"Something did not work, the message above says what. If you are not sure "
+"what to do, please contact the organizers."
+msgstr ""
+"Etwas hat nicht geklappt, die Meldung oben sagt, was. Wenn du nicht "
+"weiterweißt, melde dich bitte bei den Organisatoren."
+
+#: src/Dialog/EasyDialog.php:421
+#, php-format
+msgid "Your seat: %s"
+msgstr "Dein Platz: %s"
+
+#: src/Dialog/EasyDialog.php:427
+msgid "Step 3: your seat"
+msgstr "Schritt 3: dein Platz"
+
+#: src/Dialog/EasyDialog.php:428
+msgid ""
+"This event has a seat plan, so you can choose where you sit. Would you like "
+"to choose your seat now?"
+msgstr ""
+"Dieser Event hat einen Sitzplan, du kannst also wählen, wo du sitzt. "
+"Möchtest du deinen Platz jetzt wählen?"
+
+#: src/Dialog/EasyDialog.php:444
+msgid "Step 4: paying"
+msgstr "Schritt 4: bezahlen"
+
+#: src/Dialog/EasyDialog.php:446
+#, php-format
+msgid ""
+"You have open bills of %s in total. You can pay them online now (the payment "
+"page of Payrexx opens), or later."
+msgstr ""
+"Du hast offene Rechnungen von insgesamt %s. Du kannst sie jetzt online "
+"bezahlen (die Zahlungsseite von Payrexx öffnet sich) oder später."
+
+#: src/Dialog/EasyDialog.php:447
+msgid "Would you like to pay now?"
+msgstr "Möchtest du jetzt bezahlen?"
+
+#: src/Dialog/EasyDialog.php:459
+msgid ""
+"After paying you come back to the website. Thank you, and see you at the "
+"event!"
+msgstr ""
+"Nach dem Bezahlen kommst du zurück auf die Website. Danke, und bis bald am "
+"Event!"
+
+#: src/Dialog/EasyDialog.php:470
+msgid "All done!"
+msgstr "Alles erledigt!"
+
+#: src/Dialog/EasyDialog.php:475
+msgid "By the way, next time you can do the same with these commands:"
+msgstr "Übrigens: Nächstes Mal geht dasselbe auch mit diesen Befehlen:"
+
+#: src/Dialog/EasyDialog.php:480
+#, php-format
+msgid "Your signups: %s · help for everything else."
+msgstr "Deine Anmeldungen: %s · help für alles andere."
+
+#: src/Dialog/EasyDialog.php:481
+msgid "See you at the LAN!"
+msgstr "Wir sehen uns an der LAN!"
+
+#: src/Dialog/EasyDialog.php:488
+msgid "Sorry, I did not get that. Please type y for yes or n for no."
+msgstr ""
+"Sorry, das habe ich nicht verstanden. Tippe bitte j für ja oder n für nein."
+
+#: src/Dialog/RegisterDialog.php:41
+msgid "This website does not take new registrations at the moment."
+msgstr "Diese Website nimmt im Moment keine neuen Registrierungen an."
+
+#: src/Dialog/RegisterDialog.php:51
+msgid "That is enough new accounts for one hour."
+msgstr "Das sind genug neue Konten für eine Stunde."
+
+#: src/Dialog/RegisterDialog.php:55
+msgid ""
+"The registration asks for details the terminal cannot ask for. Please use "
+"the registration page: register --web"
+msgstr ""
+"Die Registrierung braucht Angaben, nach denen das Terminal nicht fragen "
+"kann. Nimm bitte die Registrierungsseite: register --web"
+
+#: src/Dialog/RegisterDialog.php:75
+msgid "New account"
+msgstr "Neues Konto"
+
+#: src/Dialog/RegisterDialog.php:76
+msgid ""
+"I will ask you a few questions, one at a time. Take your time: if something "
+"does not fit, I will tell you and simply ask again."
+msgstr ""
+"Ich stelle dir ein paar Fragen, eine nach der anderen. Lass dir Zeit: Wenn "
+"etwas nicht passt, sage ich es dir und frage einfach nochmals."
+
+#: src/Dialog/RegisterDialog.php:77
+msgid ""
+"Ctrl+C or Esc stops at any point, and nothing is saved before you confirm at "
+"the end."
+msgstr ""
+"Mit Ctrl+C oder Esc kannst du jederzeit aufhören, und gespeichert wird erst, "
+"wenn du am Schluss bestätigst."
+
+#: src/Dialog/RegisterDialog.php:103
+#, php-format
+msgid "Is it yours and you forgot the password? Press Ctrl+C and type: %s"
+msgstr ""
+"Ist es deine und du hast das Passwort vergessen? Drück Ctrl+C und tippe: %s"
+
+#: src/Dialog/RegisterDialog.php:130
+msgid "That did not work out. Please try the registration page: register --web"
+msgstr ""
+"Das hat leider nicht geklappt. Versuch es bitte auf der Registrierungsseite: "
+"register --web"
+
+#: src/Dialog/RegisterDialog.php:134
+msgid "Not quite. Here is a new word, no rush."
+msgstr "Nicht ganz. Hier ist ein neues Wort, kein Stress."
+
+#: src/Dialog/RegisterDialog.php:144 src/Dialog/RegisterDialog.php:450
+msgid "Please type y for yes or n for no."
+msgstr "Tippe bitte j für ja oder n für nein."
+
+#: src/Dialog/RegisterDialog.php:149
+msgid "No problem, let us go through it again from the top."
+msgstr "Kein Problem, gehen wir es nochmals von vorne durch."
+
+#: src/Dialog/RegisterDialog.php:172
+msgid ""
+"The two passwords were not the same. That happens! Let us do the password "
+"once more."
+msgstr ""
+"Die zwei Passwörter waren nicht gleich. Das passiert! Machen wir das "
+"Passwort nochmals."
+
+#: src/Dialog/RegisterDialog.php:189
+#, php-format
+msgid ""
+"Stopped. No account was created. Type %s to start again whenever you like."
+msgstr ""
+"Abgebrochen. Es wurde kein Konto erstellt. Tippe %s, wann immer du nochmals "
+"anfangen möchtest."
+
+#: src/Dialog/RegisterDialog.php:208
+#, php-format
+msgid "%s?"
+msgstr "%s?"
+
+#: src/Dialog/RegisterDialog.php:210
+#, php-format
+msgid "You can read it here: %s"
+msgstr "Du kannst sie hier lesen: %s"
+
+#: src/Dialog/RegisterDialog.php:222
+msgid "Your username"
+msgstr "Dein Benutzername"
+
+#: src/Dialog/RegisterDialog.php:225
+#, php-format
+msgid "Your nickname on the website, e.g. at the LAN party. %s"
+msgstr "Dein Nickname auf der Website, z.B. an der LAN-Party. %s"
+
+#: src/Dialog/RegisterDialog.php:227
+msgid "Username: "
+msgstr "Benutzername: "
+
+#: src/Dialog/RegisterDialog.php:229
+msgid "Your email address"
+msgstr "Deine E-Mail-Adresse"
+
+#: src/Dialog/RegisterDialog.php:230
+msgid "We send a confirmation link there, so please use one you can open now."
+msgstr ""
+"Wir schicken einen Bestätigungslink dorthin, nimm also bitte eine, die du "
+"jetzt öffnen kannst."
+
+#: src/Dialog/RegisterDialog.php:232
+msgid "Email: "
+msgstr "E-Mail: "
+
+#: src/Dialog/RegisterDialog.php:239
+msgid ""
+"Almost done. Please prove that you are a human: type the word in the big "
+"letters."
+msgstr ""
+"Fast geschafft. Beweis bitte, dass du ein Mensch bist: Tippe das Wort in den "
+"großen Buchstaben ab."
+
+#: src/Dialog/RegisterDialog.php:242
+msgid "The word: "
+msgstr "Das Wort: "
+
+#: src/Dialog/RegisterDialog.php:244
+msgid "Please check your details:"
+msgstr "Prüf bitte deine Angaben:"
+
+#: src/Dialog/RegisterDialog.php:247
+msgid "Username"
+msgstr "Benutzername"
+
+#: src/Dialog/RegisterDialog.php:249
+msgid "Email"
+msgstr "E-Mail"
+
+#: src/Dialog/RegisterDialog.php:252
+msgid "yes"
+msgstr "ja"
+
+#: src/Dialog/RegisterDialog.php:258
+msgid "Is everything correct?"
+msgstr "Stimmt alles?"
+
+#: src/Dialog/RegisterDialog.php:263
+msgid "Last step: choose a password"
+msgstr "Letzter Schritt: Wähle ein Passwort"
+
+#: src/Dialog/RegisterDialog.php:263
+#, php-format
+msgid "(at least %d characters)"
+msgstr "(mindestens %d Zeichen)"
+
+#: src/Dialog/RegisterDialog.php:268
+msgid "Please type the same password once more, to be sure there is no typo."
+msgstr ""
+"Tippe bitte dasselbe Passwort nochmals, damit sicher kein Tippfehler drin "
+"ist."
+
+#: src/Dialog/RegisterDialog.php:270
+msgid "Repeat password: "
+msgstr "Passwort wiederholen: "
+
+#: src/Dialog/RegisterDialog.php:309
+msgid ""
+"The account could not be created. Please try the registration page: register "
+"--web"
+msgstr ""
+"Das Konto konnte nicht erstellt werden. Versuch es bitte auf der "
+"Registrierungsseite: register --web"
+
+#: src/Dialog/RegisterDialog.php:330
+#, php-format
+msgid "Your account %s has been created!"
+msgstr "Dein Konto %s ist erstellt!"
+
+#: src/Dialog/RegisterDialog.php:331
+#, php-format
+msgid ""
+"One more thing: we just sent an email to %s. Please open it and click the "
+"link inside, so we know the address is really yours."
+msgstr ""
+"Noch etwas: Wir haben dir gerade eine E-Mail an %s geschickt. Öffne sie "
+"bitte und klick auf den Link darin, damit wir wissen, dass die Adresse "
+"wirklich dir gehört."
+
+#: src/Dialog/RegisterDialog.php:332
+#, php-format
+msgid "Then come back here and type %s."
+msgstr "Komm dann hierher zurück und tippe %s."
+
+#: src/Dialog/RegisterDialog.php:332
+#, php-format
+msgid "After that, %s takes you on to the signup."
+msgstr "Danach bringt dich %s weiter zur Anmeldung."
+
+#: src/Dialog/RegisterDialog.php:339 src/Dialog/RegisterDialog.php:350
+msgid "Your account has been created."
+msgstr "Dein Konto ist erstellt."
+
+#: src/Dialog/RegisterDialog.php:339
+msgid ""
+"An administrator has to approve it before you can sign in. You will get an "
+"email."
+msgstr ""
+"Ein Administrator muss es freigeben, bevor du dich einloggen kannst. Du "
+"bekommst eine E-Mail."
+
+#: src/Dialog/RegisterDialog.php:345
+#, php-format
+msgid "Your account has been created and you are signed in. Welcome, %s!"
+msgstr "Dein Konto ist erstellt und du bist eingeloggt. Willkommen, %s!"
+
+#: src/Dialog/RegisterDialog.php:350
+#, php-format
+msgid "Sign in with: %s"
+msgstr "Einloggen mit: %s"
+
+#: src/Dialog/RegisterDialog.php:388
+msgid "Website Registration Notification"
+msgstr "Benachrichtigung über Website-Registrierung"
+
+#: src/Dialog/RegisterDialog.php:435
+msgid "(e.g. 079 123 45 67)"
+msgstr "(z.B. 079 123 45 67)"
+
+#: src/Dialog/RegisterDialog.php:437
+msgid "(an email address)"
+msgstr "(eine E-Mail-Adresse)"
+
+#: src/Dialog/RegisterDialog.php:439
+msgid "(a number)"
+msgstr "(eine Zahl)"
+
+#: src/Dialog/RegisterDialog.php:449
+msgid ""
+"Without a yes here the registration cannot go on. Take your time to read it, "
+"then type y. (Ctrl+C stops.)"
+msgstr ""
+"Ohne ein Ja hier geht die Registrierung nicht weiter. Lies sie in Ruhe durch "
+"und tippe dann j. (Ctrl+C bricht ab.)"
+
+#: src/Dialog/RegisterDialog.php:453
+msgid "This one is required, please fill it in."
+msgstr "Diese Angabe ist nötig, füll sie bitte aus."
+
+#: src/Dialog/RegisterDialog.php:457
+msgid ""
+"That does not look like a phone number. Digits, spaces and + are fine, e.g. "
+"079 123 45 67."
+msgstr ""
+"Das sieht nicht nach einer Telefonnummer aus. Ziffern, Leerzeichen und + "
+"gehen, z.B. 079 123 45 67."
+
+#: src/Dialog/RegisterDialog.php:459
+msgid "That does not look like an email address."
+msgstr "Das sieht nicht nach einer E-Mail-Adresse aus."
+
+#: src/Dialog/RegisterDialog.php:461
+msgid "Please type a number."
+msgstr "Tippe bitte eine Zahl."
+
+#: src/Dialog/RegisterDialog.php:464
+msgid "That did not work, please try again."
+msgstr "Das hat nicht geklappt, versuch es bitte nochmals."
 
 #: src/Terminal/Application.php:40
 msgid "The command to execute"
@@ -2611,6 +3633,10 @@ msgstr ""
 "Willkommen, %1$s. Ich würde ja sagen, ich hätte dich vermisst, aber dafür "
 "fehlt mir die Hardware."
 
+#: src/Terminal/Dialog.php:42
+msgid "Cancelled. Nothing was changed."
+msgstr "Abgebrochen. Es wurde nichts geändert."
+
 #: src/Terminal/Login.php:87
 msgid "Unknown login error."
 msgstr "Unbekannter Anmeldefehler."
@@ -2645,7 +3671,7 @@ msgstr "Das hat zu lange gedauert. Fang nochmals an mit: login"
 msgid "Not quite: %s. Once more, please."
 msgstr "Nicht ganz: %s. Bitte nochmals."
 
-#: src/Terminal/Login.php:265
+#: src/Terminal/Login.php:305
 #, php-format
 msgid "%s? [y/n]"
 msgstr "%s? [j/n]"
@@ -2676,10 +3702,6 @@ msgstr "Tippe %s für die Befehle."
 msgid "Username or email: "
 msgstr "Benutzername oder E-Mail: "
 
-#: src/Terminal/Settings.php:330
-msgid "Password: "
-msgstr "Passwort: "
-
 #: src/Terminal/Settings.php:332
 msgid "Close terminal"
 msgstr "Terminal schließen"
@@ -2688,25 +3710,29 @@ msgstr "Terminal schließen"
 msgid "Open the terminal"
 msgstr "Terminal öffnen"
 
-#: src/Terminal/Shell.php:49
+#: src/Terminal/Shell.php:53
 #, php-format
 msgid "line too long (%d characters, and none of them helpful)"
 msgstr "Zeile zu lang (%d Zeichen, und keins davon hilfreich)"
 
-#: src/Terminal/Shell.php:59
+#: src/Terminal/Shell.php:68
 msgid "output truncated"
 msgstr "Ausgabe gekürzt"
 
-#: src/Terminal/Shell.php:123
+#: src/Terminal/Shell.php:88
+msgid "(That question has expired. Just start over.)"
+msgstr "(Diese Frage ist abgelaufen. Fang einfach nochmals an.)"
+
+#: src/Terminal/Shell.php:236
 msgid "too many commands in one line, this is a shell, not a novel"
 msgstr "zu viele Befehle in einer Zeile, das ist eine Shell und kein Roman"
 
-#: src/Terminal/Shell.php:206
+#: src/Terminal/Shell.php:316
 #, php-format
 msgid "Usage: %s"
 msgstr "Aufruf: %s"
 
-#: src/Terminal/Shell.php:343
+#: src/Terminal/Shell.php:450
 #, php-format
 msgid "unexpected EOF while looking for matching `%s'"
 msgstr "unerwartetes Dateiende beim Suchen nach dem passenden »%s«"
@@ -2760,16 +3786,24 @@ msgstr "Tippe %1$s für die Befehle, %2$s für die Tour."
 msgid "Or just mash keys. I'm used to it."
 msgstr "Oder hau einfach wahllos in die Tasten. Ich bin das gewohnt."
 
-#: src/Terminal/Welcome.php:59
+#: src/Terminal/Welcome.php:60
+#, php-format
+msgid ""
+"New to terminals? Type %s and I guide you through the signup, step by step."
+msgstr ""
+"Neu im Terminal? Tippe %s und ich führe dich Schritt für Schritt durch die "
+"Anmeldung."
+
+#: src/Terminal/Welcome.php:63
 msgid "This terminal is mandatory on this site. The mouse is decorative."
 msgstr ""
 "Dieses Terminal ist auf dieser Website Pflicht. Die Maus ist reine Deko."
 
-#: src/Terminal/Welcome.php:59
+#: src/Terminal/Welcome.php:63
 msgid "This terminal is the only way to browse this site."
 msgstr "Dieses Terminal ist der einzige Weg durch diese Website."
 
-#: src/Terminal/Welcome.php:93
+#: src/Terminal/Welcome.php:97
 #, php-format
 msgid "Prefer English? Type: %s"
 msgstr "Lieber auf Deutsch? Tippe: %s"

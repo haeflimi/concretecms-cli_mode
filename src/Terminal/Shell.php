@@ -5,8 +5,10 @@ namespace CliMode\Terminal;
 use Concrete\Core\Error\UserMessageException;
 use Concrete\Core\Logging\LoggerFactory;
 use Symfony\Component\Console\Exception\ExceptionInterface as ConsoleException;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 defined('C5_EXECUTE') or die('Access Denied.');
 
@@ -36,11 +38,13 @@ class Shell
     }
 
     /**
-     * @return array{output: string, code: int, actions: array}
+     * @return array{output: string, code: int, actions: array, ask: array|null}
      */
     public function run(string $line): array
     {
         $this->context->actions = [];
+        // a line typed as a command ends a dialog that was left waiting
+        $this->context->state->dialog = null;
         $line = trim($line);
         $output = '';
         $code = $this->context->state->lastCode;
@@ -54,12 +58,121 @@ class Shell
             }
             $this->context->state->lastCode = $code;
         }
+        $ask = null;
+        if ($this->context->pendingDialog) {
+            [$more, $ask] = $this->startPending();
+            $output .= $more;
+        }
         $this->context->state->save();
         if (strlen($output) > self::MAX_OUTPUT) {
             $output = substr($output, 0, self::MAX_OUTPUT) . "\n[" . t('output truncated') . "]\n";
         }
 
-        return ['output' => $output, 'code' => $code, 'actions' => $this->context->actions];
+        return ['output' => $output, 'code' => $code, 'actions' => $this->context->actions, 'ask' => $ask ? $ask->toArray() : null];
+    }
+
+    /**
+     * An answer to the question of the waiting dialog (see Dialog), or its cancellation. Never part of the history.
+     *
+     * @return array{output: string, code: int, actions: array, ask: array|null}
+     */
+    public function answer(string $value, bool $cancel = false): array
+    {
+        $this->context->actions = [];
+        $state = $this->context->state;
+        $current = $state->dialog();
+        $output = $this->newOutput();
+        $ask = null;
+        $code = 0;
+        if ($current === null) {
+            $output->writeln('<dim>' . t('(That question has expired. Just start over.)') . '</dim>');
+            $code = 1;
+        } else {
+            $dialog = $current[0];
+            try {
+                if ($cancel) {
+                    $dialog->cancel($this->context, $output);
+                    $code = 130;
+                } else {
+                    [$dialog, $ask] = $this->follow($dialog, $dialog->answer($this->context, $value, $output), $output);
+                }
+            } catch (\Throwable $e) {
+                $this->log('dialog', $e);
+                $output->writeln('<error> ' . OutputFormatter::escape($this->context->snark->failure()) . ' </error>');
+                $ask = null;
+                $code = 1;
+            }
+            $state->setDialog($ask ? $dialog : null, $ask);
+        }
+        $state->save();
+
+        return ['output' => $output->fetch(), 'code' => $code, 'actions' => $this->context->actions, 'ask' => $ask ? $ask->toArray() : null];
+    }
+
+    /**
+     * One command (no lists, no pipes) for a dialog that acts through the regular commands.
+     *
+     * @return array{0: string, 1: int} output and exit code
+     */
+    public function command(string $text): array
+    {
+        return $this->runCommand($text);
+    }
+
+    /**
+     * Starts the dialog the last command asked for.
+     *
+     * @return array{0: string, 1: Question|null}
+     */
+    protected function startPending(): array
+    {
+        $dialog = $this->context->pendingDialog;
+        $this->context->pendingDialog = null;
+        $output = $this->newOutput();
+        $ask = null;
+        try {
+            [$dialog, $ask] = $this->follow($dialog, $dialog->start($this->context, $output), $output);
+        } catch (\Throwable $e) {
+            $this->log('dialog', $e);
+            $output->writeln('<error> ' . OutputFormatter::escape($this->context->snark->failure()) . ' </error>');
+            $ask = null;
+        }
+        $this->context->state->setDialog($ask ? $dialog : null, $ask);
+
+        return [$output->fetch(), $ask];
+    }
+
+    /**
+     * A dialog that ended may hand over to the next one.
+     *
+     * @return array{0: Dialog, 1: Question|null}
+     */
+    protected function follow(Dialog $dialog, ?Question $ask, OutputInterface $output): array
+    {
+        for ($hops = 0; $ask === null && $dialog->next() && $hops < 5; ++$hops) {
+            $dialog = $dialog->next();
+            $ask = $dialog->start($this->context, $output);
+        }
+
+        return [$dialog, $ask];
+    }
+
+    protected function newOutput(): BufferedOutput
+    {
+        $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true);
+        foreach (['dim' => ['gray'], 'accent' => ['bright-yellow', null, ['bold']], 'snark' => ['bright-magenta'], 'dir' => ['bright-blue', null, ['bold']], 'ok' => ['bright-green'], 'warn' => ['yellow']] as $style => $def) {
+            $output->getFormatter()->setStyle($style, new \Symfony\Component\Console\Formatter\OutputFormatterStyle($def[0], $def[1] ?? null, $def[2] ?? []));
+        }
+
+        return $output;
+    }
+
+    protected function log(string $what, \Throwable $e): void
+    {
+        try {
+            $this->context->app->make(LoggerFactory::class)->createLogger('cli_mode')->error($what . ': ' . $e->getMessage(), ['exception' => $e]);
+        } catch (\Throwable $ignored) {
+        }
     }
 
     /**
@@ -194,10 +307,7 @@ class Shell
             return [$this->red($snark->denied($name)) . "\n", 126];
         }
 
-        $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true);
-        foreach (['dim' => ['gray'], 'accent' => ['bright-yellow', null, ['bold']], 'snark' => ['bright-magenta'], 'dir' => ['bright-blue', null, ['bold']], 'ok' => ['bright-green'], 'warn' => ['yellow']] as $style => $def) {
-            $output->getFormatter()->setStyle($style, new \Symfony\Component\Console\Formatter\OutputFormatterStyle($def[0], $def[1] ?? null, $def[2] ?? []));
-        }
+        $output = $this->newOutput();
         try {
             $code = $this->application()->doRun(new StringInput($text), $output);
         } catch (ConsoleException | \InvalidArgumentException $e) {
@@ -207,10 +317,7 @@ class Shell
         } catch (UserMessageException $e) {
             return [$output->fetch() . $this->red($name . ': ' . $e->getMessage()) . "\n", 1];
         } catch (\Throwable $e) {
-            try {
-                $this->context->app->make(LoggerFactory::class)->createLogger('cli_mode')->error($name . ': ' . $e->getMessage(), ['exception' => $e]);
-            } catch (\Throwable $ignored) {
-            }
+            $this->log($name, $e);
 
             return [$output->fetch() . $this->red($snark->failure()) . "\n", 139];
         }

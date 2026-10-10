@@ -40,6 +40,9 @@ class State
     /** @var int */
     public $startedAt;
 
+    /** @var array{class: string, data: array, ask: array, at: int}|null the dialog that waits for an answer */
+    public $dialog;
+
     /** @var SessionInterface */
     protected $session;
 
@@ -49,7 +52,7 @@ class State
         $data = $session->get(self::KEY);
         $this->startedAt = time();
         if (is_array($data)) {
-            foreach (['cwd', 'env', 'aliases', 'history', 'lastCode', 'startedAt', 'attitude', 'lang'] as $field) {
+            foreach (['cwd', 'env', 'aliases', 'history', 'lastCode', 'startedAt', 'attitude', 'lang', 'dialog'] as $field) {
                 if (array_key_exists($field, $data)) {
                     $this->$field = $data[$field];
                 }
@@ -71,6 +74,28 @@ class State
         $this->lastCode = 0;
     }
 
+    /**
+     * The dialog that waits for an answer, unless it was left alone for half an hour.
+     *
+     * @return array{0: Dialog, 1: Question}|null
+     */
+    public function dialog(): ?array
+    {
+        $d = $this->dialog;
+        if (!is_array($d) || ($d['at'] ?? 0) < time() - 1800 || !is_subclass_of((string) ($d['class'] ?? ''), Dialog::class)) {
+            $this->dialog = null;
+
+            return null;
+        }
+
+        return [new $d['class']((array) $d['data']), Question::fromArray((array) $d['ask'])];
+    }
+
+    public function setDialog(?Dialog $dialog, ?Question $ask): void
+    {
+        $this->dialog = $dialog && $ask ? ['class' => get_class($dialog), 'data' => $dialog->data(), 'ask' => $ask->toArray(), 'at' => time()] : null;
+    }
+
     public function save(): void
     {
         $this->session->set(self::KEY, [
@@ -82,6 +107,7 @@ class State
             'startedAt' => $this->startedAt,
             'attitude' => $this->attitude,
             'lang' => $this->lang,
+            'dialog' => $this->dialog,
         ]);
     }
 }

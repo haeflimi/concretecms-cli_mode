@@ -5,6 +5,8 @@ namespace CliMode\Command;
 use CliMode\Command\System\AttitudeCommand;
 use CliMode\Command\System\HelpCommand;
 use CliMode\Command\System\LanguageCommand;
+use CliMode\Dialog\EasyDialog;
+use CliMode\Dialog\RegisterDialog;
 use CliMode\Terminal\Context;
 use CliMode\Terminal\PasswordReset;
 use CliMode\Terminal\SiteTree;
@@ -29,7 +31,7 @@ class Builtin
      */
     public static function all(): array
     {
-        return array_merge([new HelpCommand(), new Site\ShowCommand(), new Site\SearchCommand(), new Site\StatCommand(), new AttitudeCommand(), new LanguageCommand(), new Fun\FigletCommand(), new Fun\LolcatCommand()], self::system(), self::filters(), self::site(), self::fun(), self::jokes(), self::lan(), self::credit());
+        return array_merge([new HelpCommand(), new Site\ShowCommand(), new Site\SearchCommand(), new Site\StatCommand(), new AttitudeCommand(), new LanguageCommand(), new Fun\FigletCommand(), new Fun\LolcatCommand()], self::system(), self::filters(), self::site(), self::fun(), self::jokes(), Fun\DosCommands::all(), self::lan(), self::credit());
     }
 
     /**
@@ -133,11 +135,13 @@ class Builtin
                     '',
                     t('<comment>5. You</comment>  <info>login</info> signs you in right here, <info>logout</info> out again. <info>whoami</info> if you forgot.'),
                     t('   <info>login</info> takes your user name or your email address. Forgot the password? <info>passwd <email></info> mails you a link.'),
+                    t('   No account yet? <info>register</info> creates one right here.'),
                     t('   <info>lang de</info> switches the terminal to German, <info>lang en</info> back. <info>attitude</info> sets how rude I am.'),
                     '',
                 ];
                 if (class_exists(\CommunityEventManager\Event\EventService::class)) {
                     $lines[] = t('<comment>6. LAN</comment>  <info>events</info> what is coming, <info>next</info> the countdown, <info>event <name></info> all about one.');
+                    $lines[] = t('   <info>easy</info> takes you through the whole signup step by step, no commands needed.');
                     $lines[] = $c->isRegistered()
                         ? t('   <info>signup <id></info> gets you in, <info>seat</info> shows the plan and takes one (<info>seat <event> <seat></info>), <info>signups</info> lists yours.')
                         : t('   After <info>login</info>: <info>signup <id></info> gets you in, <info>seat</info> picks your seat, <info>signups</info> lists yours.');
@@ -161,7 +165,7 @@ class Builtin
                 $c->addAction('clear');
 
                 return 0;
-            }, $cat + ['aliases' => ['cls']]),
+            }, $cat + ['aliases' => ['cls', 'CLS']]),
             ClosureCommand::make('echo', t('Prints its arguments'), static function (Context $c, InputInterface $in, OutputInterface $out) {
                 $text = implode(' ', (array) $in->getArgument('text'));
                 $out->write($text . ($in->getOption('no-newline') ? '' : "\n"), false, OutputInterface::OUTPUT_RAW);
@@ -365,6 +369,22 @@ class Builtin
 
                 return 0;
             }, $cat + ['arguments' => [['username', InputArgument::OPTIONAL, t('Your user name or email address')]], 'options' => [['web', 'w', InputOption::VALUE_NONE, t('Use the login page of the website instead')]], 'help' => t('Asks for your user name or email address and the password right here. The password is not echoed and not kept in the history.') . "\n\n" . t('Examples:') . "\n  login\n  login pixelpaula\n  login paula@example.com\n  login --web      " . t('the regular login page (for a password that must be changed, say)') . "\n\n" . t('Forgot your password? Type: %s', 'passwd')]),
+            ClosureCommand::make('register', t('Create an account'), static function (Context $c, InputInterface $in, OutputInterface $out) {
+                if ($c->isRegistered()) {
+                    $out->writeln(t('You already have an account and you are signed in as %s.', $c->username()));
+
+                    return 0;
+                }
+                if ($in->getOption('web')) {
+                    $out->writeln(t('Redirecting to the registration page.'));
+                    $c->addAction('redirect', ['url' => (string) $c->app->make('url/manager')->resolve(['/register'])]);
+
+                    return 0;
+                }
+                $c->startDialog(new RegisterDialog());
+
+                return 0;
+            }, $cat + ['aliases' => ['adduser', 'useradd'], 'options' => [['web', 'w', InputOption::VALUE_NONE, t('Use the registration page of the website instead')]], 'help' => t('Creates your account right here, one question at a time: the same details as the registration page. The password is not echoed and not kept in the history. Ctrl+C stops, nothing is saved before you confirm.') . "\n\n" . t('Examples:') . "\n  register\n  register --web   " . t('the regular registration page')]),
             ClosureCommand::make('passwd', t('Sends you a link to set a new password'), static function (Context $c, InputInterface $in, OutputInterface $out) {
                 $who = trim((string) $in->getArgument('who'));
                 if ($c->isRegistered()) {
@@ -775,7 +795,16 @@ class Builtin
      */
     protected static function lan(): array
     {
-        return class_exists(\CommunityEventManager\Event\EventService::class) ? Lan\EventCommands::all() : [];
+        if (!class_exists(\CommunityEventManager\Event\EventService::class)) {
+            return [];
+        }
+        $easy = ClosureCommand::make('easy', t('Easy mode: I guide you through the signup, step by step'), static function (Context $c) {
+            $c->startDialog(new EasyDialog());
+
+            return 0;
+        }, ['category' => 'lan', 'aliases' => ['wizard', 'easymode', 'hilfe'], 'help' => t('For everybody who would rather not learn commands: a patient wizard that takes you from signing in (or creating an account) to picking the event, signing up, choosing a seat and paying. It asks before it does anything. Ctrl+C stops at any time.')]);
+
+        return array_merge([$easy], Lan\EventCommands::all());
     }
 
     /**

@@ -87,7 +87,7 @@
         // mandatory mode and the replaced 404 page turn the overlay into the page: full screen, no way to close it
         var locked = !inline && (!!cfg.forced || !!cfg.notfound);
         var root, screen, out, promptEl, input, titleEl, launcher, keysEl;
-        var state = { open: inline, booted: false, busy: false, token: '', prompt: null, history: [], index: -1, draft: '', opener: null, login: null, reload: false };
+        var state = { open: inline, booted: false, busy: false, token: '', prompt: null, history: [], index: -1, draft: '', opener: null, login: null, ask: null, reload: false };
 
         function print(text, cls) {
             if (text === '') { return; }
@@ -196,6 +196,7 @@
                 state.history = data.history || [];
                 setLabels(data.labels);
                 setPrompt(data.prompt);
+                if (data.ask && !inline) { setAsk(data.ask); }
                 if (inline) {
                     print(options.greeting || GREETING, 'clim-dimmed');
                     if (data.hint) { print(data.hint); }
@@ -343,6 +344,58 @@
             });
         }
 
+        /*
+         * A dialog of the server (register, easy, ...) asks a question: its prompt replaces the shell prompt, the
+         * answer is posted with "answer" set, so it is neither a command nor part of the history. A secret answer is
+         * typed into a password field and not echoed.
+         */
+        function setAsk(ask) {
+            state.ask = ask || null;
+            if (state.ask) {
+                promptEl.textContent = state.ask.prompt;
+                input.type = state.ask.secret ? 'password' : 'text';
+                input.setAttribute('autocomplete', state.ask.secret ? 'new-password' : 'off');
+            } else {
+                input.type = 'text';
+                input.setAttribute('autocomplete', 'off');
+                if (state.prompt) { promptEl.innerHTML = promptHtml(); }
+            }
+        }
+
+        function sendAnswer(value, cancel) {
+            var ask = state.ask;
+            echoLine(ask.prompt + (ask.secret ? (value ? '••••••' : '') : value) + (cancel ? '^C' : ''));
+            input.value = '';
+            state.busy = true;
+            input.disabled = true;
+            return request(cfg.exec, cancel ? { line: '', answer: '1', cancel: '1' } : { line: value, answer: '1' }).then(function (res) {
+                print(res.output || '');
+                if (res.token) { state.token = res.token; }
+                if (res.prompt) { setPrompt(res.prompt); }
+                setAsk(res.ask);
+                applyActions(res.actions);
+            }).catch(function (e) {
+                setAsk(null);
+                print('\x1b[31m' + e.message + '\x1b[39m');
+            }).then(function () {
+                state.busy = false;
+                input.disabled = false;
+                if (state.open || inline) { input.focus({ preventScroll: true }); }
+            });
+        }
+
+        function askKey(e) {
+            if (e.key === 'Escape' || (e.ctrlKey && (e.key === 'c' || e.key === 'C') && !window.getSelection().toString())) {
+                e.preventDefault();
+                sendAnswer(input.value, true);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                sendAnswer(input.value, false);
+            } else if (e.key === 'Tab' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                e.preventDefault();
+            }
+        }
+
         function loginKey(e) {
             if (e.key === 'Escape' || (e.ctrlKey && (e.key === 'c' || e.key === 'C'))) {
                 e.preventDefault();
@@ -407,7 +460,9 @@
             input.disabled = true;
             return request(cfg.exec, { line: line }).then(function (res) {
                 print(res.output || '');
+                if (res.token) { state.token = res.token; }
                 if (res.prompt) { setPrompt(res.prompt); }
+                setAsk(res.ask);
                 applyActions(res.actions);
             }).catch(function (e) {
                 print('\x1b[31m' + e.message + '\x1b[39m');
@@ -460,6 +515,7 @@
         function onKey(e) {
             state.typed = true;
             if (state.login && !state.busy) { loginKey(e); return; }
+            if (state.ask && !state.busy) { askKey(e); return; }
             if (e.key === 'Escape') { if (!locked) { e.preventDefault(); close(); } return; }
             if (state.busy) { if (e.key !== 'Tab') { return; } e.preventDefault(); return; }
             if (e.key === 'Enter') {

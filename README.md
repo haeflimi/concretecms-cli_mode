@@ -178,6 +178,31 @@ $this->app->make('director')->addListener('on_cli_mode_register_commands', funct
 
 A site can also list command classes in `application/config/cli_mode.php`: `return ['commands' => [\Application\Terminal\FooCommand::class]];`.
 
+### Asking questions (dialogs)
+
+A command that needs answers one after the other (a wizard, a form) starts a dialog instead of reading arguments:
+extend `CliMode\Terminal\Dialog` and call `$c->startDialog(new MyDialog())` in the command. `start()` greets and returns
+the first `Question`, `answer()` gets every line the visitor types next and returns the next `Question`, or null when
+it is done. `new Question('Password: ', true)` asks for a secret: the browser shows a password field and echoes
+nothing. Answers are posted with `answer=1`, never land in the history, and Ctrl+C/Esc calls `cancel()`.
+
+Between two requests only `$this->data` is kept (in the session), so remember everything there, and keep a password
+as a hash rather than in plain text. `$this->run($c, $out, 'signup 33')` runs a regular command and prints its output,
+`$this->handOver(new OtherDialog())` passes the conversation on, `Dialog::yesNo($answer)` understands y/n/j/ja/nein/oui.
+A dialog that signs somebody in calls `$c->switchUser($user)`: the endpoint then sends a new token and the page reloads.
+A dialog left alone for 30 minutes expires; a reload of the page asks its open question again. Examples:
+`src/Dialog/RegisterDialog.php` and `src/Dialog/EasyDialog.php`.
+
+### Accounts and the easy mode
+
+* `register` (also `adduser`, `useradd`) creates an account like the registration page: the same validators, the
+  attributes required on registration (text, phone, email, number, yes/no; other required types send people to
+  `register --web`), the registration type (email validation, approval) and the notification mail. The image captcha
+  becomes a word in big letters to type, and a session may create three accounts an hour. The password is asked last.
+* `easy` (also `wizard`, `hilfe`; only with the event manager) is a patient wizard for people who have never seen a
+  terminal: sign in (or `register`, then back), pick an event open for signups, sign up, choose a seat, pay open bills.
+  It explains every step, asks before acting, works through the regular commands and lists them at the end.
+
 ## Writing attitudes
 
 An attitude is how the shell talks when something goes wrong. Extend `CliMode\Terminal\Attitude\Attitude` (see
@@ -206,12 +231,21 @@ The keys and their arguments are listed in the `Attitude` class. Register it lik
 `on_cli_mode_register_attitudes`, or in `application/config/cli_mode.php`: `'attitudes' => [\Application\Terminal\PirateAttitude::class]`.
 It then shows up in the dashboard. Your own commands can use messages of the attitude too: `$c->snark->say('my_key', $arg)`.
 
+### DOS commands
+
+For visitors whose fingers still type `dir`: hidden DOS commands (`Command\Fun\DosCommands`), also in capitals.
+`dir`, `type` and `cd..` work on the site tree (`C:\EVENTS` is `/events`); `ver`, `mem`, `ipconfig`, `tasklist`,
+`chkdsk`, `format`, `del`, `copy`, `move`, `md`, `rd`, `attrib`, `edit`, `defrag`, `regedit`, `win` and a few aliases are
+jokes. Each one ends with a hint that Linux exists: kind in a mildly snarky attitude, a roast in a super snarky one.
+An attitude of level 0 (polite) does not know them: plain "command not found".
+
 ## Security
 
 * Commands run with the rights of the logged-in user; nothing is executed on the server's operating system. `rm`, `sudo`
   and friends are jokes. Check permissions in your own commands (`$c->isAdmin()`, `$c->isRegistered()`, Concrete's
   permission checks): anything a command does is done by the website, with all that implies.
-* Passwords are typed into the login prompt only and posted to `/ccm/cli_mode/login`, like the form of the login page: use HTTPS.
+* Passwords are typed into the login prompt or a secret dialog question only and posted to `/ccm/cli_mode/login` or as a
+  dialog answer, never as a command line: use HTTPS.
 * The endpoints need the session token that the terminal fetches when it opens, and are rate limited (90 commands a minute).
 * The page tree only shows pages the user may view.
 

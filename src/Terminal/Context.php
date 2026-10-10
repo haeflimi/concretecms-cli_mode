@@ -43,6 +43,9 @@ class Context
     /** @var array<int, array{type: string, data: array}> */
     public $actions = [];
 
+    /** @var Dialog|null a dialog a command started, the shell starts it after the command */
+    public $pendingDialog;
+
     public function __construct(Application $app, User $user, State $state, Snark $snark, Settings $settings, CommandRegistry $registry)
     {
         $this->app = $app;
@@ -97,6 +100,23 @@ class Context
     public function addAction(string $type, array $data = []): void
     {
         $this->actions[] = ['type' => $type, 'data' => $data];
+    }
+
+    /**
+     * Starts a conversation once the running command is done: the next lines the visitor types go to it.
+     */
+    public function startDialog(Dialog $dialog): void
+    {
+        $this->pendingDialog = $dialog;
+    }
+
+    /**
+     * The visitor signed in (or registered and was signed in) during this request: from now on everything runs as them.
+     */
+    public function switchUser(User $user): void
+    {
+        $this->app->instance(User::class, $user);
+        $this->user = $user;
     }
 
     /**

@@ -68,6 +68,8 @@ class Terminal extends Controller
             'labels' => Settings::labels(),
             // the inline terminal shows no banner, only its greeting: it prints the hint on its own
             'hint' => (new Welcome($context, $this->request))->languageHint(),
+            // a dialog that still waits for an answer (the page was reloaded in the middle of it)
+            'ask' => ($dialog = $state->dialog()) ? $dialog[1]->toArray() : null,
         ]);
     }
 
@@ -88,8 +90,20 @@ class Terminal extends Controller
                 'prompt' => $this->prompt($context),
             ]);
         }
-        $result = (new Shell($context, $context->registry))->run((string) $this->request->request->get('line', ''));
+        $post = $this->request->request;
+        $wasUser = (int) $context->user->getUserID();
+        $wasLocked = $context->forced || $context->notFound;
+        $shell = new Shell($context, $context->registry);
+        // the answer to a dialog's question (maybe a password): not a command line, not part of the history
+        $result = $post->get('answer')
+            ? $shell->answer(substr((string) $post->get('line', ''), 0, 1024), (bool) $post->get('cancel'))
+            : $shell->run((string) $post->get('line', ''));
         $result['prompt'] = $this->prompt($context);
+        if ((int) $context->user->getUserID() !== $wasUser) {
+            // a dialog signed somebody in: the CSRF token is bound to the user, and the page behind knows nothing yet
+            $result['token'] = $this->app->make('token')->generate(self::TOKEN);
+            $result['actions'][] = ['type' => 'reload', 'data' => ['now' => $wasLocked]];
+        }
 
         return new JsonResponse($result);
     }
@@ -115,7 +129,7 @@ class Terminal extends Controller
         if ($context->isRegistered()) {
             return new JsonResponse($reply($context, t('You are already %s.', $context->username()), 1) + ['prompt' => $this->prompt($context)]);
         }
-        if ($this->tooManyLogins()) {
+        if ((new Login($this->app))->throttled()) {
             return new JsonResponse($reply($context, $context->snark->level() > 0 ? t('Slow down. Even guessing needs a break.') : t('Too many login attempts, wait a minute.'), 1) + ['prompt' => $this->prompt($context)]);
         }
 
@@ -287,22 +301,6 @@ class Terminal extends Controller
     /**
      * Commands in the last minute; a runaway script should not be able to hammer the site through the terminal.
      */
-    /**
-     * At most five tries a minute per session, on top of the failed login limit Concrete keeps per address.
-     */
-    protected function tooManyLogins(): bool
-    {
-        $session = $this->app->make('session');
-        $now = time();
-        $tries = array_filter((array) $session->get('cli_mode.logins', []), static function ($t) use ($now) {
-            return $t > $now - 60;
-        });
-        $tries[] = $now;
-        $session->set('cli_mode.logins', array_values($tries));
-
-        return count($tries) > 5;
-    }
-
     protected function tooFast(): bool
     {
         $session = $this->app->make('session');

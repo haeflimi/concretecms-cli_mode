@@ -453,6 +453,24 @@ class EventCommands
     }
 
     /**
+     * The events open for signups right now, the soonest first.
+     *
+     * @return Event[]
+     */
+    public static function openEvents(Context $c): array
+    {
+        $now = new \DateTime();
+        $open = array_values(array_filter(self::published($c), static function (Event $e) use ($now) {
+            return $e->isSignupOpen() && !$e->isOver($now);
+        }));
+        usort($open, static function (Event $a, Event $b) {
+            return $a->getStartsAt() <=> $b->getStartsAt();
+        });
+
+        return $open;
+    }
+
+    /**
      * The event a member command is about: the given one, else the next event open for signups (or, for seat, the
      * next one the member is registered for, then the next one at all).
      */
