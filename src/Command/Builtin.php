@@ -28,7 +28,7 @@ class Builtin
      */
     public static function all(): array
     {
-        return array_merge([new HelpCommand(), new Site\ShowCommand(), new Site\SearchCommand(), new Site\StatCommand(), new AttitudeCommand(), new LanguageCommand(), new Fun\FigletCommand(), new Fun\LolcatCommand()], self::system(), self::filters(), self::site(), self::fun(), self::jokes(), self::lan());
+        return array_merge([new HelpCommand(), new Site\ShowCommand(), new Site\SearchCommand(), new Site\StatCommand(), new AttitudeCommand(), new LanguageCommand(), new Fun\FigletCommand(), new Fun\LolcatCommand()], self::system(), self::filters(), self::site(), self::fun(), self::jokes(), self::lan(), self::credit());
     }
 
     /**
@@ -734,5 +734,15 @@ class Builtin
     protected static function lan(): array
     {
         return class_exists(\CommunityEventManager\Event\EventService::class) ? Lan\EventCommands::all() : [];
+    }
+
+    /**
+     * Credit commands (balance, pay), only with Community Store Credit installed.
+     *
+     * @return TerminalCommand[]
+     */
+    protected static function credit(): array
+    {
+        return class_exists(\CommunityStoreCredit\Service\AccountOverview::class) ? Lan\CreditCommands::all() : [];
     }
 }

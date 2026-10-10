@@ -33,7 +33,8 @@ events --all | sort -r | head -n 3
 
 Built-in command groups: **system** (help, guide, echo, env, export, alias, history, theme, exit, ...), **site** (ls, cd,
 cat, tree, find, open, ...), **text** (grep, head, tail, sort, uniq, wc), **lan** (events, event, next, signup, seat, signups,
-participants; only with the community_event_manager package) and **fun** (neofetch, cowsay, fortune, ping, sudo, and a few commands that
+participants; only with the community_event_manager package), **lan** credit commands (balance, pay; only with the
+community_store_credit package) and **fun** (neofetch, cowsay, fortune, ping, sudo, and a few commands that
 refuse to work on a website).
 
 `signup [event]` and `seat [event] [seat]` act for the signed-in member through community_event_manager's
@@ -209,7 +210,9 @@ It then shows up in the dashboard. Your own commands can use messages of the att
 
 ## Upgrading
 
-* **1.9.1** `signup` respects the event manager's "settled balance" setting: members with open bills are told to pay first (`open /account/credit`).
+* **1.10.0** `balance` (credit, open bills and event tabs, net) and `pay [order]` (Payrexx payment page for an open bill, redirect back to the
+  account page) so members can settle up while the terminal is mandatory; `signup` respects the event manager's "settled balance"
+  setting and tells members with open bills to run `pay`.
 * **1.3.0** the attitude is now a class (`Attitude`, registered in the `AttitudeRegistry`): polite is the default, "Mild" and "Snarky" are now "Mildly snarky" and "Super snarky", and packages can add their own. A saved setting of an older version keeps working. `attitude` switches the attitude for a session, `search`, `stat`, `figlet` and `lolcat` are new, `show <file-id>` turns images into ASCII art, `cat` marks the images of a page with their file ID.
 * **1.2.0** optionally replaces the 404 page with the terminal (ASCII art 404 in the welcome message, suggestions, `exit` goes home).
 * **1.1.0** mandatory mode (Dashboard › CLI Mode): visitors or everybody except administrators can only use the site through the terminal; `open` and `cat` read pages inside it, `logout` signs out for real.

@@ -2510,5 +2510,71 @@ msgstr "Lieber auf Deutsch? Tippe: %s"
 #~ msgid "Shown under the banner when the terminal opens."
 #~ msgstr "Wird unter dem Banner angezeigt, wenn sich das Terminal öffnet."
 
-msgid "Run \"open %s\" to settle up."
-msgstr "Mit \"open %s\" kommst du zur Abrechnung."
+msgid "Your credit, open bills and what you owe"
+msgstr "Dein Guthaben, offene Rechnungen und was du schuldest"
+
+msgid "Credit: %s"
+msgstr "Guthaben: %s"
+
+msgid "No open bills."
+msgstr "Keine offenen Rechnungen."
+
+msgid "Open bills:"
+msgstr "Offene Rechnungen:"
+
+msgid "Order"
+msgstr "Bestellung"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "What"
+msgstr "Was"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Owed: %s"
+msgstr "Offen: %s"
+
+msgid "Net: %s"
+msgstr "Saldo: %s"
+
+msgid "Run \"pay\" to settle up online."
+msgstr "Mit \"pay\" bezahlst du online."
+
+msgid "Shows your credit, the open bills (orders and event tabs) and the net of both, like the \"Credit & Orders\" page of your account."
+msgstr "Zeigt dein Guthaben, die offenen Rechnungen (Bestellungen und Event-Deckel) und den Saldo aus beidem, wie die Seite \"Guthaben & Bestellungen\" in deinem Konto."
+
+msgid "Pay an open bill online"
+msgstr "Eine offene Rechnung online bezahlen"
+
+msgid "No open bills. Nothing to pay."
+msgstr "Keine offenen Rechnungen. Nichts zu bezahlen."
+
+msgid "Online payment is not available at the moment. Please pay at the event checkout."
+msgstr "Online-Zahlung ist im Moment nicht möglich. Bitte bezahle an der Event-Kasse."
+
+msgid "Your open bills can't be paid online. Please pay at the event checkout."
+msgstr "Deine offenen Rechnungen können nicht online bezahlt werden. Bitte bezahle an der Event-Kasse."
+
+msgid "You have several open bills. Run \"pay <order>\" with one of them:"
+msgstr "Du hast mehrere offene Rechnungen. Führe \"pay <Bestellung>\" mit einer davon aus:"
+
+msgid "pay: no open bill #%s. Run \"balance\" to see what is open."
+msgstr "pay: keine offene Rechnung #%s. \"balance\" zeigt, was offen ist."
+
+msgid "Taking you to the payment page for #%1$s (%2$s). Your account page shows the result when you are back."
+msgstr "Du kommst jetzt zur Zahlungsseite für #%1$s (%2$s). Dein Konto zeigt das Ergebnis, wenn du zurück bist."
+
+msgid "Order number (default: your only open bill)"
+msgstr "Bestellnummer (Standard: deine einzige offene Rechnung)"
+
+msgid "Opens the Payrexx payment page for an open bill (an order or an event tab). Without a number it takes your only open bill; \"balance\" lists them."
+msgstr "Öffnet die Payrexx-Zahlungsseite für eine offene Rechnung (Bestellung oder Event-Deckel). Ohne Nummer nimmt es deine einzige offene Rechnung; \"balance\" listet sie auf."
+
+msgid "%s (event tab)"
+msgstr "%s (Event-Deckel)"
+
+msgid "Run \"balance\" to see what is open and \"pay\" to settle up online."
+msgstr "\"balance\" zeigt, was offen ist, und mit \"pay\" bezahlst du online."
