@@ -155,7 +155,7 @@
                 '\x1b[32m[  OK  ]\x1b[39m Reached target Snark Services.',
                 '\x1b[32m[  OK  ]\x1b[39m Started Webserver of Questionable Intent.',
                 '\x1b[32m[  OK  ]\x1b[39m Mounted /var/www/lan.',
-                '\x1b[33m[ WARN ]\x1b[39m Coffee level low.',
+                '\x1b[33m[ WARN ]\x1b[39m ElTony level low.',
                 '\x1b[32m[  OK  ]\x1b[39m Started snarkbash.'
             ];
             return new Promise(function (resolve) {
