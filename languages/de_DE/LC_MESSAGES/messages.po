@@ -3884,3 +3884,9 @@ msgstr "Lieber auf Deutsch? Tippe: %s"
 
 #~ msgid "Shown under the banner when the terminal opens."
 #~ msgstr "Wird unter dem Banner angezeigt, wenn sich das Terminal öffnet."
+
+msgid "Exempt groups"
+msgstr "Ausgenommene Gruppen"
+
+msgid "Members of these groups always get the normal website, like administrators but without their rights. Hold Ctrl (Cmd on a Mac) to pick several or to remove a group."
+msgstr "Mitglieder dieser Gruppen sehen immer die normale Website, wie Administratoren, aber ohne deren Rechte. Halte Strg (Cmd auf dem Mac) gedrückt, um mehrere zu wählen oder eine Gruppe zu entfernen."

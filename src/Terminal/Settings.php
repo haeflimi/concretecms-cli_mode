@@ -73,6 +73,31 @@ class Settings
     }
 
     /**
+     * Groups whose members are never forced into the terminal (like administrators, without their rights).
+     *
+     * @return int[]
+     */
+    public function getExemptGroupIDs(): array
+    {
+        return array_values(array_filter(array_map('intval', explode(',', (string) $this->value('forced_exempt', '')))));
+    }
+
+    public function isExempt(User $user): bool
+    {
+        if (!$user->isRegistered()) {
+            return false;
+        }
+        foreach ($this->getExemptGroupIDs() as $gID) {
+            $group = Group::getByID($gID);
+            if ($group && $user->inGroup($group)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Whether the terminal is the only way through the website for this user. Administrators are never locked out
      * (they could not switch it off again), but may preview it with ?forcecli on any page.
      */
@@ -83,6 +108,9 @@ class Settings
         }
         if (self::isAdmin($user)) {
             return $preview;
+        }
+        if ($this->isExempt($user)) {
+            return false;
         }
         $mode = $this->getForced();
 
@@ -200,8 +228,9 @@ class Settings
     /**
      * @param array<string, string>|string $motd locale => message of the day (a plain string is the English one)
      */
-    public function save(bool $enabled, string $access, bool $launcher, string $attitude, $motd, string $forced = self::FORCE_OFF, bool $notFound = false): void
+    public function save(bool $enabled, string $access, bool $launcher, string $attitude, $motd, string $forced = self::FORCE_OFF, bool $notFound = false, array $exemptGroupIDs = []): void
     {
+        $this->store->save('cli_mode.forced_exempt', implode(',', array_filter(array_map('intval', $exemptGroupIDs))));
         $this->store->save('cli_mode.notfound', $notFound);
         $this->store->save('cli_mode.forced', in_array($forced, [self::FORCE_VISITORS, self::FORCE_EVERYONE], true) ? $forced : self::FORCE_OFF);
         $this->store->save('cli_mode.enabled', $enabled);

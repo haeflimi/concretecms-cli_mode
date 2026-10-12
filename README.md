@@ -112,6 +112,8 @@ Login, registration, account and download pages stay normal so people can still 
   readers) get the normal page. The website behind is hidden by a class set in `<head>`, so nothing flashes.
 * Administrators are never forced, the dashboard and edit mode are not affected. Add `?forcecli` to any page address as an
   administrator to preview what visitors see.
+* "Exempt groups": members of these groups always get the normal website too, without being administrators (e.g. a
+  group "CLI bypass" for the crew).
 * A forced user may use the terminal whatever "who may open it" says. A broken command is then a broken website: test
   your commands before switching this on.
 

@@ -6,6 +6,7 @@ use CliMode\Terminal\AttitudeRegistry;
 use CliMode\Terminal\CommandRegistry;
 use CliMode\Terminal\Settings;
 use Concrete\Core\Page\Controller\DashboardPageController;
+use Concrete\Core\User\Group\GroupList;
 
 defined('C5_EXECUTE') or die('Access Denied.');
 
@@ -38,6 +39,17 @@ class CliMode extends DashboardPageController
         $this->set('currentAttitude', $registry->get($settings->getAttitude())->handle());
         $this->set('settings', $settings);
         $this->set('commands', $commands);
+        // groups that may skip the mandatory mode (Guest, Registered and Administrators make no sense there)
+        $list = new GroupList();
+        $list->includeAllGroups();
+        $groups = [];
+        foreach ($list->getResults() as $group) {
+            if (!in_array((int) $group->getGroupID(), [GUEST_GROUP_ID, REGISTERED_GROUP_ID, ADMIN_GROUP_ID], true)) {
+                $groups[(int) $group->getGroupID()] = $group->getGroupDisplayName(false);
+            }
+        }
+        asort($groups);
+        $this->set('groups', $groups);
     }
 
     public function save()
@@ -54,7 +66,8 @@ class CliMode extends DashboardPageController
                 (string) $post->get('attitude'),
                 array_map('strval', (array) $post->all('motd')),
                 (string) $post->get('forced'),
-                (bool) $post->get('notfound')
+                (bool) $post->get('notfound'),
+                array_map('intval', (array) $post->all('exempt'))
             );
             $this->flash('success', t('The terminal settings were saved.'));
 

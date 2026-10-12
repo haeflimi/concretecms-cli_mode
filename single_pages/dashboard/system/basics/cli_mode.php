@@ -42,6 +42,15 @@ defined('C5_EXECUTE') or die('Access Denied.');
             </select>
             <div class="form-text"><?= t('The website is replaced by a full-screen terminal that cannot be closed: pages are read with "cat" and "open", navigation is "ls" and "cd". With JavaScript switched off visitors still get the normal website, so search engines and screen readers are not locked out. Login, registration and account pages stay normal, so people can still sign in. Administrators are never forced (add ?forcecli to any page address to preview it) and the dashboard and edit mode are not affected. Careful: if the terminal is the only way in, a broken command is a broken website.') ?></div>
         </div>
+        <div class="mb-3">
+            <label class="form-label" for="exempt"><?= t('Exempt groups') ?></label>
+            <select class="form-select" name="exempt[]" id="exempt" multiple size="<?= min(8, max(3, count($groups))) ?>">
+                <?php foreach ($groups as $gID => $name) { ?>
+                    <option value="<?= $gID ?>"<?= in_array($gID, $settings->getExemptGroupIDs(), true) ? ' selected' : '' ?>><?= h($name) ?></option>
+                <?php } ?>
+            </select>
+            <div class="form-text"><?= t('Members of these groups always get the normal website, like administrators but without their rights. Hold Ctrl (Cmd on a Mac) to pick several or to remove a group.') ?></div>
+        </div>
         <div class="form-check mb-3">
             <input type="checkbox" class="form-check-input" name="notfound" id="notfound" value="1"<?= $settings->isNotFoundSaved() ? ' checked' : '' ?>>
             <label class="form-check-label" for="notfound"><?= t('Replace the 404 page with the terminal') ?></label>
