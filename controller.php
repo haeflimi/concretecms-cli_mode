@@ -30,7 +30,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'cli_mode';
     protected $appVersionRequired = '9.0.0';
-    protected $pkgVersion = '1.15.0';
+    protected $pkgVersion = '1.15.1';
     protected $pkgAutoloaderRegistries = [
         'src' => 'CliMode',
     ];
@@ -97,15 +97,18 @@ class Controller extends Package
                 return;
             }
             $urls = $this->app->make('url/manager');
+            // path only: the endpoints stay on the host the page was served from (turicane.ch vs www.), else the
+            // session cookie of a login lands on the other host
+            $endpoint = static fn (string $route): string => $urls->resolve([$route])->getPath()->getUriComponent();
             $config = [
                 'forced' => $forced,
                 'notfound' => $notFound,
                 'preview' => $preview,
                 'path' => $path,
-                'boot' => (string) $urls->resolve(['/ccm/cli_mode/boot']),
-                'exec' => (string) $urls->resolve(['/ccm/cli_mode/exec']),
-                'complete' => (string) $urls->resolve(['/ccm/cli_mode/complete']),
-                'login' => (string) $urls->resolve(['/ccm/cli_mode/login']),
+                'boot' => $endpoint('/ccm/cli_mode/boot'),
+                'exec' => $endpoint('/ccm/cli_mode/exec'),
+                'complete' => $endpoint('/ccm/cli_mode/complete'),
+                'login' => $endpoint('/ccm/cli_mode/login'),
                 'launcher' => $settings->showLauncher() && !$forced && !$notFound,
                 'title' => t('Open the terminal (press `)'),
                 // texts of the browser side; boot sends them again in the terminal's language
