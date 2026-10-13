@@ -33,8 +33,8 @@ events --all | sort -r | head -n 3
 
 Built-in command groups: **system** (help, guide, echo, env, export, alias, history, theme, exit, ...), **site** (ls, cd,
 cat, tree, find, open, ...), **text** (grep, head, tail, sort, uniq, wc), **lan** (events, event, next, signup, seat, signups,
-participants; only with the community_event_manager package), **lan** credit commands (balance, pay; only with the
-community_store_credit package) and **fun** (neofetch, cowsay, fortune, ping, sudo, and a few commands that
+participants; only with the community_event_manager package), **lan** bill commands (balance, pay; only with the
+community_store_open_orders package, the credit shows with community_store_credit) and **fun** (neofetch, cowsay, fortune, ping, sudo, and a few commands that
 refuse to work on a website).
 
 `signup [event]` and `seat [event] [seat]` act for the signed-in member through community_event_manager's
@@ -253,6 +253,9 @@ An attitude of level 0 (polite) does not know them: plain "command not found".
 
 ## Upgrading
 
+* **1.17.0** `balance` and `pay` come with community_store_open_orders instead of community_store_credit, so members can
+  see and pay their open bills without store credit; `balance` shows the credit and the net only with
+  community_store_credit. The pay return lands on /account/orders.
 * **1.10.0** `balance` (credit, open bills and event tabs, net) and `pay [order]` (Payrexx payment page for an open bill, redirect back to the
   account page) so members can settle up while the terminal is mandatory; `signup` respects the event's "settled balance"
   setting and tells members with open bills to run `pay`.
