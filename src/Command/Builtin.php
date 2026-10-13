@@ -145,8 +145,8 @@ class Builtin
                     $lines[] = $c->isRegistered()
                         ? t('   <info>signup <id></info> gets you in, <info>seat</info> shows the plan and takes one (<info>seat <event> <seat></info>), <info>signups</info> lists yours.')
                         : t('   After <info>login</info>: <info>signup <id></info> gets you in, <info>seat</info> picks your seat, <info>signups</info> lists yours.');
-                    if ($c->isRegistered() && class_exists(\CommunityStoreCredit\Service\AccountOverview::class)) {
-                        $lines[] = t('   <info>balance</info> shows your credit and open bills, <info>pay</info> pays one online.');
+                    if ($c->isRegistered() && class_exists(\CommunityStoreOpenOrders\OpenOrders::class)) {
+                        $lines[] = t('   <info>balance</info> shows your open bills, <info>pay</info> pays one online.');
                     }
                     $lines[] = t('   <info>participants</info> shows who is in and where they sit.');
                     $lines[] = '';
@@ -814,6 +814,6 @@ class Builtin
      */
     protected static function credit(): array
     {
-        return class_exists(\CommunityStoreCredit\Service\AccountOverview::class) ? Lan\CreditCommands::all() : [];
+        return class_exists(\CommunityStoreOpenOrders\OpenOrders::class) ? Lan\CreditCommands::all() : [];
     }
 }

@@ -6,8 +6,8 @@ use CliMode\Command\ClosureCommand;
 use CliMode\Command\TerminalCommand;
 use CliMode\Terminal\Context;
 use CliMode\Terminal\TerminalCommandAccess;
-use CommunityStoreCredit\Service\AccountOverview;
-use CommunityStoreCredit\Service\PayrexxCheckout;
+use CommunityStoreOpenOrders\OpenOrders;
+use CommunityStoreOpenOrders\PayrexxCheckout;
 use Concrete\Core\Error\UserMessageException;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,9 +17,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 defined('C5_EXECUTE') or die('Access Denied.');
 
 /**
- * Credit commands, only with the Community Store Credit package installed: "balance" shows the member's credit,
- * open bills and the net of both (what /account/credit shows), "pay" sends them to the Payrexx page for an open
- * bill. Both exist so members can settle up while the terminal is the only way through the site.
+ * Bill commands, only with the Community Store Open Orders package installed: "balance" shows the member's open
+ * bills (with Community Store Credit also the credit and the net of both, what /account/orders shows), "pay" sends
+ * them to the Payrexx page for an open bill. Both exist so members can settle up while the terminal is the only way
+ * through the site.
  */
 class CreditCommands
 {
@@ -30,9 +31,11 @@ class CreditCommands
     {
         $cat = ['category' => 'lan', 'access' => TerminalCommandAccess::REGISTERED];
 
-        $balance = ClosureCommand::make('balance', t('Your credit, open bills and what you owe'), static function (Context $c, InputInterface $in, OutputInterface $out) {
-            $overview = $c->app->make(AccountOverview::class)->build((int) $c->user->getUserID(), 0, 0);
-            $out->writeln(t('Credit: %s', '<info>' . self::money($overview['balance']) . '</info>'));
+        $balance = ClosureCommand::make('balance', t('Your open bills and what you owe'), static function (Context $c, InputInterface $in, OutputInterface $out) {
+            $overview = self::overview($c);
+            if ($overview['credit']) {
+                $out->writeln(t('Credit: %s', '<info>' . self::money($overview['balance']) . '</info>'));
+            }
             $bills = self::openBills($c, $overview);
             if ($bills === []) {
                 $out->writeln('<ok>' . t('No open bills.') . '</ok>');
@@ -46,17 +49,19 @@ class CreditCommands
                 $out->writeln(t('Owed: %s', '<warn>' . self::money($overview['debt']) . '</warn>'));
             }
             $net = (float) $overview['net'];
-            $out->writeln(t('Net: %s', $net < 0 ? '<error> ' . self::money($net) . ' </error>' : '<ok>' . self::money($net) . '</ok>'));
+            if ($overview['credit']) {
+                $out->writeln(t('Net: %s', $net < 0 ? '<error> ' . self::money($net) . ' </error>' : '<ok>' . self::money($net) . '</ok>'));
+            }
             if ($net < 0) {
                 $out->writeln('<dim>' . t('Run "pay" to settle up online.') . '</dim>');
             }
 
             return 0;
-        }, $cat + ['help' => t('Shows your credit, the open bills (orders and event tabs) and the net of both, like the "Credit & Orders" page of your account.')]);
+        }, $cat + ['help' => t('Shows your open bills (orders and event tabs), with store credit also the credit and the net of both, like the orders page of your account.')]);
 
         $pay = ClosureCommand::make('pay', t('Pay an open bill online'), static function (Context $c, InputInterface $in, OutputInterface $out) {
             $payrexx = $c->app->make(PayrexxCheckout::class);
-            $overview = $c->app->make(AccountOverview::class)->build((int) $c->user->getUserID(), 0, 0);
+            $overview = self::overview($c);
             $bills = self::openBills($c, $overview);
             if ($bills === []) {
                 $out->writeln('<ok>' . t('No open bills. Nothing to pay.') . '</ok>');
@@ -115,7 +120,7 @@ class CreditCommands
         ]);
         $pay->setCompleter(static function (Context $c): array {
             $ids = [];
-            foreach (self::openBills($c, $c->app->make(AccountOverview::class)->build((int) $c->user->getUserID(), 0, 0)) as $bill) {
+            foreach (self::openBills($c, self::overview($c)) as $bill) {
                 $ids[] = (string) $bill['id'];
             }
 
@@ -123,6 +128,22 @@ class CreditCommands
         });
 
         return [$balance, $pay];
+    }
+
+    /**
+     * The member's open orders and tabs; with Community Store Credit also the credit and the net of both.
+     *
+     * @return array{tabs: array, open: array, debt: float, credit: bool, balance: float, net: float}
+     */
+    protected static function overview(Context $c): array
+    {
+        $uID = (int) $c->user->getUserID();
+        $overview = $c->app->make(OpenOrders::class)->build($uID, 0);
+        $overview['credit'] = class_exists(\CommunityStoreCredit\Service\CreditService::class);
+        $overview['balance'] = $overview['credit'] ? round((float) $c->app->make(\CommunityStoreCredit\Service\CreditService::class)->getBalance($uID), 2) : 0.0;
+        $overview['net'] = round($overview['balance'] - $overview['debt'], 2);
+
+        return $overview;
     }
 
     /**
@@ -136,7 +157,7 @@ class CreditCommands
         if (!$payrexx->isAvailable()) {
             return [];
         }
-        $bills = self::openBills($c, $c->app->make(AccountOverview::class)->build((int) $c->user->getUserID(), 0, 0));
+        $bills = self::openBills($c, self::overview($c));
 
         return array_values(array_filter($bills, static fn (array $bill) => $payrexx->canPay($bill['order'])));
     }

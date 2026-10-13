@@ -3890,3 +3890,15 @@ msgstr "Ausgenommene Gruppen"
 
 msgid "Members of these groups always get the normal website, like administrators but without their rights. Hold Ctrl (Cmd on a Mac) to pick several or to remove a group."
 msgstr "Mitglieder dieser Gruppen sehen immer die normale Website, wie Administratoren, aber ohne deren Rechte. Halte Strg (Cmd auf dem Mac) gedrückt, um mehrere zu wählen oder eine Gruppe zu entfernen."
+
+#: src/Command/Lan/CreditCommands.php
+msgid "Your open bills and what you owe"
+msgstr "Deine offenen Rechnungen und was du schuldest"
+
+#: src/Command/Lan/CreditCommands.php
+msgid "Shows your open bills (orders and event tabs), with store credit also the credit and the net of both, like the orders page of your account."
+msgstr "Zeigt deine offenen Rechnungen (Bestellungen und Event-Rechnungen), mit Guthaben auch das Guthaben und den Saldo aus beidem, wie die Bestellungsseite in deinem Konto."
+
+#: src/Command/Builtin.php
+msgid "   <info>balance</info> shows your open bills, <info>pay</info> pays one online."
+msgstr "   <info>balance</info> zeigt deine offenen Rechnungen, <info>pay</info> bezahlt eine online."

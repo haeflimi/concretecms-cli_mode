@@ -436,7 +436,7 @@ class EasyDialog extends Dialog
      */
     protected function payStep(Context $c, OutputInterface $out, bool $thenFinish = true): ?Question
     {
-        $bills = class_exists(\CommunityStoreCredit\Service\AccountOverview::class) ? CreditCommands::payableBills($c) : [];
+        $bills = class_exists(\CommunityStoreOpenOrders\OpenOrders::class) ? CreditCommands::payableBills($c) : [];
         if ($bills === []) {
             return $thenFinish ? $this->finish($c, $out) : null;
         }

@@ -243,7 +243,7 @@ class EventCommands
                 $check = $participation->checkSignup($event, $c->user);
                 if (($check['reason'] ?? null) === ParticipationService::REASON_BALANCE) {
                     $out->writeln('<error> ' . OutputFormatter::escape($participation->describeReason($event, ParticipationService::REASON_BALANCE, $check)) . ' </error>');
-                    if ($participation->getBalanceGate()->isCreditAvailable()) {
+                    if (class_exists(\CommunityStoreOpenOrders\OpenOrders::class)) {
                         $out->writeln('<dim>' . t('Run "balance" to see what is open and "pay" to settle up online.') . '</dim>');
                     }
 
