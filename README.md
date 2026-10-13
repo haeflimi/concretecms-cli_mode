@@ -254,7 +254,7 @@ An attitude of level 0 (polite) does not know them: plain "command not found".
 ## Upgrading
 
 * **1.10.0** `balance` (credit, open bills and event tabs, net) and `pay [order]` (Payrexx payment page for an open bill, redirect back to the
-  account page) so members can settle up while the terminal is mandatory; `signup` respects the event manager's "settled balance"
+  account page) so members can settle up while the terminal is mandatory; `signup` respects the event's "settled balance"
   setting and tells members with open bills to run `pay`.
 * **1.3.0** the attitude is now a class (`Attitude`, registered in the `AttitudeRegistry`): polite is the default, "Mild" and "Snarky" are now "Mildly snarky" and "Super snarky", and packages can add their own. A saved setting of an older version keeps working. `attitude` switches the attitude for a session, `search`, `stat`, `figlet` and `lolcat` are new, `show <file-id>` turns images into ASCII art, `cat` marks the images of a page with their file ID.
 * **1.2.0** optionally replaces the 404 page with the terminal (ASCII art 404 in the welcome message, suggestions, `exit` goes home).
