@@ -30,7 +30,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'cli_mode';
     protected $appVersionRequired = '9.0.0';
-    protected $pkgVersion = '1.17.0';
+    protected $pkgVersion = '1.17.1';
     protected $pkgAutoloaderRegistries = [
         'src' => 'CliMode',
     ];
@@ -81,7 +81,8 @@ class Controller extends Package
                 return;
             }
             $page = $view->getPageObject();
-            if (!$page || $page->isAdminArea() || $page->isEditMode()) {
+            // screens on a TV in the hall (theme_blackout big_screen) get neither the terminal nor its launcher
+            if (!$page || $page->isAdminArea() || $page->isEditMode() || in_array((string) $page->getPageTypeHandle(), Settings::BYPASS_PAGE_TYPES, true)) {
                 return;
             }
             $settings = $this->app->make(Settings::class);

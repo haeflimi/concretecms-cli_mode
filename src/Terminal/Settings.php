@@ -24,6 +24,9 @@ class Settings
     /** Pages that always render normally, so that people can sign in, manage their account and download files. */
     public const BYPASS_PATHS = ['/login', '/register', '/account', '/members', '/download_file', '/ccm', '/dashboard', '/index.php/ccm'];
 
+    /** page types the terminal never covers: screens on a TV in the hall (theme_blackout big_screen) have no keyboard */
+    public const BYPASS_PAGE_TYPES = ['big_screen'];
+
     /** @var Repository */
     protected $config;
 
