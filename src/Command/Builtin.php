@@ -9,6 +9,7 @@ use CliMode\Dialog\EasyDialog;
 use CliMode\Dialog\RegisterDialog;
 use CliMode\Terminal\Context;
 use CliMode\Terminal\PasswordReset;
+use CliMode\Terminal\Settings;
 use CliMode\Terminal\SiteTree;
 use CliMode\Terminal\TerminalCommandAccess;
 use Concrete\Core\Page\Page;
@@ -623,7 +624,7 @@ class Builtin
 
                     return 1;
                 }
-                if ($c->forced) {
+                if ($c->forced && !Settings::isExemptPage($page)) {
                     // there is no other browser than this terminal: opening a page means going there and reading it
                     $c->state->cwd = (new SiteTree($c))->path($page);
                     self::readPage($c, $out, $page);

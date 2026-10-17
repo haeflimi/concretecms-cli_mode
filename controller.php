@@ -11,6 +11,7 @@ use CliMode\Terminal\CommandRegistry;
 use CliMode\Terminal\Settings;
 use Concrete\Core\Asset\Asset;
 use Concrete\Core\Asset\AssetList;
+use Concrete\Core\Attribute\Category\CategoryService;
 use Concrete\Core\Block\BlockType\BlockType;
 use Concrete\Core\Http\Request;
 use Concrete\Core\Package\Package;
@@ -30,7 +31,7 @@ class Controller extends Package
 {
     protected $pkgHandle = 'cli_mode';
     protected $appVersionRequired = '9.0.0';
-    protected $pkgVersion = '1.17.1';
+    protected $pkgVersion = '1.18.0';
     protected $pkgAutoloaderRegistries = [
         'src' => 'CliMode',
     ];
@@ -91,7 +92,8 @@ class Controller extends Package
             $path = '/' . ltrim((string) $request->getPath(), '/');
             // administrators can look at the mandatory mode with ?forcecli, nobody else gets a preview
             $preview = $request->query->has('forcecli') && Settings::isAdmin($user);
-            $forced = $settings->isForcedFor($user, $preview) && !Settings::isBypassPath($path);
+            // pages ticked "without mandatory terminal" (and the pages below them) render normally
+            $forced = $settings->isForcedFor($user, $preview) && !Settings::isBypassPath($path) && !Settings::isExemptPage($page);
             // the system 404 page, reached through an address that is not the page itself
             $notFound = !$forced && $settings->replacesNotFound() && (string) $page->getCollectionPath() === '/page_not_found' && $path !== '/page_not_found';
             if (!$forced && !$notFound && ($page->isError() || !$settings->mayUse($user))) {
@@ -148,6 +150,13 @@ class Controller extends Package
         }
         if (!BlockType::getByHandle('cli_terminal')) {
             BlockType::installBlockType('cli_terminal', $this->getPackageEntity());
+        }
+        $category = $this->app->make(CategoryService::class)->getByHandle('collection')->getController();
+        if (!$category->getAttributeKeyByHandle(Settings::EXEMPT_PAGE_ATTRIBUTE)) {
+            $category->add('boolean', [
+                'akHandle' => Settings::EXEMPT_PAGE_ATTRIBUTE,
+                'akName' => t('Without mandatory terminal (incl. subpages)'),
+            ], null, $this->getPackageEntity());
         }
     }
 }

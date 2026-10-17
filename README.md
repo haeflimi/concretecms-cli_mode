@@ -114,6 +114,8 @@ Login, registration, account and download pages stay normal so people can still 
   administrator to preview what visitors see.
 * "Exempt groups": members of these groups always get the normal website too, without being administrators (e.g. a
   group "CLI bypass" for the crew).
+* "Exempt pages": tick the page attribute "Without mandatory terminal (incl. subpages)" (`cli_mode_exempt`) on a page and
+  it renders normally for everyone, together with every page below it. `open` in the terminal leaves for such pages.
 * A forced user may use the terminal whatever "who may open it" says. A broken command is then a broken website: test
   your commands before switching this on.
 
@@ -253,6 +255,7 @@ An attitude of level 0 (polite) does not know them: plain "command not found".
 
 ## Upgrading
 
+* **1.18.0** page attribute `cli_mode_exempt`: a ticked page and its subpages are not forced into the terminal.
 * **1.17.0** `balance` and `pay` come with community_store_open_orders instead of community_store_credit, so members can
   see and pay their open bills without store credit; `balance` shows the credit and the net only with
   community_store_credit. The pay return lands on /account/orders.

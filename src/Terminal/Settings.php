@@ -3,6 +3,7 @@
 namespace CliMode\Terminal;
 
 use Concrete\Core\Config\Repository\Repository;
+use Concrete\Core\Page\Page;
 use Concrete\Core\User\Group\Group;
 use Concrete\Core\User\User;
 
@@ -26,6 +27,9 @@ class Settings
 
     /** page types the terminal never covers: screens on a TV in the hall (theme_blackout big_screen) have no keyboard */
     public const BYPASS_PAGE_TYPES = ['big_screen'];
+
+    /** boolean page attribute: the page and every page below it stay normal in the mandatory mode */
+    public const EXEMPT_PAGE_ATTRIBUTE = 'cli_mode_exempt';
 
     /** @var Repository */
     protected $config;
@@ -127,6 +131,27 @@ class Settings
             if ($path === $prefix || strpos($path, $prefix . '/') === 0) {
                 return true;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * Whether the page or one of its parents has the attribute "Without mandatory terminal" ticked.
+     */
+    public static function isExemptPage(Page $page): bool
+    {
+        $seen = [];
+        while ($page && !$page->isError() && !isset($seen[$page->getCollectionID()])) {
+            if ($page->getAttribute(self::EXEMPT_PAGE_ATTRIBUTE)) {
+                return true;
+            }
+            $seen[$page->getCollectionID()] = true;
+            $parentID = (int) $page->getCollectionParentID();
+            if ($parentID <= 0) {
+                break;
+            }
+            $page = Page::getByID($parentID);
         }
 
         return false;

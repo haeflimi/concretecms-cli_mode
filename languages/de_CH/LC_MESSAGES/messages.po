@@ -3902,3 +3902,10 @@ msgstr "Zeigt deine offenen Rechnungen (Bestellungen und Event-Rechnungen), mit 
 #: src/Command/Builtin.php
 msgid "   <info>balance</info> shows your open bills, <info>pay</info> pays one online."
 msgstr "   <info>balance</info> zeigt deine offenen Rechnungen, <info>pay</info> bezahlt eine online."
+
+msgid "Without mandatory terminal (incl. subpages)"
+msgstr "Ohne erzwungenes Terminal (inkl. Unterseiten)"
+
+msgctxt "AttributeKeyName"
+msgid "Without mandatory terminal (incl. subpages)"
+msgstr "Ohne erzwungenes Terminal (inkl. Unterseiten)"
